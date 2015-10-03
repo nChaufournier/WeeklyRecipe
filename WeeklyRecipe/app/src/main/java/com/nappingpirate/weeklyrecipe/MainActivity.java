@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -69,7 +71,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), AddRecipe.class);
                 startActivity(i);
-                recipes.add("Recipe " + recipes.size()+1);
+                recipes.add("Recipe " + recipes.size() + 1);
 
             }
         });
@@ -86,20 +88,15 @@ public class MainActivity extends Activity {
         if (lv_recipes != null){
             lv_recipes.setAdapter(recipeCardAdapter);
         }
-
-        /*lv_recipes.setOnScrollListener(new AbsListView.OnScrollListener() {
+        lv_recipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Recipe Should Show", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), ViewRecipe.class);
+                startActivity(i);
 
             }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (visibleItemCount != 0 && ((firstVisibleItem+visibleItemCount) >= (totalItemCount))){
-                    lv_recipes.setAdapter(mArrayAdapter);
-                }
-            }
-        });*/
+        });
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.nappingpirate.weeklyrecipe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,6 +40,18 @@ public class RecipeCardAdapter extends ArrayAdapter<Recipe> {
         //Get a reference to different view elements I want to update
         TextView recipeNameView = (TextView) row.findViewById(R.id.tv_recipeName);
         TextView ratingView = (TextView) row.findViewById(R.id.tv_rating);
+        Button btn_viewRecipe = (Button) row.findViewById(R.id.btn_view);
+
+        btn_viewRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "View Recipe" , Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), ViewRecipe.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(i);
+            }
+        });
+
         final TextView descriptionView = (TextView) row.findViewById(R.id.tv_description);
         ImageButton expandDescription = (ImageButton) row.findViewById(R.id.btn_more);
 

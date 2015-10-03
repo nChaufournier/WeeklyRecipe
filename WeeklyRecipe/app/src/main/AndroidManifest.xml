@@ -21,6 +21,11 @@
             android:parentActivityName=".MainActivity">
 
         </activity>
+        <activity android:name=".ViewRecipe"
+            android:label="View a Recipe"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

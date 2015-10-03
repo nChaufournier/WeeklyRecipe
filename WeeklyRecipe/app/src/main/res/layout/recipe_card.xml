@@ -63,15 +63,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/btn_action1"
+            android:id="@+id/btn_view"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/secondaryTextColor"
             android:text="Action 1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:layout_toEndOf="@+id/btn_action1"
-            android:layout_toRightOf="@+id/btn_action1"
+            android:layout_toEndOf="@+id/btn_view"
+            android:layout_toRightOf="@+id/btn_view"
             android:id="@+id/btn_action2"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/secondaryTextColor"

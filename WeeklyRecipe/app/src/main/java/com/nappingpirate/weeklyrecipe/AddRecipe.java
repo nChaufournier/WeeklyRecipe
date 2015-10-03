@@ -23,24 +23,24 @@ import java.util.Date;
  * Created by Nic on 10/1/2015.
  */
 public class AddRecipe extends Activity {
-    ImageButton btn_close;
-    Button btn_save;
-    Button btn_view;
-    EditText et_name;
-    EditText et_difficulty;
-    EditText et_rating;
-    EditText et_description;
-    EditText et_time;
-    EditText et_ingredients;
-    EditText et_lastDateMade;
-    EditText et_dateAdded;
-    EditText et_mainIngredient;
-    EditText et_image;
-    EditText et_comment;
-    EditText et_favorite;
-    String date;
-
+    private ImageButton btn_close;
+    private Button btn_save;
+    private Button btn_view;
+    private EditText et_name;
+    private EditText et_difficulty;
+    private EditText et_rating;
+    private EditText et_description;
+    private EditText et_time;
+    private EditText et_ingredients;
+    private EditText et_lastDateMade;
+    private EditText et_dateAdded;
+    private EditText et_mainIngredient;
+    private EditText et_image;
+    private EditText et_comment;
+    private EditText et_favorite;
+    private String date;
     private RecipesDataSource db;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe);
