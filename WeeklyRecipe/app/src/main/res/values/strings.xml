@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Weekly Recipe</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="recipeArray">
+        <item>Recipe 1</item>
+        <item>Recipe 2</item>
+        <item>Recipe 3</item>
+        <item>Recipe 4</item>
+        <item>Recipe 5</item>
+        <item>Recipe 6</item>
+        <item>Recipe 7</item>
+        <item>Recipe 8</item>
+        <item>Recipe 9</item>
+        <item>Recipe 10</item>
+        <item>Recipe 11</item>
+        <item>Recipe 12</item>
+        <item>Recipe 13</item>
+        <item>Recipe 14</item>
+        <item>Recipe 15</item>
+        <item>Recipe 16</item>
+        <item>Recipe 17</item>
+        <item>Recipe 18</item>
+        <item>Recipe 19</item>
+        <item>Recipe 20</item>
+    </string-array>
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sodales ac felis in bibendum. Praesent commodo, felis nec lacinia porta, tellus lacus faucibus massa, pharetra.</string>
+</resources>
