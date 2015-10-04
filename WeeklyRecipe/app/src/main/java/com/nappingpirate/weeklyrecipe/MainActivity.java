@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
         fabRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), db.getAllRecipes().toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), db.getAllRecipes().toString(), Toast.LENGTH_LONG).show();
                 showMessage("Recipes", db.getAllRecipes().toString());
             }
         });
@@ -92,8 +92,9 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "Recipe Should Show", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(view.getContext(), ViewRecipe.class);
-                startActivity(i);
+                /*Intent i = new Intent(view.getContext(), ViewRecipe.class);
+                i.putExtra("id", position);
+                startActivity(i);*/
 
             }
         });

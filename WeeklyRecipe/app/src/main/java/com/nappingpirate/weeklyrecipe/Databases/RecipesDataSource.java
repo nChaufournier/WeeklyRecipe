@@ -101,4 +101,27 @@ public class RecipesDataSource {
         cursor.close();
         return recipes;
     }
+
+    public Recipe getSingleRecipe(long id){
+        String selectId = RecipesDB.KEY_ID + " = '" + id + "'";
+        Recipe recipe = new Recipe();
+        Cursor cursor = database.query(RecipesDB.TABLE_RECIPES, allColumns, selectId, null, null, null, null);
+        cursor.moveToFirst();
+        recipe.set_id(cursor.getLong(0));
+        recipe.setName(cursor.getString(1));
+        recipe.setDifficulty(cursor.getInt(2));
+        recipe.setRating(cursor.getInt(3));
+        recipe.setDescription(cursor.getString(4));
+        recipe.setTime(cursor.getString(5));
+        recipe.setIngredients(cursor.getString(6));
+        recipe.setDateAdded(cursor.getString(7));
+        recipe.setLastDateMade(cursor.getString(8));
+        recipe.setMainIngredient(cursor.getString(9));
+        recipe.setComment(cursor.getString(10));
+        recipe.setImage(cursor.getString(11));
+        recipe.setFavorite(cursor.getInt(12));
+        cursor.moveToNext();
+        cursor.close();
+        return recipe;
+    }
 }

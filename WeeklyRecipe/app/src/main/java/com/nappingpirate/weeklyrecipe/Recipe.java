@@ -51,8 +51,8 @@ public class Recipe {
         this.difficulty = difficulty;
     }
 
-    public Integer getRating() {
-        return rating;
+    public String getRating() {
+        return rating+"/5";
     }
 
     public void setRating(Integer rating) {

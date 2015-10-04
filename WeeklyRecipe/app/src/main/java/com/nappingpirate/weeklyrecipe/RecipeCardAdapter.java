@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,16 +42,8 @@ public class RecipeCardAdapter extends ArrayAdapter<Recipe> {
         TextView recipeNameView = (TextView) row.findViewById(R.id.tv_recipeName);
         TextView ratingView = (TextView) row.findViewById(R.id.tv_rating);
         Button btn_viewRecipe = (Button) row.findViewById(R.id.btn_view);
+        ImageView iv_mainImage = (ImageView) row.findViewById(R.id.iv_mainImage);
 
-        btn_viewRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "View Recipe" , Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getContext(), ViewRecipe.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(i);
-            }
-        });
 
         final TextView descriptionView = (TextView) row.findViewById(R.id.tv_description);
         ImageButton expandDescription = (ImageButton) row.findViewById(R.id.btn_more);
@@ -67,12 +60,28 @@ public class RecipeCardAdapter extends ArrayAdapter<Recipe> {
         });
 
         //Get Data from data array
-        Recipe recipe = mData.get(position);
+        final Recipe recipe = mData.get(position);
 
         //Setting the view to refelect the data we need to display
         recipeNameView.setText(recipe.getName());
-        ratingView.setText(recipe.getRating().toString()+ "/10");
+        ratingView.setText(recipe.getRating());
         descriptionView.setText(recipe.getDescription());
+        if (recipe.getImage() != null){
+            iv_mainImage.setVisibility(View.GONE);
+        }else{
+            iv_mainImage.setVisibility(View.INVISIBLE);
+        }
+        btn_viewRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "View Recipe", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), ViewRecipe.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("id", recipe.get_id());
+                //Toast.makeText(mContext, recipe.get_id()+"", Toast.LENGTH_LONG).show();
+                mContext.startActivity(i);
+            }
+        });
 
         return row;
     }
