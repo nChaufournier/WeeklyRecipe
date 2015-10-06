@@ -4,100 +4,103 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
 
-import java.security.PrivateKey;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends Activity {
-    ImageButton fabMenu;
-    ImageButton fabAdd;
-    ImageButton fabRandom;
-    ListView lv_recipes;
-    RecipeCardAdapter recipeCardAdapter;
-    private ArrayAdapter mArrayAdapter;
-    ArrayList recipes =  new ArrayList();
+    RVAdapter rvAdapter;
+    private RecyclerView rv;
+    private com.github.clans.fab.FloatingActionButton fabAdd;
+    private com.github.clans.fab.FloatingActionButton fabRandom;
+    FloatingActionMenu fabMenu;
+    View background;
     RecipesDataSource db;
-    //ShowMessage showMessage;
-
-            /*"Recipe 2","Recipe 3","Recipe 4","Recipe 5","Recipe 6","Recipe 7","Recipe 8","Recipe 9","Recipe 10","Recipe 11","Recipe 12","Recipe 13","Recipe 14","Recipe 15","Recipe 16","Recipe 17","Recipe 18","Recipe 19","Recipe 20");*/
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Connect to Database
         db = new RecipesDataSource(this);
         try{
             db.open();
         } catch (SQLException e){
             e.printStackTrace();
         }
-        recipes.add("Recipe 1");
-        recipes.add("Recipe 2");recipes.add("Recipe 3");recipes.add("Recipe 4");recipes.add("Recipe 5");
 
+        rv = (RecyclerView) findViewById(R.id.rv_recipes);
+        rvAdapter = new RVAdapter(this, db.getAllRecipes());
+        rv.setAdapter(rvAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        background = (View) findViewById(R.id.greyBackground);
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
+        fabMenu.showMenu(true);
 
-        fabMenu = (ImageButton) findViewById(R.id.fab_menu);
-        fabAdd = (ImageButton) findViewById(R.id.fab_add);
-        fabRandom = (ImageButton) findViewById(R.id.fab_random);
-        lv_recipes = (ListView) findViewById(R.id.lv_recipes);
-
-
-        //Makes the fab buttons visible to invisible depending on click
-        fabMenu.setOnClickListener(new View.OnClickListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
-                if (fabAdd.getVisibility() == View.VISIBLE){
-                    fabAdd.setVisibility(View.GONE);
-                    fabRandom.setVisibility(View.GONE);
-                }else {
-                    fabAdd.setVisibility(View.VISIBLE);
-                    fabRandom.setVisibility(View.VISIBLE);
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dx < dy) {
+                    fabMenu.hideMenu(true);
+                } else if (dx > dy) {
+                    fabMenu.showMenu(true);
                 }
             }
         });
-
+        fabMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (background.getVisibility() == View.VISIBLE){
+                    background.setVisibility(View.GONE);
+                }else {
+                    background.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_add);
+        fabRandom = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_random);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), AddRecipe.class);
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), AddRecipe.class);
                 startActivity(i);
-                recipes.add("Recipe " + recipes.size() + 1);
-
             }
         });
-
-
         fabRandom.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), db.getAllRecipes().toString(), Toast.LENGTH_LONG).show();
-                showMessage("Recipes", db.getAllRecipes().toString());
-            }
-        });
-        recipeCardAdapter = new RecipeCardAdapter(getApplicationContext(), R.layout.recipe_card, db.getAllRecipes());
-        if (lv_recipes != null){
-            lv_recipes.setAdapter(recipeCardAdapter);
-        }
-        lv_recipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Recipe Should Show", Toast.LENGTH_SHORT).show();
-                /*Intent i = new Intent(view.getContext(), ViewRecipe.class);
-                i.putExtra("id", position);
-                startActivity(i);*/
+            public void onClick(View view) {
 
+                Random r = new Random();
+                long r1 = r.nextInt((db.getAllRecipes().size()) - 1)+1;
+
+                Toast.makeText(MainActivity.this, "Random Recipe #"+r1+"!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), ViewRecipe.class);
+                i.putExtra("id", r1);
+                startActivity(i);
             }
         });
+
+
+
+
     }
 
     @Override
@@ -129,4 +132,10 @@ public class MainActivity extends Activity {
         builder.setMessage(message);
         builder.show();
     }
+
+
+    /*@Override
+    public void itemClicked(View view, int position) {
+        startActivity(new Intent(getApplicationContext(), ViewRecipe.class));
+    }*/
 }

@@ -2,12 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:paddingRight="4dp"
-    android:paddingLeft="4dp"
-    android:paddingBottom="4dp"
+     android:paddingRight="8dp"
+    android:paddingLeft="8dp"
     android:elevation="2dp"
-    android:layout_marginBottom="8dp"
-    android:backgroundTint="#cccccc"
+    android:backgroundTint="#EEEEEE"
     android:background="@drawable/rectangle">
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -15,7 +13,8 @@
         android:layout_gravity="center"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="2dp"
+        android:layout_marginBottom="8dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         >
         <TextView
-            android:textColor="@color/secondaryTextColor"
+            android:textColor="@color/colorSecondaryText"
             android:id="@+id/tv_rating"
             android:textSize="14sp"
             android:text="Rating"
@@ -41,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textColor="@color/textColor"
+            android:textColor="@color/colorPrimaryText"
             android:id="@+id/tv_recipeName"
             android:text="Recipe Name"
             android:textSize="24sp"
@@ -50,13 +49,15 @@
             android:layout_height="wrap_content"
             />
         <ImageView
+            android:src="@drawable/ic_dice"
             android:contentDescription="Image of Food"
             android:id="@+id/iv_mainImage"
-            android:background="#CCCCCC"
+            android:background="#30CCCCCC"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            />
 
     </RelativeLayout>
 
@@ -69,7 +70,7 @@
         <Button
             android:id="@+id/btn_view"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/secondaryTextColor"
+            android:textColor="@color/colorSecondaryText"
             android:text="View Recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -78,7 +79,7 @@
             android:layout_toRightOf="@+id/btn_view"
             android:id="@+id/btn_action2"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/secondaryTextColor"
+            android:textColor="@color/colorSecondaryText"
             android:text="Edit 2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -95,7 +96,7 @@
             <TextView
                 android:layout_below="@+id/rl_actionButtons"
                 android:id="@+id/tv_description"
-                android:textColor="@color/textColor"
+                android:textColor="@color/colorPrimaryText"
                 android:paddingTop="16dp"
                 android:paddingBottom="24dp"
                 android:paddingRight="16dp"

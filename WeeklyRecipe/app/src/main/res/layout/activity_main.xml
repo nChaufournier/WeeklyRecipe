@@ -1,50 +1,48 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"  tools:context=".MainActivity"
-    >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
 
-    <ListView
-        android:id="@+id/lv_recipes"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_recipes"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingBottom="50dp"/>
-    <ImageButton
-        android:id="@+id/fab_menu"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ImageButton
-        android:id="@+id/fab_add"
-        android:src="@drawable/ic_fab_add_light"
-        android:background="@android:color/transparent"
-        android:layout_above="@+id/fab_menu"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-    <ImageButton
-        android:id="@+id/fab_random"
-        android:src="@drawable/ic_fab_dice"
-        android:background="@android:color/transparent"
-        android:layout_above="@+id/fab_add"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:paddingBottom="10dp"/>
+    <View
+        android:visibility="gone"
+        android:id="@+id/greyBackground"
+        android:background="#80cccccc"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 
-</RelativeLayout>
+    <com.github.clans.fab.FloatingActionMenu
+        fab:menu_colorNormal="@color/colorAccent"
+        android:id="@+id/fab_menu"
+        fab:menu_backgroundColor="#00cccccc"
+        fab:menu_icon="@drawable/ic_menu"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_add"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_label="Add Recipe"
+            android:src="@drawable/ic_action_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_random"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:menu_colorNormal="@color/colorAccent"
+            fab:fab_label="Random Recipe"
+            android:src="@drawable/ic_dice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.github.clans.fab.FloatingActionMenu>
+
+</FrameLayout>

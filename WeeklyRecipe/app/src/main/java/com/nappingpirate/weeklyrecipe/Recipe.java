@@ -5,7 +5,7 @@ package com.nappingpirate.weeklyrecipe;
  */
 public class Recipe {
     private long _id;
-    private String name;
+    String name;
     private Integer difficulty;
     private Integer rating;
     private String description;

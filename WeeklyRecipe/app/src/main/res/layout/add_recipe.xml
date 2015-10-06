@@ -6,22 +6,36 @@
         android:id="@+id/ll_top"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
-        android:background="@color/primaryColor">
+        android:background="@color/colorPrimary"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:elevation="2dp">
         <ImageButton
             android:src="@drawable/ic_action_cancel"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/colorPrimaryText"
             android:id="@+id/btn_close"
             android:background="@android:color/transparent"
-            android:paddingLeft="16dp"
             android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:layout_toRightOf="@+id/btn_close"
+            android:layout_toEndOf="@+id/btn_close"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent"
+            android:text="Add Recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:gravity="center"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@android:color/white"
             android:id="@+id/btn_save"
-            android:paddingTop="16dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:text="Save"
@@ -40,6 +54,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_addTitle"
         android:text="Add Recipe"
         android:textSize="24sp"
@@ -64,19 +79,36 @@
         android:layout_width="fill_parent"
         android:layout_height="72dp"
         android:inputType="number"/>
-    <EditText
-        android:id="@+id/et_rating"
-        android:hint="Recipe Rating"
-        android:textSize="18dp"
-        android:layout_below="@+id/et_difficulty"
+        <TextView
+            android:id="@+id/et_rating"
+            android:hint="Recipe Rating"
+            android:textSize="14sp"
+            android:layout_below="@+id/et_difficulty"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+    <RatingBar
+        android:stepSize="1"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rb_rating"
+        android:layout_below="@+id/et_rating"
+        android:numStars="5"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp" />
+    <ImageView
+        android:paddingLeft="0dp"
+        android:layout_below="@+id/rb_rating"
+        android:background="#000000"
+        android:alpha="0.35"
         android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:inputType="number"/>
+        android:layout_height="1dp"
+        android:paddingBottom="16dp"/>
+
     <EditText
         android:id="@+id/et_description"
         android:hint="Recipe Description"
         android:textSize="18sp"
-        android:layout_below="@+id/et_rating"
+        android:layout_below="@+id/rb_rating"
         android:layout_width="fill_parent"
         android:layout_height="72dp"
         android:inputType="textCapSentences|textMultiLine"/>
@@ -88,22 +120,42 @@
         android:layout_width="fill_parent"
         android:layout_height="72dp"
         android:inputType="number"/>
-    <EditText
-        android:id="@+id/et_ingredients"
+    <TextView
+        android:id="@+id/tv_label_ingredients"
         android:hint="Recipe Ingredients"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:layout_below="@+id/et_time"
         android:layout_width="fill_parent"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:inputType="textCapSentences"/>
+        <Button
+            android:textColor="#ffffff"
+            android:background="@color/colorAccent"
+            android:id="@+id/btn_addIngredient"
+            android:text="Add +"
+            android:layout_below="@id/tv_label_ingredients"
+            android:layout_marginBottom="16dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp" />
+        <ImageView
+            android:paddingLeft="0dp"
+            android:layout_below="@+id/btn_addIngredient"
+            android:background="#000000"
+            android:alpha="0.35"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:paddingBottom="16dp"/>
     <EditText
         android:id="@+id/et_mainIngredient"
         android:hint="Main Ingredient"
-        android:textSize="18sp"
-        android:layout_below="@+id/et_ingredients"
+        android:textSize="14sp"
+        android:layout_below="@+id/btn_addIngredient"
         android:layout_width="fill_parent"
         android:layout_height="72dp"
         android:inputType="textCapSentences"/>
+
     <EditText
         android:id="@+id/et_image"
         android:hint="Recipe Image"
@@ -137,7 +189,8 @@
         android:id="@+id/btn_view"
         style="?android:attr/borderlessButtonStyle"
         android:text="View"
-        android:background="@color/textColor"
+        android:textColor="#ffffff"
+        android:background="@color/colorAccent"
         android:layout_width="fill_parent"
         android:layout_height="48dp" />
 
