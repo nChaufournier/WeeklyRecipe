@@ -10,18 +10,23 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Nic on 10/1/2015.
@@ -31,6 +36,9 @@ public class AddRecipe extends Activity {
     private Button btn_save;
     private Button btn_view;
     private Button btn_addIngredients;
+    private ToggleButton btn_easy;
+    private ToggleButton btn_medium;
+    private ToggleButton btn_hard;
     private EditText et_name;
     private EditText et_difficulty;
     private TextView et_rating;
@@ -43,7 +51,6 @@ public class AddRecipe extends Activity {
     private EditText et_mainIngredient;
     private EditText et_image;
     private EditText et_comment;
-    private EditText et_favorite;
     private String date;
     private RecipesDataSource db;
 
@@ -51,22 +58,26 @@ public class AddRecipe extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe);
         getActionBar().hide();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         db = new RecipesDataSource(this);
         try {
             db.open();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         //Current date
-        date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+        date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
 
         //Buttons
         btn_close = (ImageButton) findViewById(R.id.btn_close);
         btn_save = (Button) findViewById(R.id.btn_save);
         btn_view = (Button) findViewById(R.id.btn_view);
         btn_addIngredients = (Button) findViewById(R.id.btn_addIngredient);
+        btn_easy = (ToggleButton)findViewById(R.id.tb_easy);
+        btn_medium = (ToggleButton)findViewById(R.id.tb_medium);
+        btn_hard = (ToggleButton)findViewById(R.id.tb_hard);
 
         //Input Fields
         et_name = (EditText) findViewById(R.id.et_recipeName);
@@ -79,14 +90,46 @@ public class AddRecipe extends Activity {
         et_mainIngredient = (EditText) findViewById(R.id.et_mainIngredient);
         et_image = (EditText) findViewById(R.id.et_image);
         et_comment = (EditText) findViewById(R.id.et_comment);
-        et_favorite = (EditText) findViewById(R.id.et_favorite);
-
 
 
         btn_addIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addIngredientMenu("Add Ingredient", "Ingredients Go Here");
+            }
+        });
+        //Makes it so only one option is selected for the description buttons
+        btn_easy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    btn_medium.setChecked(false);
+                    btn_hard.setChecked(false);
+                }else{
+                    btn_easy.setChecked(false);
+                }
+            }
+        });
+        btn_medium.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    btn_easy.setChecked(false);
+                    btn_hard.setChecked(false);
+                }else{
+                    btn_medium.setChecked(false);
+                }
+            }
+        });
+        btn_hard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    btn_medium.setChecked(false);
+                    btn_easy.setChecked(false);
+                }else{
+                    btn_hard.setChecked(false);
+                }
             }
         });
 
@@ -99,11 +142,11 @@ public class AddRecipe extends Activity {
 
                 Toast.makeText(AddRecipe.this, rb_rating.getRating() + "", Toast.LENGTH_SHORT).show();
                 /**/
-                if(!et_name.getText().toString().equals("")){
+                if (!et_name.getText().toString().equals("")) {
                     Recipe newRecipe = new Recipe();
                     newRecipe.setName(et_name.getText().toString());
                     newRecipe.setDifficulty(Integer.parseInt(et_difficulty.getText().toString()));
-                    newRecipe.setRating((int)rb_rating.getRating());
+                    newRecipe.setRating((int) rb_rating.getRating());
                     newRecipe.setDescription(et_description.getText().toString());
                     newRecipe.setTime(et_time.getText().toString());
                     newRecipe.setLastDateMade(null);
@@ -112,11 +155,6 @@ public class AddRecipe extends Activity {
                     newRecipe.setMainIngredient(et_mainIngredient.getText().toString());
                     newRecipe.setImage(null);
                     newRecipe.setComment(et_comment.getText().toString());
-                    if (et_favorite.getText().toString().equals("0") || et_favorite.getText().toString().equals("1")){
-                        newRecipe.setFavorite(Integer.parseInt(et_favorite.getText().toString()));
-                    }else{
-                        newRecipe.setFavorite(0);
-                    }
 
                     //showMessage("Recipe", newRecipe.toString());
                     db.createRecipe(newRecipe);
@@ -124,14 +162,12 @@ public class AddRecipe extends Activity {
                     Toast.makeText(getApplicationContext(), "Recipe Added!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(v.getContext(), MainActivity.class);
                     startActivity(i);
-                }else {
+                } else {
                     Toast.makeText(AddRecipe.this, "Please add Content", Toast.LENGTH_SHORT).show();
                 }/**/
 
             }
         });
-
-
 
 
         btn_close.setOnClickListener(new View.OnClickListener() {
@@ -149,17 +185,7 @@ public class AddRecipe extends Activity {
                 showMessage("All Items", db.getAllRecipes().toString());
             }
         });
-
-        /*getActionBar().setDisplayHomeAsUpEnabled(true);*/
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save, menu);
-        return super.onCreateOptionsMenu(menu);
-
-    }*/
-
     public void showMessage(String title,String message)
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -171,20 +197,50 @@ public class AddRecipe extends Activity {
 
     public void addIngredientMenu(String title,String message)
     {
+        final String[] ingredient = getResources().getStringArray(R.array.ingredientGroups_Array);
         final AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setItems(R.array.ingredientGroups_Array, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogLayout = inflater.inflate(R.layout.ingredients_dialog, null);
-                AlertDialog.Builder b = new AlertDialog.Builder(getApplicationContext());
-                b.setView(dialogLayout);
-                b.show();
+            public void onClick(DialogInterface dialogInterface, int position) {
+                showArray(ingredient[position], getResources().getStringArray(R.array.Grains));
+                Toast.makeText(AddRecipe.this, ingredient[position], Toast.LENGTH_SHORT).show();
             }
         });
+        /*builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });*/
+        builder.show();
+    }
+
+    public void showArray(String title, String[] message)
+    {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setItems(message, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(AddRecipe.this, "Ingredient", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(AddRecipe.this, "Add New Ingredient", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        //builder.setMessage(message.toString());
         builder.show();
     }
 }
