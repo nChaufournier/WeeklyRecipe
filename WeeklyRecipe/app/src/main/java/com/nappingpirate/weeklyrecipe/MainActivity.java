@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
                 Random r = new Random();
                 long r1 = r.nextInt((db.getAllRecipes().size()) - 1)+1;
 
-                Toast.makeText(MainActivity.this, "Random Recipe #"+r1+"!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Random Recipe #"+r1+"!", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), ViewRecipe.class);
                 i.putExtra("id", r1);
                 startActivity(i);

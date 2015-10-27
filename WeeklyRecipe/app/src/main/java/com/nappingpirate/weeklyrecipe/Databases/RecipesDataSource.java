@@ -124,4 +124,29 @@ public class RecipesDataSource {
         cursor.close();
         return recipe;
     }
+
+    public void editRecipe(Recipe recipe){
+        ContentValues values = new ContentValues();
+        values.put(RecipesDB.KEY_ID, recipe.get_id());
+        values.put(RecipesDB.KEY_NAME, recipe.getName());
+        values.put(RecipesDB.KEY_DIFFICULTY, recipe.getDifficulty());
+        values.put(RecipesDB.KEY_RATING, recipe.getRating());
+        values.put(RecipesDB.KEY_DESCRIPTION, recipe.getDescription());
+        values.put(RecipesDB.KEY_TIME, recipe.getTime());
+        values.put(RecipesDB.KEY_INGREDIENTS, recipe.getIngredients());
+        values.put(RecipesDB.KEY_DATE_ADDED, recipe.getDateAdded());
+        values.put(RecipesDB.KEY_LAST_DATE, recipe.getLastDateMade());
+        values.put(RecipesDB.KEY_MAIN_INGREDIENT, recipe.getMainIngredient());
+        values.put(RecipesDB.KEY_COMMENT, recipe.getComment());
+        values.put(RecipesDB.KEY_IMAGE, recipe.getImage());
+        values.put(RecipesDB.KEY_FAVORITE, recipe.getFavorite());
+
+        long insertId = recipe.get_id();
+        database.update(RecipesDB.TABLE_RECIPES,
+                values, RecipesDB.KEY_ID + " = " + insertId, null);
+    }
+
+    public void deleteRecipe(long id){
+        database.delete(RecipesDB.TABLE_RECIPES, RecipesDB.KEY_ID + " = " + id, null);
+    }
 }

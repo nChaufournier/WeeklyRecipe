@@ -77,10 +77,10 @@
         <Button
             android:layout_toEndOf="@+id/btn_view"
             android:layout_toRightOf="@+id/btn_view"
-            android:id="@+id/btn_action2"
+            android:id="@+id/btn_edit"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/colorSecondaryText"
-            android:text="Edit 2"
+            android:text="Edit Recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton

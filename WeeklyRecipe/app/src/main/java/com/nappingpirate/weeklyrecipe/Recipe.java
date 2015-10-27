@@ -46,6 +46,17 @@ public class Recipe {
     public Integer getDifficulty() {
         return difficulty;
     }
+    public String getDifficultyString(){
+        if (difficulty == 0){
+            return "Easy";
+        }else if(difficulty == 1){
+            return "Medium";
+        }else if (difficulty == 2){
+            return "Difficult";
+        }else{
+            return "Not Set";
+        }
+    }
 
     public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
@@ -53,6 +64,10 @@ public class Recipe {
 
     public String getRating() {
         return rating+"/5";
+    }
+
+    public int getRatingInt() {
+        return rating;
     }
 
     public void setRating(Integer rating) {

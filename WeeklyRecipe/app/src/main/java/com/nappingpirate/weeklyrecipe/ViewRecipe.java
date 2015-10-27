@@ -43,7 +43,7 @@ public class ViewRecipe extends Activity {
 
 
         extras = getIntent().getExtras();
-        Toast.makeText(getApplicationContext(), extras + " ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), extras + " ", Toast.LENGTH_SHORT).show();
         //recipe = db.getSingleRecipe(extras.getLong("id"));
         if(extras != null){
             if (extras.containsKey("id")){
@@ -53,7 +53,9 @@ public class ViewRecipe extends Activity {
                 recipe = db.getSingleRecipe(id);
                 tv_recipeName.setText(recipe.getName());
                 tv_recipeRating.setText((recipe.getRating()));
-                //tv_recipeDifficulty.setText(recipe.getDifficulty());
+                tv_recipeDifficulty.setText(recipe.getDifficultyString());
+
+                /*tv_recipeDifficulty.setText(recipe.getDifficulty());*/
                 tv_recipeDescription.setText(recipe.getDescription());
             }else{
                 Toast.makeText(getApplicationContext(), "Key not found", Toast.LENGTH_LONG).show();

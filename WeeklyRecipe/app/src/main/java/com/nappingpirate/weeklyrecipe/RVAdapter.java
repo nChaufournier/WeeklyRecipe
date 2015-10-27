@@ -61,6 +61,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
                 context.startActivity(i);
             }
         });
+        holder.btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, AddRecipe.class);
+                i.putExtra("edit", currentRecipe.get_id());
+                context.startActivity(i);
+            }
+        });
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,6 +97,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
         TextView recipeRating;
         TextView recipeDescription;
         Button btn_view;
+        Button btn_edit;
         ImageButton btn_more;
 
         public RecipeViewHolder(View itemView) {
@@ -99,6 +108,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
             recipeRating = (TextView) itemView.findViewById(R.id.tv_rating);
             recipeDescription = (TextView) itemView.findViewById(R.id.tv_description);
             btn_view = (Button) itemView.findViewById(R.id.btn_view);
+            btn_edit = (Button) itemView.findViewById(R.id.btn_edit);
             btn_more = (ImageButton) itemView.findViewById(R.id.btn_more);
         }
 
