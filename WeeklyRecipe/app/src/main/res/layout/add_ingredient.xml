@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp">
+    <!--TextView
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:textStyle="bold"
+        android:id="@+id/titleBar"
+        android:textSize="18dp"
+        android:textColor="@android:color/black"
+        android:text="Create Ingredient"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"/-->
+
+    <RelativeLayout
+        android:id="@+id/rl_ingredients"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+        <TextView
+            android:text="Ingredient Name"
+            android:id="@+id/label_ingredientName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+        <EditText
+            android:hint="Ingredient Name"
+            android:layout_below="@+id/label_ingredientName"
+            android:id="@+id/et_ingredientName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:inputType="textCapWords"/>
+        <TextView
+            android:text="Food Group"
+            android:paddingTop="16dp"
+            android:id="@+id/label_foodGroup"
+            android:layout_below="@+id/et_ingredientName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+        <!--menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        </menu-->
+
+        <TextView
+            android:textColor="#000000"
+            android:paddingTop="10dp"
+            android:id="@+id/tv_foodGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_foodGroup"
+            android:hint="Pick Food Group"/>
+        <!--ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_foodGroup"
+            android:alpha="0.35"
+            android:background="#000000"
+            android:paddingBottom="16dp"
+            android:paddingLeft="0dp" /-->
+
+        <TextView
+            android:text="Liquid/Solid"
+            android:id="@+id/label_liqsol"
+            android:layout_below="@+id/tv_foodGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:textSize="14sp"/>
+        <ToggleButton
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/tb_liqsol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_liqsol"
+            android:textOff="Solid"
+            android:textOn="Liquid"/>
+        <!--ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tb_liqsol"
+            android:alpha="0.35"
+            android:background="#000000"
+            android:paddingBottom="16dp"
+            android:paddingLeft="0dp" /-->
+        <TextView
+            android:id="@+id/label_description"
+            android:text="Description"
+            android:layout_below="@+id/tb_liqsol"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_ing_description"
+            android:layout_below="@+id/label_description"
+            android:hint="Add a Description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"/>
+    </RelativeLayout>
+    <!--RelativeLayout
+        android:layout_below="@+id/rl_ingredients"
+        android:id="@+id/rl_optionsBar"
+        android:layout_width="fill_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_toLeftOf="@+id/btn_ing_add"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="Cancel"
+            android:textColor="@android:color/holo_blue_dark" />
+        <Button
+            android:id="@+id/btn_ing_add"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="64dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="Add"
+            android:textColor="@android:color/holo_blue_dark" />
+    </RelativeLayout-->
+
+</RelativeLayout>

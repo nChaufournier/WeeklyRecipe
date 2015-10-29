@@ -213,26 +213,35 @@
                 android:layout_below="@+id/et_time"
                 android:hint="Recipe Ingredients"
                 android:inputType="textCapSentences"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:paddingBottom="16dp"/>
+            <ListView
+                android:id="@+id/lv_ingredients"
+                android:layout_below="@+id/tv_label_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
+
+            <LinearLayout
+                android:layout_below="@+id/tv_label_ingredients"
+                android:orientation="vertical"
+                android:id="@+id/rl_ingredientsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
             <Button
                 android:layout_centerHorizontal="true"
                 android:id="@+id/btn_addIngredient"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:layout_below="@id/tv_label_ingredients"
+                android:layout_below="@id/rl_ingredientsLayout"
                 android:layout_marginBottom="16dp"
                 android:background="@color/colorAccent"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:text="Add +"
                 android:textColor="#ffffff" />
-            <RelativeLayout
-                android:id="@+id/rl_ingredientsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </RelativeLayout>
 
             <ImageView
                 android:layout_width="fill_parent"

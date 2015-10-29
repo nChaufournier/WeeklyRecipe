@@ -3,32 +3,48 @@ package com.nappingpirate.weeklyrecipe;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.nappingpirate.weeklyrecipe.Databases.IngredientsDB;
+import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -56,10 +72,23 @@ public class AddRecipe extends Activity {
     private EditText et_image;
     private EditText et_comment;
     private String date;
-    private RelativeLayout rl_ingredients;
+    LinearLayout rl_ingredients;
+    ListView lv_ingredient;
     private RecipesDataSource db;
+    private IngredientsDataSource ingDb;
     private Bundle extras;
     Recipe editRecipe;
+    int ingr = 1;
+    String[] sampleArray = {
+            "Meat", "Onions", "Peppers"
+    };
+
+
+    //For Dialog
+    EditText et_ing_name;
+    TextView tv_foodGroup;
+    ToggleButton tb_liqsol;
+    EditText et_ing_description;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,18 +97,27 @@ public class AddRecipe extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         db = new RecipesDataSource(this);
+        ingDb = new IngredientsDataSource(this);
         try {
             db.open();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try {
+            ingDb.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Ingredient addDb = new Ingredient();
+        addDb.setName("");
         //Get and set extras from last event
         extras = getIntent().getExtras();
 
         //Current date
         date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
 
-        rl_ingredients = (RelativeLayout) findViewById(R.id.rl_ingredientsLayout);
+        rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredientsLayout);
 
         //Buttons
         btn_close = (ImageButton) findViewById(R.id.btn_close);
@@ -87,7 +125,8 @@ public class AddRecipe extends Activity {
         btn_view = (Button) findViewById(R.id.btn_view);
         btn_delete = (ImageButton) findViewById(R.id.btn_delete);
         if (extras!= null){
-
+            //Do Nothing
+            btn_delete.setVisibility(View.VISIBLE);
         }else{
             btn_delete.setVisibility(View.GONE);
         }
@@ -107,6 +146,9 @@ public class AddRecipe extends Activity {
         et_mainIngredient = (EditText) findViewById(R.id.et_mainIngredient);
         et_image = (EditText) findViewById(R.id.et_image);
         et_comment = (EditText) findViewById(R.id.et_comment);
+
+        //Other Fields
+        lv_ingredient = (ListView) findViewById(R.id.lv_ingredients);
 
         //If extras set items to correct text
         if (extras!=null){
@@ -136,11 +178,28 @@ public class AddRecipe extends Activity {
             }
         }
 
+        /*ArrayAdapter mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sampleArray);
+        if (lv_ingredient != null) {
+            lv_ingredient.setAdapter(mArrayAdapter);
+        }*/
 
         btn_addIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addIngredientMenu("Add Ingredient", "Ingredients Go Here");
+                /*EditText et_ingredient = new EditText(getApplicationContext());
+                rl_ingredients.addView(et_ingredient);
+                et_ingredient.setText("Ingredient " + ingr);
+                ingr++;
+                et_ingredient.setTextColor(Color.BLACK);
+                et_ingredient.setMaxWidth(100);
+                et_ingredient.setMaxHeight(100);
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();
+                layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                et_ingredient.setLayoutParams(layoutParams);
+                et_ingredient.setTag("Edit Text");*/
+
+                addIngredientMenu();
+
             }
         });
         //Makes it so only one option is selected for the description buttons
@@ -241,7 +300,16 @@ public class AddRecipe extends Activity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), db.getAllEvents().toString(), Toast.LENGTH_LONG).show();
-                showMessage("All Items", db.getAllRecipes().toString());
+                /*ingDaBa = new IngredientsDB(getApplicationContext());
+                try {
+                    ingDaBa.copyDataBaseFromAsset();
+                    Toast.makeText(AddRecipe.this, "Success!", Toast.LENGTH_SHORT).show();
+                }catch (IOException e){
+                    e.printStackTrace();
+                    Toast.makeText(AddRecipe.this, "Failure!", Toast.LENGTH_SHORT).show();
+                }*/
+                Toast.makeText(AddRecipe.this, ingDb.getAllIngredients().toString(), Toast.LENGTH_SHORT).show();
+                //showMessage("All Items", ingDb.().toString());
             }
         });
 
@@ -255,6 +323,55 @@ public class AddRecipe extends Activity {
                 Toast.makeText(AddRecipe.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();*/
             }
         });
+    }
+
+    public Dialog addIngredient() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = this.getLayoutInflater();
+        View vInflate = inflater.inflate(R.layout.add_ingredient, null);
+
+
+        builder.setView(vInflate);
+        builder.setTitle("Create Ingredient");
+
+        et_ing_name = (EditText)  vInflate.findViewById(R.id.et_ingredientName);
+        tv_foodGroup = (TextView) vInflate.findViewById(R.id.tv_foodGroup);
+        tb_liqsol = (ToggleButton) vInflate.findViewById(R.id.tb_liqsol);
+        et_ing_description = (EditText) vInflate.findViewById(R.id.et_ing_description);
+
+        tv_foodGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(AddRecipe.this, "Food Groups", Toast.LENGTH_SHORT).show();
+                showPopUp(view);
+
+            }
+        });
+
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Ingredient ingredient = new Ingredient();
+                ingredient.setName(et_ing_name.getText().toString());
+                ingredient.setFoodGroup(tv_foodGroup.getText().toString());//needs to create a new dialog menu to select from
+                if (tb_liqsol.isChecked()) {
+                    ingredient.setLiquidSolid(0);
+                } else {
+                    ingredient.setLiquidSolid(1);
+                }
+                ingredient.setDescription(et_ing_description.getText().toString());
+                ingDb.createIngredient(ingredient);
+                Toast.makeText(AddRecipe.this, ingredient.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+        return builder.create();
     }
 
     public void showMessage(String title,String message)
@@ -290,16 +407,16 @@ public class AddRecipe extends Activity {
         builder.show();
     }
 
-    public void addIngredientMenu(String title,String message)
+    public void addIngredientMenu()
     {
         final String[] ingredient = getResources().getStringArray(R.array.ingredientGroups_Array);
         final AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle(title);
+        builder.setTitle("Add Ingredient");
         builder.setItems(R.array.ingredientGroups_Array, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position) {
-                showArray(ingredient[position], getResources().getStringArray(R.array.Grains));
+                showArray(ingredient[position], ingDb.getIngredientsByFoodGroup("Grains"));
                 Toast.makeText(AddRecipe.this, ingredient[position], Toast.LENGTH_SHORT).show();
             }
         });
@@ -312,27 +429,30 @@ public class AddRecipe extends Activity {
         builder.show();
     }
 
-    public void showArray(String title, String[] message)
+    public void showArray(String title, final List<Ingredient> message)
     {
-        final String[] ingredient = getResources().getStringArray(R.array.Grains);
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        final List<Ingredient> ingredientList = message;
+        String[] ar = new String[ingredientList.size()];
+        for (int i=0; i < ingredientList.size(); i++){
+            ar[i] = ingredientList.get(i).getName();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
-        builder.setItems(message, new DialogInterface.OnClickListener() {
+
+        builder.setItems(ar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(AddRecipe.this, ingredient[i], Toast.LENGTH_SHORT).show();
-                TextView tv = new TextView(getApplicationContext());
-                tv.setText("New Ingredient");
-                rl_ingredients.addView(tv);
-                //setContentView();
-
+                listIngredient(ingredientList.get(i).getName());
             }
         });
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(AddRecipe.this, "Add New Ingredient", Toast.LENGTH_SHORT).show();
+                addIngredient();
+                //CreateIngredientFragment newFragment = new CreateIngredientFragment();
+                //newFragment.show(getFragmentManager(), "dialog");
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -344,6 +464,44 @@ public class AddRecipe extends Activity {
         //builder.setMessage(message.toString());
         builder.show();
     }
+
+
+    public void showPopUp(View view){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        String[] array = getResources().getStringArray(R.array.ingredientGroups_Array);
+        for (int i=0; i < getResources().getStringArray(R.array.ingredientGroups_Array).length; i++){
+            popupMenu.getMenu().add(Menu.NONE, i + 1, Menu.NONE, array[i]);
+
+        }
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                //Toast.makeText(AddRecipe.this, menuItem + "", Toast.LENGTH_SHORT).show();
+                tv_foodGroup.setText(menuItem.toString());
+                return false;
+            }
+        });
+        popupMenu.show();
+
+    }
+
+    public void listIngredient(String ingredient){
+        EditText et_ingredient = new EditText(getApplicationContext());
+        rl_ingredients.addView(et_ingredient);
+        /*et_ingredient.setText("Ingredient " + ingr);
+        ingr++;*/
+        et_ingredient.setText(ingredient);
+
+        et_ingredient.setTextColor(Color.BLACK);
+        et_ingredient.setMaxWidth(100);
+        et_ingredient.setMaxHeight(100);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();
+        layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        et_ingredient.setLayoutParams(layoutParams);
+        et_ingredient.setTag("Edit Text");
+    }
+
+
 
 
 }
