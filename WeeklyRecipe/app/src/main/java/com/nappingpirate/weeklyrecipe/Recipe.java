@@ -1,5 +1,13 @@
 package com.nappingpirate.weeklyrecipe;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  * Created by Nic on 10/2/2015.
  */
@@ -10,6 +18,7 @@ public class Recipe {
     private Integer rating;
     private String description;
     private String time;
+    private ArrayList<Ingredient> ingredientArrayList;
     private String ingredients;
     private String lastDateMade;
     private String dateAdded;
@@ -90,9 +99,82 @@ public class Recipe {
         this.time = time;
     }
 
-    public String getIngredients() {
+
+    public String getIngredients(){
+        //ingredients = toListString(ingredientArrayList);
         return ingredients;
     }
+
+    public ArrayList<String> getIngredientArrayString() {
+        ArrayList<String> ingArray = new ArrayList<>();
+        //ingArray.add(ingredients);
+        String tmp = "";
+        char c;
+        int j = 0;
+        for (int i = 0; i < ingredients.length(); i++){
+
+            //do{
+                c = ingredients.charAt(j);
+                if (!Character.toString(c).contentEquals(",")) {
+                    tmp = tmp + c;
+                    j++;
+                }else{ingArray.add(tmp);
+                    tmp ="";
+                    j++;
+                }
+                Log.v("Loop", tmp+" "+j);
+
+            //}while (!Character.toString(c).contentEquals(","));
+        }
+        return ingArray;
+        /*ArrayList<String> stringArray = new ArrayList<>();
+        if (ingredientArrayList == null) {
+
+            if (ingredientArrayList != null) {
+                for (int i = 0; i < ingredientArrayList.size(); i++) {
+                    stringArray.add(ingredientArrayList.get(i).getName());
+                }
+            }
+            return stringArray;
+        }else{
+            String temp="";
+            for (int i=0; i<ingredients.length(); i++){
+
+                char c = ingredients.charAt(i);
+                if (!Character.toString(c).contentEquals(",")){
+                    stringArray.add(temp);
+                    temp = "";
+                }else{
+                    temp += c;
+                }
+            }
+            //ingredientArrayList = ingredients.split(",");
+
+            return stringArray;
+        }*/
+
+    }
+    public ArrayList<Ingredient> getIngredientArrayList() {
+        return ingredientArrayList;
+
+    }
+
+    public void setIngredientArrayList(ArrayList<Ingredient> ingredientArrayList) {
+        this.ingredientArrayList = ingredientArrayList;
+    }
+
+    public String toListString(ArrayList<Ingredient> ingredArray){
+        String builder="";
+        for(int i=0; i< ingredArray.size(); i++){
+
+            builder = builder + ingredArray.get(i).getName() + ",";
+        }
+
+        return builder;
+
+    }
+
+
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;

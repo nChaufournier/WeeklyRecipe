@@ -55,7 +55,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
         holder.btn_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "" + pos, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "" + pos, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, ViewRecipe.class);
                 i.putExtra("id", currentRecipe.get_id());
                 context.startActivity(i);

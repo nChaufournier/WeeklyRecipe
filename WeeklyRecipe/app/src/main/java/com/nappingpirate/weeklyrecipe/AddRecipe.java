@@ -1,26 +1,18 @@
 package com.nappingpirate.weeklyrecipe;
 
-import android.app.ActionBar;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -33,13 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.nappingpirate.weeklyrecipe.Databases.IngredientsDB;
 import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,20 +36,15 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Nic on 10/1/2015.
+ * Created by Nic on 10/1/2015. This is an activity that lets you create new recipes
  */
 public class AddRecipe extends Activity {
-    private ImageButton btn_close;
-    private Button btn_save;
-    private Button btn_view;
-    private ImageButton btn_delete;
-    private Button btn_addIngredients;
+
     private ToggleButton btn_easy;
     private ToggleButton btn_medium;
     private ToggleButton btn_hard;
     private EditText et_name;
     private EditText et_difficulty;
-    private TextView et_rating;
     private RatingBar rb_rating;
     private EditText et_description;
     private EditText et_time;
@@ -78,10 +61,10 @@ public class AddRecipe extends Activity {
     private IngredientsDataSource ingDb;
     private Bundle extras;
     Recipe editRecipe;
-    int ingr = 1;
     String[] sampleArray = {
             "Meat", "Onions", "Peppers"
     };
+    ArrayList<Ingredient> ingredientsArray = new ArrayList<>();
 
 
     //For Dialog
@@ -120,17 +103,17 @@ public class AddRecipe extends Activity {
         rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredientsLayout);
 
         //Buttons
-        btn_close = (ImageButton) findViewById(R.id.btn_close);
-        btn_save = (Button) findViewById(R.id.btn_save);
-        btn_view = (Button) findViewById(R.id.btn_view);
-        btn_delete = (ImageButton) findViewById(R.id.btn_delete);
+        ImageButton btn_close = (ImageButton) findViewById(R.id.btn_close);
+        Button btn_save = (Button) findViewById(R.id.btn_save);
+        Button btn_view = (Button) findViewById(R.id.btn_view);
+        ImageButton btn_delete = (ImageButton) findViewById(R.id.btn_delete);
         if (extras!= null){
             //Do Nothing
             btn_delete.setVisibility(View.VISIBLE);
         }else{
             btn_delete.setVisibility(View.GONE);
         }
-        btn_addIngredients = (Button) findViewById(R.id.btn_addIngredient);
+        Button btn_addIngredients = (Button) findViewById(R.id.btn_addIngredient);
         btn_easy = (ToggleButton)findViewById(R.id.tb_easy);
         btn_medium = (ToggleButton)findViewById(R.id.tb_medium);
         btn_hard = (ToggleButton)findViewById(R.id.tb_hard);
@@ -138,7 +121,6 @@ public class AddRecipe extends Activity {
         //Input Fields
         et_name = (EditText) findViewById(R.id.et_recipeName);
         et_difficulty = (EditText) findViewById(R.id.et_difficulty);
-        et_rating = (TextView) findViewById(R.id.et_rating);
         rb_rating = (RatingBar) findViewById(R.id.rb_rating);
         et_description = (EditText) findViewById(R.id.et_description);
         et_time = (EditText) findViewById(R.id.et_time);
@@ -178,26 +160,9 @@ public class AddRecipe extends Activity {
             }
         }
 
-        /*ArrayAdapter mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sampleArray);
-        if (lv_ingredient != null) {
-            lv_ingredient.setAdapter(mArrayAdapter);
-        }*/
-
         btn_addIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*EditText et_ingredient = new EditText(getApplicationContext());
-                rl_ingredients.addView(et_ingredient);
-                et_ingredient.setText("Ingredient " + ingr);
-                ingr++;
-                et_ingredient.setTextColor(Color.BLACK);
-                et_ingredient.setMaxWidth(100);
-                et_ingredient.setMaxHeight(100);
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();
-                layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                et_ingredient.setLayoutParams(layoutParams);
-                et_ingredient.setTag("Edit Text");*/
-
                 addIngredientMenu();
 
             }
@@ -263,7 +228,7 @@ public class AddRecipe extends Activity {
                     newRecipe.setDescription(et_description.getText().toString());
                     newRecipe.setTime(et_time.getText().toString());
                     newRecipe.setLastDateMade(null);
-                    newRecipe.setIngredients(et_ingredients.getText().toString());
+                    newRecipe.setIngredientArrayList(ingredientsArray);
                     newRecipe.setDateAdded(date);
                     newRecipe.setMainIngredient(et_mainIngredient.getText().toString());
                     newRecipe.setImage(null);
@@ -308,7 +273,7 @@ public class AddRecipe extends Activity {
                     e.printStackTrace();
                     Toast.makeText(AddRecipe.this, "Failure!", Toast.LENGTH_SHORT).show();
                 }*/
-                Toast.makeText(AddRecipe.this, ingDb.getAllIngredients().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddRecipe.this, ingredientsArray+"\n", Toast.LENGTH_SHORT).show();
                 //showMessage("All Items", ingDb.().toString());
             }
         });
@@ -361,7 +326,7 @@ public class AddRecipe extends Activity {
                 }
                 ingredient.setDescription(et_ing_description.getText().toString());
                 ingDb.createIngredient(ingredient);
-                Toast.makeText(AddRecipe.this, ingredient.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddRecipe.this, ingredient.getName()+" Added!", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -417,7 +382,7 @@ public class AddRecipe extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int position) {
                 showArray(ingredient[position], ingDb.getIngredientsByFoodGroup("Grains"));
-                Toast.makeText(AddRecipe.this, ingredient[position], Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddRecipe.this, ingredient[position], Toast.LENGTH_SHORT).show();
             }
         });
         /*builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
@@ -444,12 +409,13 @@ public class AddRecipe extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 listIngredient(ingredientList.get(i).getName());
+                ingredientsArray.add(ingredientList.get(i));
             }
         });
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(AddRecipe.this, "Add New Ingredient", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddRecipe.this, "Add New Ingredient", Toast.LENGTH_SHORT).show();
                 addIngredient();
                 //CreateIngredientFragment newFragment = new CreateIngredientFragment();
                 //newFragment.show(getFragmentManager(), "dialog");
@@ -488,10 +454,7 @@ public class AddRecipe extends Activity {
     public void listIngredient(String ingredient){
         EditText et_ingredient = new EditText(getApplicationContext());
         rl_ingredients.addView(et_ingredient);
-        /*et_ingredient.setText("Ingredient " + ingr);
-        ingr++;*/
         et_ingredient.setText(ingredient);
-
         et_ingredient.setTextColor(Color.BLACK);
         et_ingredient.setMaxWidth(100);
         et_ingredient.setMaxHeight(100);

@@ -137,6 +137,25 @@ public class IngredientsDataSource {
         return Ingredient;
     }
 
+    public Ingredient getIngredientByName(String name){
+        String selectName = RecipesDB.KEY_NAME + " = '" + name + "'";
+        Ingredient Ingredient = new Ingredient();
+        Cursor cursor = database.query(RecipesDB.TABLE_INGREDIENTS, allColumns, selectName, null, null, null, null);
+        cursor.moveToFirst();
+        Ingredient.set_id(cursor.getLong(0));
+        Ingredient.setName(cursor.getString(1));
+        Ingredient.setFoodGroup(cursor.getString(2));
+        Ingredient.setLiquidSolid(cursor.getInt(3));
+        Ingredient.setShoppingList(cursor.getInt(4));
+        Ingredient.setPantry(cursor.getInt(5));
+        Ingredient.setMeasurement(cursor.getInt(6));
+        Ingredient.setQuantity(cursor.getInt(7));
+        Ingredient.setDescription(cursor.getString(8));
+        cursor.moveToNext();
+        cursor.close();
+        return Ingredient;
+    }
+
     public void editIngredient(Ingredient Ingredient){
         ContentValues values = new ContentValues();
         values.put(RecipesDB.KEY_ID, Ingredient.get_id());
@@ -157,4 +176,6 @@ public class IngredientsDataSource {
     public void deleteIngredient(long id){
         database.delete(RecipesDB.TABLE_INGREDIENTS, RecipesDB.KEY_ID + " = " + id, null);
     }
+
+
 }

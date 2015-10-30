@@ -87,14 +87,20 @@ public class MainActivity extends Activity {
         fabRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (db.getAllRecipes().size() >1) {
 
-                Random r = new Random();
-                long r1 = r.nextInt((db.getAllRecipes().size()) - 1)+1;
 
-                //Toast.makeText(MainActivity.this, "Random Recipe #"+r1+"!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getApplicationContext(), ViewRecipe.class);
-                i.putExtra("id", r1);
-                startActivity(i);
+                    Random r = new Random();
+                    long r1 = r.nextInt((db.getAllRecipes().size()) - 1) + 1;
+
+                    //Toast.makeText(MainActivity.this, "Random Recipe #"+r1+"!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(), ViewRecipe.class);
+                    i.putExtra("id", r1);
+                    startActivity(i);
+                }else{
+                    showMessage("Random Recipe", "Please add a few more recipes before using the random feature");
+                    //Toast.makeText(MainActivity.this, "Please Add a few more recipes before using the random feature", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

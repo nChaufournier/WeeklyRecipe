@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.nappingpirate.weeklyrecipe.Ingredient;
 import com.nappingpirate.weeklyrecipe.Recipe;
 
 import java.sql.SQLException;
@@ -124,6 +125,22 @@ public class RecipesDataSource {
         cursor.close();
         return recipe;
     }
+
+    /*public ArrayList<Ingredient> convertToArray(String stringArray){
+        ArrayList<Ingredient> ingredAList = new ArrayList<>();
+        String temp="";
+        for (int i=0; i<stringArray.length(); i++){
+
+            char c = stringArray.charAt(i);
+            if (!Character.toString(c).contentEquals(",")){
+                ingredAList.add(getIngredientByName(temp));
+                temp = "";
+            }else{
+                temp += c;
+            }
+        }
+        return null;
+    }*/
 
     public void editRecipe(Recipe recipe){
         ContentValues values = new ContentValues();
