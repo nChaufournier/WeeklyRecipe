@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
+    <TextView
+        android:gravity="center"
+        android:text="No Recipes yet! Try adding one now!"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"

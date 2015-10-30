@@ -196,12 +196,33 @@
                 android:hint="Recipe Description"
                 android:inputType="textCapSentences|textMultiLine"
                 android:textSize="18sp" />
-
+            <NumberPicker
+                android:id="@+id/np_hour"
+                android:layout_below="@id/et_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contextClickable="true"
+                android:background="@color/colorPrimary"
+                android:solidColor="@color/colorAccent"/>
+            <NumberPicker
+                android:id="@+id/np_minutes"
+                android:layout_below="@id/et_description"
+                android:layout_toRightOf="@+id/np_hour"
+                android:layout_toEndOf="@+id/np_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <NumberPicker
+                android:id="@+id/np_seconds"
+                android:layout_below="@id/et_description"
+                android:layout_toRightOf="@+id/np_minutes"
+                android:layout_toEndOf="@+id/np_minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_time"
                 android:layout_width="fill_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/et_description"
+                android:layout_below="@+id/np_hour"
                 android:hint="Time Taken to Make"
                 android:inputType="number"
                 android:textSize="18sp" />

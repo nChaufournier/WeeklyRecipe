@@ -326,6 +326,8 @@ public class AddRecipe extends Activity {
                 }
                 ingredient.setDescription(et_ing_description.getText().toString());
                 ingDb.createIngredient(ingredient);
+                listIngredient(ingredient);
+                ingredientsArray.add(ingredient);
                 Toast.makeText(AddRecipe.this, ingredient.getName()+" Added!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -339,14 +341,7 @@ public class AddRecipe extends Activity {
         return builder.create();
     }
 
-    public void showMessage(String title,String message)
-    {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-    }
+
 
     public void deleteMessage(String message)
     {
@@ -381,7 +376,7 @@ public class AddRecipe extends Activity {
         builder.setItems(R.array.ingredientGroups_Array, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position) {
-                showArray(ingredient[position], ingDb.getIngredientsByFoodGroup("Grains"));
+                showArray(ingredient[position], ingDb.getIngredientsByFoodGroup(ingredient[position]));
                 //Toast.makeText(AddRecipe.this, ingredient[position], Toast.LENGTH_SHORT).show();
             }
         });
@@ -408,7 +403,7 @@ public class AddRecipe extends Activity {
         builder.setItems(ar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                listIngredient(ingredientList.get(i).getName());
+                listIngredient(ingredientList.get(i));
                 ingredientsArray.add(ingredientList.get(i));
             }
         });
@@ -417,6 +412,7 @@ public class AddRecipe extends Activity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 //Toast.makeText(AddRecipe.this, "Add New Ingredient", Toast.LENGTH_SHORT).show();
                 addIngredient();
+
                 //CreateIngredientFragment newFragment = new CreateIngredientFragment();
                 //newFragment.show(getFragmentManager(), "dialog");
             }
@@ -451,10 +447,18 @@ public class AddRecipe extends Activity {
 
     }
 
-    public void listIngredient(String ingredient){
+    public void listIngredient(final Ingredient ingredient){
         EditText et_ingredient = new EditText(getApplicationContext());
         rl_ingredients.addView(et_ingredient);
-        et_ingredient.setText(ingredient);
+        et_ingredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAlert(ingredient.getName(), "Food Group: " + ingredient.getFoodGroup() + "\n" +
+                        "Description: " + ingredient.getDescription());
+            }
+        });
+        et_ingredient.setFocusable(false);
+        et_ingredient.setText(ingredient.getName());
         et_ingredient.setTextColor(Color.BLACK);
         et_ingredient.setMaxWidth(100);
         et_ingredient.setMaxHeight(100);
@@ -464,6 +468,34 @@ public class AddRecipe extends Activity {
         et_ingredient.setTag("Edit Text");
     }
 
+    public void showAlert(String title,String message)
+    {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                     addIngredientMenu();
+            }
+        });
+        builder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(AddRecipe.this, "Item Removed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setMessage(message);
+        builder.show();
+    }
+    public void showMessage(String title,String message)
+    {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
 
 
 
