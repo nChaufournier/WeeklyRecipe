@@ -47,6 +47,11 @@ public class RecipesDataSource {
         dbHelper.close();
     }
 
+    /**
+     * Creates a recipe and adds it to the Database
+     * @param recipe
+     * @return
+     */
     public Recipe createRecipe(Recipe recipe){
         ContentValues values = new ContentValues();
         values.put(RecipesDB.KEY_NAME, recipe.getName());
@@ -90,6 +95,10 @@ public class RecipesDataSource {
         return recipe;
     }
 
+    /**
+     * Retrieves all of the Recipes and puts them in to an array list of recipes.
+     * @return
+     */
     public List<Recipe> getAllRecipes(){
         List<Recipe> recipes = new ArrayList<>();
 
@@ -105,6 +114,11 @@ public class RecipesDataSource {
         return recipes;
     }
 
+    /**
+     * Retrieves a single recipe from the database based on its id
+     * @param id
+     * @return
+     */
     public Recipe getSingleRecipe(long id){
         String selectId = RecipesDB.KEY_ID + " = '" + id + "'";
         Recipe recipe = new Recipe();
@@ -159,6 +173,10 @@ public class RecipesDataSource {
 
     }
 
+    /**
+     * Makes it possible to edit the passed in recipe.
+     * @param recipe
+     */
     public void editRecipe(Recipe recipe){
         ContentValues values = new ContentValues();
         values.put(RecipesDB.KEY_ID, recipe.get_id());
@@ -180,6 +198,10 @@ public class RecipesDataSource {
                 values, RecipesDB.KEY_ID + " = " + insertId, null);
     }
 
+    /**
+     * Deletes a recipe based on id
+     * @param id
+     */
     public void deleteRecipe(long id){
         database.delete(RecipesDB.TABLE_RECIPES, RecipesDB.KEY_ID + " = " + id, null);
     }
