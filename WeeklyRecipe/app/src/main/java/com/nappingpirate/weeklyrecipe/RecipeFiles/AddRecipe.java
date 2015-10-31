@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -103,6 +105,9 @@ public class AddRecipe extends Activity {
 
         Ingredient addDb = new Ingredient();
         addDb.setName("");
+
+
+
         //Get and set extras from last event
         extras = getIntent().getExtras();
 
@@ -131,9 +136,21 @@ public class AddRecipe extends Activity {
         et_name = (EditText) findViewById(R.id.et_recipeName);
         et_difficulty = (EditText) findViewById(R.id.et_difficulty);
         rb_rating = (RatingBar) findViewById(R.id.rb_rating);
+        //Sets Rating bar stars to yellow ..or not.
+        /*
+        Drawable progress = rb_rating.getProgressDrawable();
+        DrawableCompat.setTint(progress, R..colorPrimaryLight);*/
+
         et_description = (EditText) findViewById(R.id.et_description);
         //et_time = (EditText) findViewById(R.id.et_time);
         et_mainIngredient = (EditText) findViewById(R.id.et_mainIngredient);
+        et_mainIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopUp2(view, ingredientsArray);
+            }
+        });
+
         et_image = (EditText) findViewById(R.id.et_image);
         et_comment = (EditText) findViewById(R.id.et_comment);
 
@@ -522,16 +539,38 @@ public class AddRecipe extends Activity {
 
     }
 
+    public void showPopUp2(View view, ArrayList<Ingredient> arrayList){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        arrayList.size();
+        for (int i=0; i < arrayList.size(); i++){
+            String temp = arrayList.get(i).getName();
+            popupMenu.getMenu().add(Menu.NONE, i + 1, Menu.NONE, temp);
+
+        }
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                //Toast.makeText(AddRecipe.this, menuItem + "", Toast.LENGTH_SHORT).show();
+                et_mainIngredient.setText(menuItem.toString());
+                return false;
+            }
+        });
+        popupMenu.show();
+
+    }
+
     public void listIngredient(final Ingredient ingredient){
+
         EditText et_ingredient = new EditText(getApplicationContext());
         rl_ingredients.addView(et_ingredient);
         et_ingredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAlert(ingredient.getName(), "Food Group: " + ingredient.getFoodGroup() + "\n" +
-                        "Description: " + ingredient.getDescription());
+                        "Description: " + ingredient.getDescription(), view);
             }
         });
+        et_ingredient.setId(et_ingredient.generateViewId());
         et_ingredient.setFocusable(false);
         et_ingredient.setText(ingredient.getName());
         et_ingredient.setTextColor(Color.BLACK);
@@ -544,7 +583,7 @@ public class AddRecipe extends Activity {
         ingredientsArray.add(ingredient);
     }
 
-    public void showAlert(String title,String message)
+    public void showAlert(String title,String message, View v)
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setCancelable(true);

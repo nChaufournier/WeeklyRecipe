@@ -5,6 +5,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
     <TextView
+        android:id="@+id/noRecipes"
         android:gravity="center"
         android:text="No Recipes yet! Try adding one now!"
         android:layout_width="fill_parent"

@@ -94,7 +94,7 @@
                 android:textSize="18sp" />
             <TextView
                 android:id="@+id/tv_label_difficulty"
-                android:hint="Recipe Rating"
+                android:hint="Recipe Difficulty"
                 android:textSize="14sp"
                 android:layout_below="@+id/et_recipeName"
                 android:layout_width="fill_parent"
@@ -147,7 +147,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/rl_difficulty"
-                android:alpha="0.35"
+                android:alpha="0.12"
                 android:background="#000000"/>
 
             <EditText
@@ -183,10 +183,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/rb_rating"
-                android:alpha="0.35"
+                android:alpha="0.12"
                 android:background="#000000"
                 android:paddingBottom="16dp"
-                android:paddingLeft="0dp" />
+                android:paddingLeft="-50dp" />
 
             <EditText
                 android:id="@+id/et_description"
@@ -269,7 +269,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/timePicker"
-                android:alpha="0.35"
+                android:alpha="0.12"
                 android:background="#000000"
                 android:paddingBottom="16dp"
                 android:paddingLeft="0dp" />
@@ -283,13 +283,12 @@
                 android:textSize="18sp" /-->
 
             <TextView
+                android:text="Recipe Ingredients"
                 android:paddingTop="16dp"
                 android:id="@+id/tv_label_ingredients"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timePicker"
-                android:hint="Recipe Ingredients"
-                android:inputType="textCapSentences"
                 android:textSize="14sp"
                 android:paddingBottom="16dp"/>
 
@@ -319,19 +318,27 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/btn_addIngredient"
-                android:alpha="0.35"
+                android:alpha="0.12"
                 android:background="#000000"
                 android:paddingBottom="16dp"
                 android:paddingLeft="0dp" />
 
+            <TextView
+                android:text="Main Ingredient"
+                android:layout_below="@id/btn_addIngredient"
+                android:id="@+id/tv_label_mainIngredient"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:paddingTop="16dp"/>
             <EditText
                 android:id="@+id/et_mainIngredient"
                 android:layout_width="fill_parent"
-                android:layout_height="72dp"
-                android:layout_below="@+id/btn_addIngredient"
+                android:layout_height="62dp"
+                android:layout_below="@+id/tv_label_mainIngredient"
                 android:hint="Main Ingredient"
                 android:inputType="textCapSentences"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/et_image"

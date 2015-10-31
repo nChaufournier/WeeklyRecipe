@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -28,6 +29,7 @@ public class MainActivity extends Activity {
     FloatingActionMenu fabMenu;
     View background;
     RecipesDataSource db;
+    TextView noRecipes;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,12 @@ public class MainActivity extends Activity {
         background = (View) findViewById(R.id.greyBackground);
         fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
         fabMenu.showMenu(true);
+
+        //Shows a message if there are no recipes
+        noRecipes = (TextView) findViewById(R.id.noRecipes);
+        if(db.getAllRecipes() != null){
+            noRecipes.setVisibility(View.GONE);
+        }
 
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
