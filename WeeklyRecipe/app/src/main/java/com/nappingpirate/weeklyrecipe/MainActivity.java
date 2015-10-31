@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
@@ -87,13 +88,13 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 if (db.getAllRecipes().size() >1) {
 
-
                     Random r = new Random();
-                    long r1 = r.nextInt((db.getAllRecipes().size()) - 1) + 1;
-
-                    //Toast.makeText(MainActivity.this, "Random Recipe #"+r1+"!", Toast.LENGTH_SHORT).show();
+                    //long r1 = r.nextInt((db.getAllRecipes().size()));
+                    long id = db.getRandomRecipe();
+                    Toast.makeText(MainActivity.this, "Random Recipe #" + id + "!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), ViewRecipe.class);
-                    i.putExtra("id", r1);
+                    i.putExtra("id", id);
+                    //i.putExtra("random", "random");
                     startActivity(i);
                 }else{
                     showMessage("Random Recipe", "Please add a few more recipes before using the random feature");

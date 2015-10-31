@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.nappingpirate.weeklyrecipe.RecipeFiles.AddRecipe;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.Recipe;
@@ -31,7 +32,7 @@ public class RecipesDataSource {
             RecipesDB.KEY_COMMENT,
             RecipesDB.KEY_IMAGE,
             RecipesDB.KEY_FAVORITE};
-    private String[] showRecipe = { RecipesDB.KEY_ID, RecipesDB.KEY_NAME, RecipesDB.KEY_DESCRIPTION};
+    private String[] showRecipe = { RecipesDB.KEY_ID};
 
 
     public RecipesDataSource(Context context) {
@@ -125,6 +126,16 @@ public class RecipesDataSource {
         cursor.moveToNext();
         cursor.close();
         return recipe;
+    }
+    /**This is where I would add a random algorithm to filter randoms of certain things
+     * i.e. Favorites, Allergies, Food Type, Ingredients, From Pantry, Last Time Cooked
+     * **/
+    public long getRandomRecipe(){
+
+        Cursor cursor =database.rawQuery("SELECT " + RecipesDB.KEY_ID + " FROM " + RecipesDB.TABLE_RECIPES + " ORDER BY RANDOM() LIMIT 1;", null);//database.query(RecipesDB.TABLE_RECIPES, showRecipe, null, null, null, null, null);
+        cursor.moveToFirst();
+        Long id = cursor.getLong(0);
+        return id;
     }
 
     /*public ArrayList<Ingredient> convertToArray(String stringArray){

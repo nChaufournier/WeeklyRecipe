@@ -78,7 +78,7 @@ public class ViewRecipe extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        Toast.makeText(ViewRecipe.this, recipe.getIngredientArrayList()+"", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ViewRecipe.this, recipe.getIngredientArrayList()+"", Toast.LENGTH_SHORT).show();
                         Toast.makeText(ViewRecipe.this, recipe.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
