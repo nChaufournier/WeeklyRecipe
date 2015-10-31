@@ -196,51 +196,102 @@
                 android:hint="Recipe Description"
                 android:inputType="textCapSentences|textMultiLine"
                 android:textSize="18sp" />
-            <NumberPicker
-                android:id="@+id/np_hour"
-                android:layout_below="@id/et_description"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_label_time"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:contextClickable="true"
-                android:background="@color/colorPrimary"
-                android:solidColor="@color/colorAccent"/>
-            <NumberPicker
-                android:id="@+id/np_minutes"
+                android:layout_below="@+id/et_description"
+                android:hint="Time taken to make:"
+                android:textSize="14sp"
+                android:paddingBottom="16dp"/>
+
+            <RelativeLayout
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:gravity="center"
+                android:id="@+id/timePicker"
                 android:layout_below="@id/et_description"
-                android:layout_toRightOf="@+id/np_hour"
-                android:layout_toEndOf="@+id/np_hour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <NumberPicker
-                android:id="@+id/np_seconds"
-                android:layout_below="@id/et_description"
-                android:layout_toRightOf="@+id/np_minutes"
-                android:layout_toEndOf="@+id/np_minutes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <!--TimePicker
+                    android:timePickerMode="spinner"
+                    android:id="@+id/tp_timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" /-->
+                <!--Hour Number Picker-->
+                <NumberPicker
+                    android:id="@+id/np_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false" />
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tv_label_hour"
+                    android:layout_toRightOf="@+id/np_hour"
+                    android:layout_toEndOf="@+id/np_hour"
+                    android:text="HR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+
+                <!--Minutes Number Picker-->
+                <NumberPicker
+                    android:id="@+id/np_minutes"
+                    android:layout_toRightOf="@+id/tv_label_hour"
+                    android:layout_toEndOf="@+id/tv_label_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/np_minutes"
+                    android:layout_toEndOf="@+id/np_minutes"
+                    android:id="@+id/tv_label_minutes"
+                    android:text="MIN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--Seconds Number Picker-->
+                <NumberPicker
+                    android:id="@+id/np_seconds"
+                    android:layout_toRightOf="@+id/tv_label_minutes"
+                    android:layout_toEndOf="@+id/tv_label_minutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/np_seconds"
+                    android:layout_toEndOf="@+id/np_seconds"
+                    android:id="@+id/tv_label_seconds"
+                    android:text="SEC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/timePicker"
+                android:alpha="0.35"
+                android:background="#000000"
+                android:paddingBottom="16dp"
+                android:paddingLeft="0dp" />
+            <!--EditText
                 android:id="@+id/et_time"
                 android:layout_width="fill_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/np_hour"
+                android:layout_below="@+id/timePicker"
                 android:hint="Time Taken to Make"
                 android:inputType="number"
-                android:textSize="18sp" />
+                android:textSize="18sp" /-->
 
             <TextView
+                android:paddingTop="16dp"
                 android:id="@+id/tv_label_ingredients"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/et_time"
+                android:layout_below="@+id/timePicker"
                 android:hint="Recipe Ingredients"
                 android:inputType="textCapSentences"
                 android:textSize="14sp"
                 android:paddingBottom="16dp"/>
-            <ListView
-                android:id="@+id/lv_ingredients"
-                android:layout_below="@+id/tv_label_ingredients"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
 
             <LinearLayout

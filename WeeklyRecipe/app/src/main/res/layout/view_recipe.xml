@@ -1,146 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/iv_recipeImage"
-        android:background="#cccccc"
-        android:contentDescription="Image of Recipe"
         android:layout_width="fill_parent"
-        android:layout_height="150dp" />
-    <RelativeLayout
-        android:id="@+id/rl_titleBox"
-        android:layout_below="@+id/iv_recipeImage"
+        android:layout_height="150dp"
+        android:background="#cccccc"
+        android:contentDescription="Image of Recipe" />
+
+    <ScrollView
+        android:id="@+id/viewScroll"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="24dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-        <TextView
-            android:textColor="@color/colorPrimaryText"
-            android:id="@+id/tv_label_recipeName"
-            android:paddingBottom="8dp"
-            android:text="Recipe Name"
+        android:layout_below="@+id/iv_recipeImage">
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_below="@+id/tv_label_recipeName"
-            android:id="@+id/tv_recipeName"
-            android:text="Recipe Name"
-            android:textSize="24sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"/>
-        <ImageView
-            android:paddingLeft="0dp"
-            android:layout_below="@+id/tv_recipeName"
-            android:background="#000000"
-            android:alpha="0.12"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:paddingBottom="16dp"/>
-        <TextView
-            android:textColor="@color/colorSecondaryText"
-            android:id="@+id/tv_label_rating"
-            android:paddingTop="16dp"
-            android:textSize="14sp"
-            android:layout_below="@+id/tv_recipeName"
-            android:paddingBottom="8dp"
-            android:text="Rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_rating"
-            android:textSize="24sp"
-            android:layout_below="@+id/tv_label_rating"
-            android:text="0/5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"/>
-        <TextView
-            android:textColor="@color/colorSecondaryText"
-            android:id="@+id/tv_label_difficulty"
-            android:layout_alignBaseline="@+id/tv_label_rating"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:textSize="14sp"
-            android:layout_below="@+id/tv_recipeName"
-            android:paddingBottom="8dp"
-            android:text="Difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_difficulty"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/tv_rating"
-            android:textSize="24sp"
-            android:text="Easy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_below="@+id/tv_rating"
-            android:background="#000000"
-            android:alpha="0.12"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:paddingTop="16dp"
-        android:paddingBottom="24dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_below="@+id/rl_titleBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_label_description"
-        android:textColor="@color/colorSecondaryText"
-        android:textSize="14sp"
-        android:paddingBottom="8dp"
-        android:text="Description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv_description"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet tincidunt scelerisque. Fusce bibendum placerat porttitor. "
-        android:hint="Recipe Description Goes here"
-        android:paddingBottom="16dp"
-        android:textSize="14sp"
-        android:layout_below="@id/tv_label_description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-        <ImageView
-            android:paddingLeft="0dp"
-            android:layout_below="@+id/tv_description"
-            android:background="#000000"
-            android:alpha="0.12"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:paddingBottom="16dp"/>
-        <TextView
-            android:paddingTop="8dp"
-            android:id="@+id/tv_label_ingredients"
-            android:layout_below="@id/tv_description"
-            android:text="Ingredients"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_below="@+id/tv_label_ingredients"
-            android:orientation="vertical"
-            android:id="@+id/rl_ingredients"
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-        </LinearLayout>
-        <ListView
-            android:id="@+id/lv_ingredients"
-            android:layout_below="@id/tv_label_ingredients"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_titleBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="24dp">
 
+                <TextView
+                    android:id="@+id/tv_label_recipeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:text="Recipe Name"
+                    android:textColor="@color/colorPrimaryText" />
+
+                <TextView
+                    android:id="@+id/tv_recipeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_label_recipeName"
+                    android:paddingBottom="16dp"
+                    android:text="Recipe Name"
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_recipeName"
+                    android:alpha="0.12"
+                    android:background="#000000"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="0dp" />
+
+                <TextView
+                    android:id="@+id/tv_label_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_recipeName"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="16dp"
+                    android:text="Rating"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_label_rating"
+                    android:paddingBottom="16dp"
+                    android:text="0/5"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_label_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_label_rating"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_recipeName"
+                    android:paddingBottom="8dp"
+                    android:text="Difficulty"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_rating"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="Easy"
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_rating"
+                    android:alpha="0.12"
+                    android:background="#000000" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_titleBox"
+                android:paddingBottom="24dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:id="@+id/tv_label_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:text="Description"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_label_description"
+                    android:hint="Recipe Description Goes here"
+                    android:paddingBottom="16dp"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet tincidunt scelerisque. Fusce bibendum placerat porttitor. "
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_description"
+                    android:alpha="0.12"
+                    android:background="#000000"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="0dp" />
+
+                <TextView
+                    android:id="@+id/tv_label_ingredients"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_description"
+                    android:paddingTop="8dp"
+                    android:text="Ingredients" />
+
+                <LinearLayout
+                    android:id="@+id/rl_ingredients"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_label_ingredients"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lv_ingredients"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_label_ingredients"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

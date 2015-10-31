@@ -4,21 +4,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.AddRecipe;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.RVAdapter;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.ViewRecipe;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends Activity {

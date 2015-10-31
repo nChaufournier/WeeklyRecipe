@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.nappingpirate.weeklyrecipe.Ingredient;
-import com.nappingpirate.weeklyrecipe.Recipe;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.AddRecipe;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.Recipe;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ public class RecipesDataSource {
             RecipesDB.KEY_IMAGE,
             RecipesDB.KEY_FAVORITE};
     private String[] showRecipe = { RecipesDB.KEY_ID, RecipesDB.KEY_NAME, RecipesDB.KEY_DESCRIPTION};
+
 
     public RecipesDataSource(Context context) {
         dbHelper = new RecipesDB(context);
@@ -141,6 +142,11 @@ public class RecipesDataSource {
         }
         return null;
     }*/
+
+    public void getIngredients(Recipe recipe){
+
+
+    }
 
     public void editRecipe(Recipe recipe){
         ContentValues values = new ContentValues();

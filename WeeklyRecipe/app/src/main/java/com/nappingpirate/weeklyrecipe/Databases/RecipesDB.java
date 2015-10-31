@@ -26,7 +26,6 @@ public class RecipesDB extends SQLiteOpenHelper {
     //public static final String KEY_NAME = "name";
     public static final String KEY_DIFFICULTY = "difficulty";
     public static final String KEY_RATING = "rating";
-    //public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_TIME = "time";
     public static final String KEY_INGREDIENTS = "ingredients";
     public static final String KEY_DATE_ADDED = "date_added";
@@ -37,8 +36,6 @@ public class RecipesDB extends SQLiteOpenHelper {
     public static final String KEY_FAVORITE = "favorite";
 
     //Ingredients Column names
-    //public static final String KEY_ID = "id";
-    //public static final String KEY_NAME = "name";
     public static final String KEY_FOOD_GROUP = "food_group";
     public static final String KEY_LIQUID_SOLID = "liquid_solid";
     public static final String KEY_SHOPPING_LIST = "shopping_list";

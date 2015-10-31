@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.nappingpirate.weeklyrecipe.Ingredient;
-import com.nappingpirate.weeklyrecipe.Ingredient;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.Ingredient;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

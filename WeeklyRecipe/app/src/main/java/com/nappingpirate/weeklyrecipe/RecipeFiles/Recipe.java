@@ -1,11 +1,9 @@
-package com.nappingpirate.weeklyrecipe;
+package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.Ingredient;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -94,6 +92,64 @@ public class Recipe {
     public String getTime() {
         return time;
     }
+    //Parses the string and pulls out the hour
+    public int getHour(){
+        String tmp = "";
+        char c;
+        int j = 0;
+        for (int i = 0; i < time.length(); i++){
+            c = time.charAt(j);
+            if (!Character.toString(c).contentEquals("h")) {
+                tmp = tmp + c;
+                j++;
+            }else{
+                i = time.length();
+                j++;
+            }
+            //Log.v("Loop", tmp+" "+j);
+        }
+        return Integer.parseInt(tmp);
+    }
+
+    public int getMinutes(){
+        String tmp = "";
+        char c;
+        int j = 3;
+        for (int i = 0; i < time.length(); i++){
+            c = time.charAt(j);
+            if (Character.toString(c).contentEquals("h") || Character.toString(c).contentEquals("r")){
+                j++;
+            }else if (!Character.toString(c).contentEquals("m")) {
+                tmp = tmp + c;
+                j++;
+            }else{
+                i = time.length();
+                j++;
+            }
+            //Log.v("Loop", tmp+" "+j);
+        }
+        return Integer.parseInt(tmp);
+    }
+
+    public int getSeconds(){
+        String tmp = "";
+        char c;
+        int j = 5;
+        for (int i = 0; i < time.length(); i++){
+            c = time.charAt(j);
+            if (Character.toString(c).contentEquals("m") || Character.toString(c).contentEquals("i") || Character.toString(c).contentEquals("n")){
+                j++;
+            }else if (!Character.toString(c).contentEquals("s")) {
+                tmp = tmp + c;
+                j++;
+            }else{
+                i = time.length();
+                j++;
+            }
+            //Log.v("Loop", tmp+" "+j);
+        }
+        return Integer.parseInt(tmp);
+    }
 
     public void setTime(String time) {
         this.time = time;
@@ -101,7 +157,7 @@ public class Recipe {
 
 
     public String getIngredients(){
-        //ingredients = toListString(ingredientArrayList);
+        ingredients = toListString(ingredientArrayList);
         return ingredients;
     }
 
@@ -112,46 +168,19 @@ public class Recipe {
         char c;
         int j = 0;
         for (int i = 0; i < ingredients.length(); i++){
-
-            //do{
                 c = ingredients.charAt(j);
                 if (!Character.toString(c).contentEquals(",")) {
                     tmp = tmp + c;
                     j++;
-                }else{ingArray.add(tmp);
+                }else{
+                    ingArray.add(tmp);
                     tmp ="";
                     j++;
                 }
                 Log.v("Loop", tmp+" "+j);
-
-            //}while (!Character.toString(c).contentEquals(","));
         }
         return ingArray;
-        /*ArrayList<String> stringArray = new ArrayList<>();
-        if (ingredientArrayList == null) {
 
-            if (ingredientArrayList != null) {
-                for (int i = 0; i < ingredientArrayList.size(); i++) {
-                    stringArray.add(ingredientArrayList.get(i).getName());
-                }
-            }
-            return stringArray;
-        }else{
-            String temp="";
-            for (int i=0; i<ingredients.length(); i++){
-
-                char c = ingredients.charAt(i);
-                if (!Character.toString(c).contentEquals(",")){
-                    stringArray.add(temp);
-                    temp = "";
-                }else{
-                    temp += c;
-                }
-            }
-            //ingredientArrayList = ingredients.split(",");
-
-            return stringArray;
-        }*/
 
     }
     public ArrayList<Ingredient> getIngredientArrayList() {

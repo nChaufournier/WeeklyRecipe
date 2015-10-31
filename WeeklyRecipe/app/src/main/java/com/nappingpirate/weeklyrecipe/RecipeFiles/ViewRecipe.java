@@ -1,26 +1,21 @@
-package com.nappingpirate.weeklyrecipe;
+package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nappingpirate.weeklyrecipe.Databases.RecipesDB;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
+import com.nappingpirate.weeklyrecipe.R;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by Nic on 10/3/2015.
@@ -72,15 +67,18 @@ public class ViewRecipe extends Activity {
                 tv_recipeRating.setText((recipe.getRating()));
                 tv_recipeDifficulty.setText(recipe.getDifficultyString());
                 //Loops through creating more ingredients as they are needed.
-                for (int i=0; i < recipe.getIngredientArrayString().size(); i++){
-                    listIngredient(recipe.getIngredientArrayString().get(i));
+                if (recipe.getIngredientArrayString() != null) {
+                    for (int i = 0; i < recipe.getIngredientArrayString().size(); i++) {
+                        listIngredient(recipe.getIngredientArrayString().get(i));
+                    }
                 }
                 tv_recipeDescription.setText(recipe.getDescription());
 
                 iv_recipeImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(ViewRecipe.this, recipe.getIngredientArrayString()+"", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(ViewRecipe.this, recipe.getIngredientArrayList()+"", Toast.LENGTH_SHORT).show();
                         Toast.makeText(ViewRecipe.this, recipe.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -113,6 +111,7 @@ public class ViewRecipe extends Activity {
         et_ingredient.setTextSize(18);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();
         layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         et_ingredient.setLayoutParams(layoutParams);
         et_ingredient.setTag("Edit Text");
     }

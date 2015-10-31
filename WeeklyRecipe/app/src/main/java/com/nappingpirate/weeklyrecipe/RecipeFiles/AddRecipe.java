@@ -1,4 +1,4 @@
-package com.nappingpirate.weeklyrecipe;
+package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
 
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -27,6 +29,8 @@ import android.widget.ToggleButton;
 
 import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
+import com.nappingpirate.weeklyrecipe.MainActivity;
+import com.nappingpirate.weeklyrecipe.R;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -47,8 +51,7 @@ public class AddRecipe extends Activity {
     private EditText et_difficulty;
     private RatingBar rb_rating;
     private EditText et_description;
-    private EditText et_time;
-    private TextView et_ingredients;
+    //private EditText et_time;
     private EditText et_lastDateMade;
     private EditText et_dateAdded;
     private EditText et_mainIngredient;
@@ -72,6 +75,12 @@ public class AddRecipe extends Activity {
     TextView tv_foodGroup;
     ToggleButton tb_liqsol;
     EditText et_ing_description;
+
+    NumberPicker numberPickerHour;
+    NumberPicker numberPickerMin;
+    NumberPicker numberPickerSec;
+    String timeTaken;
+    int hour, min, sec;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,18 +132,57 @@ public class AddRecipe extends Activity {
         et_difficulty = (EditText) findViewById(R.id.et_difficulty);
         rb_rating = (RatingBar) findViewById(R.id.rb_rating);
         et_description = (EditText) findViewById(R.id.et_description);
-        et_time = (EditText) findViewById(R.id.et_time);
-        et_ingredients = (TextView) findViewById(R.id.tv_label_ingredients);
+        //et_time = (EditText) findViewById(R.id.et_time);
         et_mainIngredient = (EditText) findViewById(R.id.et_mainIngredient);
         et_image = (EditText) findViewById(R.id.et_image);
         et_comment = (EditText) findViewById(R.id.et_comment);
 
         //Other Fields
         lv_ingredient = (ListView) findViewById(R.id.lv_ingredients);
+        //Time Picker
+        numberPickerHour = (NumberPicker)findViewById(R.id.np_hour);
+        numberPickerHour.setMinValue(0);
+        numberPickerHour.setMaxValue(60);
+        numberPickerHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                hour = i1;
+                //timeTaken = timeTaken + hour + "hr";
+                timeTaken = hour+"hr"+min+"min"+sec+"sec";
+            }
+        });
+        numberPickerMin = (NumberPicker)findViewById(R.id.np_minutes);
+        numberPickerMin.setMinValue(0);
+        numberPickerMin.setMaxValue(60);
+        numberPickerMin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i1;
+                //timeTaken = timeTaken + hour+"hr";
+                timeTaken = hour+"hr"+min+"min"+sec+"sec";
+            }
+        });
+        numberPickerSec = (NumberPicker)findViewById(R.id.np_seconds);
+        numberPickerSec.setMinValue(0);
+        numberPickerSec.setMaxValue(60);
+        numberPickerSec.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i1;
+                //timeTaken = timeTaken+hour+"hr";
+                timeTaken = hour + "hr" + min + "min" + sec + "sec";
+            }
+        });
+
+
+        timeTaken = hour+"hr"+min+"min"+sec+"sec";
+
+
+
 
         //If extras set items to correct text
         if (extras!=null){
-            Toast.makeText(AddRecipe.this, extras.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddRecipe.this, extras.toString(), Toast.LENGTH_SHORT).show();
             //et_name.setText(extras.);
             if(extras.containsKey("edit")){
                 Long id = extras.getLong("edit");
@@ -153,10 +201,31 @@ public class AddRecipe extends Activity {
                 }
                 rb_rating.setRating(editRecipe.getRatingInt());
                 et_description.setText(editRecipe.getDescription());
-                et_time.setText(editRecipe.getTime());
+                numberPickerHour.setValue(editRecipe.getHour());
+                hour = editRecipe.getHour();
+                numberPickerMin.setValue(editRecipe.getMinutes());
+                min = editRecipe.getMinutes();
+                numberPickerSec.setValue(editRecipe.getSeconds());
+                sec = editRecipe.getSeconds();
+                timeTaken = hour + "hr" + min + "min" + sec + "sec";
+                try {
+                    Log.v("Loop1", editRecipe.getIngredientArrayString().toString());
+                    for (int i = 0; i < editRecipe.getIngredientArrayString().size(); i++) {
+                        Log.v("Loop2", editRecipe.getIngredientArrayString().get(i));
+                        //editRecipe.getIngredientArrayString().get(i);
+
+                        listIngredient(ingDb.getIngredientByName(editRecipe.getIngredientArrayString().get(i)));
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(AddRecipe.this, "Nope", Toast.LENGTH_SHORT).show();
+                }
+                //et_time.setText(editRecipe.getTime());
                 et_mainIngredient.setText(editRecipe.getMainIngredient());
                 et_image.setText(editRecipe.getImage());
                 et_comment.setText(editRecipe.getComment());
+
+
             }
         }
 
@@ -210,9 +279,9 @@ public class AddRecipe extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AddRecipe.this, et_name.getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddRecipe.this, et_name.getText(), Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(AddRecipe.this, rb_rating.getRating() + "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddRecipe.this, rb_rating.getRating() + "", Toast.LENGTH_SHORT).show();
 
                 if (!et_name.getText().toString().equals("")) {
                     Recipe newRecipe = new Recipe();
@@ -226,7 +295,7 @@ public class AddRecipe extends Activity {
                     }
                     newRecipe.setRating((int) rb_rating.getRating());
                     newRecipe.setDescription(et_description.getText().toString());
-                    newRecipe.setTime(et_time.getText().toString());
+                    newRecipe.setTime(timeTaken);
                     newRecipe.setLastDateMade(null);
                     newRecipe.setIngredientArrayList(ingredientsArray);
                     newRecipe.setDateAdded(date);
@@ -273,7 +342,13 @@ public class AddRecipe extends Activity {
                     e.printStackTrace();
                     Toast.makeText(AddRecipe.this, "Failure!", Toast.LENGTH_SHORT).show();
                 }*/
-                Toast.makeText(AddRecipe.this, ingredientsArray+"\n", Toast.LENGTH_SHORT).show();
+                if (!ingredientsArray.isEmpty()) {
+                    Toast.makeText(AddRecipe.this, "Ingredients:" + ingredientsArray + "\n", Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(AddRecipe.this, "Hour: "+ hour +"\n" +
+                                                "Minutes: " + min +"\n" +
+                                                "Seconds: " + sec +"\n" +
+                                                "Total: " + timeTaken +"\n", Toast.LENGTH_SHORT).show();
                 //showMessage("All Items", ingDb.().toString());
             }
         });
@@ -404,7 +479,7 @@ public class AddRecipe extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 listIngredient(ingredientList.get(i));
-                ingredientsArray.add(ingredientList.get(i));
+                //ingredientsArray.add(ingredientList.get(i));
             }
         });
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
@@ -466,6 +541,7 @@ public class AddRecipe extends Activity {
         layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
         et_ingredient.setLayoutParams(layoutParams);
         et_ingredient.setTag("Edit Text");
+        ingredientsArray.add(ingredient);
     }
 
     public void showAlert(String title,String message)

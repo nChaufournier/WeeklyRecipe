@@ -1,4 +1,4 @@
-package com.nappingpirate.weeklyrecipe;
+package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
 /**
  * Created by Nic on 10/8/2015.
