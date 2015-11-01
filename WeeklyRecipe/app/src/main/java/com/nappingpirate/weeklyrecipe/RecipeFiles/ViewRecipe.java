@@ -1,8 +1,17 @@
 package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -13,9 +22,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
+import com.nappingpirate.weeklyrecipe.JsonRead;
 import com.nappingpirate.weeklyrecipe.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 /**
  * Created by Nic on 10/3/2015.
@@ -33,11 +51,13 @@ public class ViewRecipe extends Activity {
     RecipesDataSource db;
     ListView lv_ingredients;
     ArrayAdapter<String> mArrayAdapter;
+    CheckBox cb_ingredients;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_recipe);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         db = new RecipesDataSource(this);
         try{
             db.open();
@@ -52,6 +72,8 @@ public class ViewRecipe extends Activity {
         lv_ingredients = (ListView)findViewById(R.id.lv_ingredients);
         iv_recipeImage = (ImageView) findViewById(R.id.iv_recipeImage);
         rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredients);
+
+        cb_ingredients = (CheckBox) findViewById(R.id.cb_ingredients);
 
 
         extras = getIntent().getExtras();
@@ -84,6 +106,50 @@ public class ViewRecipe extends Activity {
                 });
             }if(extras.containsKey("f2f")){
 
+                /**Takes in Id an finds Recipe**/
+                String f2fId = extras.getString("f2f");
+                new DownloadF2fJson().execute("http://food2fork.com/api/get?key=4ab22a0b23d28f4634e677a7856a9763&rId=" + f2fId);
+
+
+
+//                /**
+//                 * Takes passed in F2fRecipe object and applys it to View Recipe
+//                 **/
+//                F2fRecipe f2FRecipe;
+//                //Toast.makeText(getApplicationContext(), extras.toString(), Toast.LENGTH_LONG).show();
+//                Long id = extras.getLong("f2f");
+//                //Toast.makeText(getApplicationContext(), id + " ", Toast.LENGTH_LONG).show();
+//                f2FRecipe = getIntent().getParcelableExtra("f2f");
+//                tv_recipeName.setText(f2FRecipe.getTitle());
+//                tv_recipeRating.setText(f2FRecipe.getPublisher());
+//                tv_recipeDifficulty.setText("Working on it");
+//                //cb_ingredients.setText(f2FRecipe.getIngredients());
+//
+//                /**
+//                 * Loops through creating more ingredients as they are needed.
+//                 **/
+//                if (f2FRecipe != null) {
+//                    for (int i = 0; i < f2FRecipe.getIngredients().length; i++) {
+//                        listIngredient(f2FRecipe.getIngredients()[i]);
+//                    }
+//                }
+//                try{
+//                    InputStream is = (InputStream) new URL(f2FRecipe.getImage_url()).getContent();
+//                    Drawable d = Drawable.createFromStream(is, f2FRecipe.getImage_url());
+//                    iv_recipeImage.setImageDrawable(d);
+//                }catch (Exception e){
+//                    Log.e("Image", "Image Problem", e);
+//                }
+//                //tv_recipeDescription.setText(recipe.getDescription());
+//
+//                iv_recipeImage.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                        //Toast.makeText(ViewRecipe.this, recipe.getIngredientArrayList()+"", Toast.LENGTH_SHORT).show();
+//                        //Toast.makeText(ViewRecipe.this, recipe.toString(), Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }else{
                 Toast.makeText(getApplicationContext(), "Key not found", Toast.LENGTH_LONG).show();
             }
@@ -102,8 +168,9 @@ public class ViewRecipe extends Activity {
         et_ingredient.setText(ingredient);
         et_ingredient.setTextColor(Color.BLACK);
         et_ingredient.setMaxWidth(100);
-        et_ingredient.setMaxHeight(100);
+        //et_ingredient.setMaxHeight(100);
         et_ingredient.setTextSize(18);
+
         et_ingredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +180,7 @@ public class ViewRecipe extends Activity {
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();
         layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.topMargin = 20;
         et_ingredient.setLayoutParams(layoutParams);
         et_ingredient.setTag("Edit Text");
     }
@@ -120,4 +188,135 @@ public class ViewRecipe extends Activity {
     public void showMessage(){
 
     }
+    private class DownloadF2fJson extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            try{
+                Log.e("result", urls[0].toString());
+                return downloadUrl(urls[0]);
+            }catch (IOException e){
+                return "Unable to retrieve web page. URL may be invalid";
+            }
+        }
+
+        //onPostExecute displays the results of the AsynchTask
+        @Override
+        protected void onPostExecute(String result) {
+            Log.v("result", result);
+            JsonRead jRead;
+            try {
+
+                //Where The display is changed
+                jRead = new JsonRead(result);
+                final F2fRecipe f2fRecipe = jRead.getF2fRecipe();
+                tv_recipeName.setText(f2fRecipe.getTitle());
+                tv_recipeDescription.setText(f2fRecipe.getPublisher());
+                tv_recipeDescription.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(f2fRecipe.getPublisher_url()));
+                        startActivity(i);
+                    }
+                });
+                Double socialRank = Math.floor(f2fRecipe.getSocial_rank() * 100) /100;
+                tv_recipeRating.setText("Food 2 Fork Rating: " +socialRank);
+                tv_recipeRating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(f2fRecipe.getUrl()));
+                        startActivity(i);
+                    }
+                });
+                tv_recipeDifficulty.setVisibility(View.GONE);
+
+                if (f2fRecipe != null) {
+                    for (int i = 0; i < f2fRecipe.getIngredients().length; i++) {
+                        listIngredient(f2fRecipe.getIngredients()[i]);
+                    }
+                }
+                /**Get Image form URL and sets it to ImageView**/
+                try{
+                    InputStream is = (InputStream) new URL(f2fRecipe.getImage_url()).getContent();
+                    //Drawable d = Drawable.createFromStream(is, f2fRecipe.getImage_url());
+                    //iv_recipeImage.setImageDrawable(d);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    iv_recipeImage.setImageBitmap(bitmap);
+
+                    Palette palette = Palette.generate(bitmap);
+                    int vibrant = palette.getVibrantColor(0x000000);
+                    int vibrantDark = palette.getDarkVibrantColor(0x000000);
+                    int vibrantLight = palette.getLightVibrantColor(0x000000);
+                    int muted = palette.getMutedColor(0x000000);
+                    int mutedDark = palette.getDarkMutedColor(0x000000);
+                    int mutedLight = palette.getLightMutedColor(0x000000);
+                    iv_recipeImage.setBackgroundColor(vibrantLight);
+                }catch (Exception e){
+                    Log.e("Image", "Image Problem", e);
+                }
+
+                /**
+                 * Changes Labels to fit F2f Data
+                 **/
+                TextView label_difficulty = (TextView) findViewById(R.id.tv_label_difficulty);
+                label_difficulty.setVisibility(View.GONE);
+                TextView label_rating = (TextView) findViewById(R.id.tv_label_rating);
+                label_rating.setText("Website");
+                TextView label_description = (TextView) findViewById(R.id.tv_label_description);
+                label_description.setText("Publisher");
+
+
+
+                Log.e("Result", "Result: "+ result);
+                Log.e("Result", "View Item: "+ jRead.getF2fRecipe().toString());
+                Toast.makeText(getApplicationContext(), "View Recipe", Toast.LENGTH_SHORT).show();
+            }catch (IOException e){
+                Log.e("Result", "Something is Wrong", e);
+            }
+
+        }
+    }
+
+    private String downloadUrl(String myUrl) throws IOException{
+        InputStream is = null;
+        //Only display the first 500 characters of the webpage
+        int len = 2000000;
+
+        try{
+            URL url = new URL(myUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* millisceconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            //Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            Log.d("Response", "The Response is: "+ response);
+            is = conn.getInputStream();
+
+            //Convert the inputStream into a string
+            String contentAsString = readIt(is, len);
+
+            return contentAsString;
+
+        } finally {
+            if (is != null){
+                is.close();
+            }
+        }
+
+    }
+
+    public String readIt(InputStream stream, int len)throws IOException, UnsupportedEncodingException {
+        Reader reader = null;
+        reader = new InputStreamReader(stream, "UTF-8");
+        char[] buffer = new char[len];
+        reader.read(buffer);
+        return new String(buffer);
+    }
+
+
+
 }

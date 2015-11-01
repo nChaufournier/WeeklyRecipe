@@ -3,24 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_recipeImage"
-        android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:background="#cccccc"
-        android:contentDescription="Image of Recipe" />
+
 
     <ScrollView
         android:id="@+id/viewScroll"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_recipeImage">
+        >
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_recipeImage"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:background="#cccccc"
+                android:contentDescription="Image of Recipe" />
 
             <RelativeLayout
+                android:layout_below="@+id/iv_recipeImage"
                 android:id="@+id/rl_titleBox"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +130,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_label_description"
-                    android:hint="Recipe Description Goes here"
                     android:paddingBottom="16dp"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet tincidunt scelerisque. Fusce bibendum placerat porttitor. "
                     android:textSize="14sp" />
@@ -156,7 +157,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_label_ingredients"
                     android:orientation="vertical">
-
+                    <CheckBox
+                        android:id="@+id/cb_ingredients"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <ListView

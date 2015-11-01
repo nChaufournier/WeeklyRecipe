@@ -22,13 +22,11 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.AddRecipe;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.F2fRecipe;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.F2fRecipeListItem;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.Ingredient;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.RVAdapter;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.ViewRecipe;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +37,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -53,10 +50,22 @@ public class MainActivity extends Activity {
     RecipesDataSource db;
     TextView noRecipes;
 
+    String[] f2fId = {"One", "Two", "Three"};
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Connect to Database
+        /*StringBuilder builder = new StringBuilder();
+        for (String s : f2fId){
+            builder.append(s).append("#");
+        }
+        builder.toString().split("");
+        Log.v("Result", builder.toString());
+        for (int i=0; i <builder.toString().split("#").length; i++){
+            Log.v("Result", builder.toString().split("#")[i]);
+        }*/
+
         db = new RecipesDataSource(this);
         try{
             db.open();
@@ -143,7 +152,9 @@ public class MainActivity extends Activity {
                     Toast.makeText(MainActivity.this, "Connected!", Toast.LENGTH_SHORT).show();
                     String apikey = getResources().getString(R.string.nal_api_key);
                     String apiurl = getResources().getString(R.string.nal_api_url);
-                    new DownloadWebpageTask().execute(apiurl+"format=json&lt=f&sort=n&max=10&api_key=" + apikey);
+                    //new DownloadWebpageTask().execute(apiurl+"format=json&lt=f&sort=n&max=10&api_key=" + apikey);
+                    new DownloadWebpageTask().execute("http://food2fork.com/api/search?key=4ab22a0b23d28f4634e677a7856a9763&q=shredded%20chicken");
+
                 }else{
                     Toast.makeText(MainActivity.this, "Not Connected!", Toast.LENGTH_SHORT).show();
                 }
@@ -168,8 +179,44 @@ public class MainActivity extends Activity {
             Log.v("result", result);
             JsonRead jRead;
             try {
+                //Where The display is changed
                 jRead = new JsonRead(result);
-                showArray("Ingredient", jRead.getIngredientList());
+                //showArray("Ingredient", jRead.getIngredientList());
+                showF2fArray("F2F", jRead.getF2fRecipeList());
+            }catch (IOException e){
+                Log.e("Result", "Something is Wrong", e);
+            }
+
+        }
+    }
+
+    private class DownloadF2fJson extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... urls) {
+            try{
+                Log.e("result", urls[0].toString());
+                return downloadUrl(urls[0]);
+            }catch (IOException e){
+                return "Unable to retrieve web page. URL may be invalid";
+            }
+        }
+
+        //onPostExecute displays the results of the AsynchTask
+        @Override
+        protected void onPostExecute(String result) {
+            Log.v("result", result);
+            JsonRead jRead;
+            try {
+                //Where The display is changed
+                jRead = new JsonRead(result);
+                Log.e("Result", "Result: "+ result);
+                Log.e("Result", "View Item: "+ jRead.getF2fRecipe().toString());
+                //showArray("Ingredient", jRead.getIngredientList());
+                //showF2fArray("F2F", jRead.getF2fRecipe());
+                Intent intent = new Intent(getApplicationContext(), ViewRecipe.class);
+                intent.putExtra("f2f", jRead.getF2fRecipe());
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "View Recipe", Toast.LENGTH_SHORT).show();
             }catch (IOException e){
                 Log.e("Result", "Something is Wrong", e);
             }
@@ -180,7 +227,7 @@ public class MainActivity extends Activity {
     private String downloadUrl(String myUrl) throws IOException{
         InputStream is = null;
         //Only display the first 500 characters of the webpage
-        int len = 50000;
+        int len = 2000000;
 
         try{
             URL url = new URL(myUrl);
@@ -261,7 +308,56 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = message.get(i).getName();
-                showMessage(name, name+"\nFood Group: "+ message.get(i).getFoodGroup() );
+                showMessage(name, name + "\nFood Group: " + message.get(i).getFoodGroup());
+
+
+            }
+        });
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+    }
+
+    public void showF2fArray(String title, final ArrayList<F2fRecipeListItem> message)
+    {
+        //final ArrayList<Ingredient> ingredientList = message;
+        String[] ar = new String[message.size()];
+        for (int i=0; i < message.size(); i++){
+            ar[i] = message.get(i).getTitle();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setItems(ar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //String name = message.get(i).getTitle();
+                //showMessage(name, name+"\nFood Group: "+ message.get(i).getPublisher() );
+                //Sends you to F2F Website to view Recipe
+                /*
+                String url = message.get(i).getUrl();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);*/
+
+                Intent intent = new Intent(getApplicationContext(), ViewRecipe.class);
+                String id = message.get(i).getRecipe_id();
+                intent.putExtra("f2f", id);
+                startActivity(intent);
+
+
+                //new DownloadF2fJson().execute("http://food2fork.com/api/get?key=4ab22a0b23d28f4634e677a7856a9763&rId=" + id);
+
             }
         });
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
