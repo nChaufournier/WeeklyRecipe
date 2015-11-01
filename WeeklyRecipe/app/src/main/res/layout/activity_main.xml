@@ -49,6 +49,14 @@
             android:src="@drawable/ic_dice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_network"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:menu_colorNormal="@color/colorAccent"
+            fab:fab_label="Check Network"
+            android:src="@drawable/ic_action_network_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </com.github.clans.fab.FloatingActionMenu>
 
 </FrameLayout>

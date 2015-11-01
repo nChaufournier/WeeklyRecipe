@@ -30,6 +30,11 @@ public class Ingredient {
         this.description = description;
     }
 
+    public Ingredient(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public long get_id() {
         return _id;
     }

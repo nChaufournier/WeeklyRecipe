@@ -82,6 +82,8 @@ public class ViewRecipe extends Activity {
                         Toast.makeText(ViewRecipe.this, recipe.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
+            }if(extras.containsKey("f2f")){
+
             }else{
                 Toast.makeText(getApplicationContext(), "Key not found", Toast.LENGTH_LONG).show();
             }
@@ -90,13 +92,6 @@ public class ViewRecipe extends Activity {
         }else{
             Toast.makeText(getApplicationContext(), "Didn't Work", Toast.LENGTH_LONG).show();
         }
-
-        /*
-        recipe = db.getSingleRecipe(extras.getLong("id"));
-        if(recipe != null){
-            Toast.makeText(getApplicationContext(), recipe.toString(), Toast.LENGTH_LONG).show();
-            et_recipeName.setText(recipe.getName());
-        }*/
 
 
 
@@ -109,10 +104,20 @@ public class ViewRecipe extends Activity {
         et_ingredient.setMaxWidth(100);
         et_ingredient.setMaxHeight(100);
         et_ingredient.setTextSize(18);
+        et_ingredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();
         layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         et_ingredient.setLayoutParams(layoutParams);
         et_ingredient.setTag("Edit Text");
+    }
+
+    public void showMessage(){
+
     }
 }

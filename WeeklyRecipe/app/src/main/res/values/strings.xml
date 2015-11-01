@@ -19,4 +19,10 @@
     </string-array>
 
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sodales ac felis in bibendum. Praesent commodo, felis nec lacinia porta, tellus lacus faucibus massa, pharetra.</string>
+
+    <string name="nal_api_key">n2RIg7UByKxr4cAR3Nv9YIs2t0HUQLPkctZoFW1E</string>
+    <string name="nal_api_url">http://api.nal.usda.gov/ndb/search?</string>
+
+    <string name="f2f_api_key">4ab22a0b23d28f4634e677a7856a9763</string>
+    <string name="f2f_api_url">http://food2fork.com/api/search?</string>
 </resources>
