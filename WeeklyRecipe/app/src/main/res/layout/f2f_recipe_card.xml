@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:paddingRight="8dp"
+    android:paddingLeft="8dp"
+    android:paddingTop="10dp"
+    android:elevation="2dp"
+    android:backgroundTint="#EEEEEE"
+    android:background="@drawable/rectangle">
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        android:layout_marginBottom="8dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/rl_title"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingBottom="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        >
+        <RelativeLayout
+            android:id="@+id/titlebox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:paddingRight="12dp">
+            <!--TextView
+                android:textColor="@color/colorSecondaryText"
+                android:id="@+id/tv_rating"
+                android:textSize="14sp"
+                android:text="Rating"
+                android:paddingTop="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" /-->
+            <TextView
+                android:paddingTop="24dp"
+                android:textColor="@color/colorPrimaryText"
+                android:id="@+id/tv_recipeName"
+                android:text="Recipe Name That is to long to fit in this box"
+                android:textSize="24sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/ic_dice"
+            android:contentDescription="Image of Food"
+            android:id="@+id/iv_mainImage"
+            android:background="#30CCCCCC"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_actionButtons"
+        android:padding="8dp"
+        android:layout_below="@+id/rl_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_view"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@color/colorSecondaryText"
+            android:text="View Recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <!--Button
+            android:layout_toEndOf="@+id/btn_view"
+            android:layout_toRightOf="@+id/btn_view"
+            android:id="@+id/btn_edit"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@color/colorSecondaryText"
+            android:text="Edit Recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_expand"
+            android:id="@+id/btn_more"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="^"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" /-->
+    </RelativeLayout>
+            <TextView
+                android:layout_below="@+id/rl_actionButtons"
+                android:id="@+id/tv_description"
+                android:textColor="@color/colorPrimaryText"
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                android:text="@string/lorem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>

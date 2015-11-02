@@ -30,6 +30,11 @@
             android:parentActivityName=".MainActivity">
 
         </activity>
+        <activity android:name=".SearchForRecipe"
+            android:label="Search for a Recipe"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

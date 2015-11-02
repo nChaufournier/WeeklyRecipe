@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,8 @@ public class ViewRecipe extends Activity {
     ListView lv_ingredients;
     ArrayAdapter<String> mArrayAdapter;
     CheckBox cb_ingredients;
+    ProgressBar progressBar;
+    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +75,7 @@ public class ViewRecipe extends Activity {
         lv_ingredients = (ListView)findViewById(R.id.lv_ingredients);
         iv_recipeImage = (ImageView) findViewById(R.id.iv_recipeImage);
         rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredients);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         cb_ingredients = (CheckBox) findViewById(R.id.cb_ingredients);
 
 
@@ -188,20 +191,33 @@ public class ViewRecipe extends Activity {
     public void showMessage(){
 
     }
-    private class DownloadF2fJson extends AsyncTask<String, Void, String> {
+    private class DownloadF2fJson extends AsyncTask<String, Integer, String> {
         @Override
         protected String doInBackground(String... urls) {
             try{
-                Log.e("result", urls[0].toString());
+                Log.e("result", urls[0]);
                 return downloadUrl(urls[0]);
             }catch (IOException e){
                 return "Unable to retrieve web page. URL may be invalid";
             }
         }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+        }
+
         //onPostExecute displays the results of the AsynchTask
         @Override
         protected void onPostExecute(String result) {
+
             Log.v("result", result);
             JsonRead jRead;
             try {
@@ -268,9 +284,10 @@ public class ViewRecipe extends Activity {
 
 
 
-                Log.e("Result", "Result: "+ result);
+                Log.e("Result", "Result: " + result);
                 Log.e("Result", "View Item: "+ jRead.getF2fRecipe().toString());
                 Toast.makeText(getApplicationContext(), "View Recipe", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }catch (IOException e){
                 Log.e("Result", "Something is Wrong", e);
             }
@@ -280,6 +297,7 @@ public class ViewRecipe extends Activity {
 
     private String downloadUrl(String myUrl) throws IOException{
         InputStream is = null;
+        int count;
         //Only display the first 500 characters of the webpage
         int len = 2000000;
 
@@ -295,6 +313,10 @@ public class ViewRecipe extends Activity {
             int response = conn.getResponseCode();
             Log.d("Response", "The Response is: "+ response);
             is = conn.getInputStream();
+
+            byte data[] = new byte[1024];
+            long total = 0;
+
 
             //Convert the inputStream into a string
             String contentAsString = readIt(is, len);

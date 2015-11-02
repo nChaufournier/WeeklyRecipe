@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
     private com.github.clans.fab.FloatingActionButton fabAdd;
     private com.github.clans.fab.FloatingActionButton fabRandom;
     private com.github.clans.fab.FloatingActionButton fabNetwork;
+    private com.github.clans.fab.FloatingActionButton fabSearch;
     FloatingActionMenu fabMenu;
     View background;
     RecipesDataSource db;
@@ -116,6 +117,7 @@ public class MainActivity extends Activity {
         fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_add);
         fabRandom = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_random);
         fabNetwork = (FloatingActionButton) findViewById(R.id.fab_network);
+        fabSearch = (FloatingActionButton) findViewById(R.id.fab_search);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +148,7 @@ public class MainActivity extends Activity {
         fabNetwork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()){
                     Toast.makeText(MainActivity.this, "Connected!", Toast.LENGTH_SHORT).show();
@@ -158,6 +160,14 @@ public class MainActivity extends Activity {
                 }else{
                     Toast.makeText(MainActivity.this, "Not Connected!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), SearchForRecipe.class);
+                startActivity(i);
             }
         });
 

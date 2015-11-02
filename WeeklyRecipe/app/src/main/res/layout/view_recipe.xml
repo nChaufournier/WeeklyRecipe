@@ -4,7 +4,13 @@
     android:layout_height="match_parent">
 
 
-
+<ProgressBar
+    android:id="@+id/progressBar"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:visibility="visible"
+    android:background="@android:color/white"
+    android:backgroundTint="@android:color/white"/>
     <ScrollView
         android:id="@+id/viewScroll"
         android:layout_width="fill_parent"

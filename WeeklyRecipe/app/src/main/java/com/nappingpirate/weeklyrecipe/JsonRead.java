@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nic on 10/31/2015.
@@ -80,7 +81,7 @@ public class JsonRead {
                 recipe.setSocial_rank(jRecipes.getJSONObject(i).getDouble("social_rank"));
                 recipe.setPublisher_url(jRecipes.getJSONObject(i).getString("publisher_url"));
                 fRecipe.add(recipe);
-                Log.v("F2f", "Recipe"+i+recipe.toString());
+                Log.v("F2f", "Recipe: "+i+" "+recipe.toString());
             }
 
         }catch (JSONException e){
