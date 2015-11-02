@@ -13,8 +13,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +59,7 @@ public class ViewRecipe extends Activity {
     ProgressBar progressBar;
     F2fRecipe f2fRecipe;
     JsonRead jRead;
+    View view;
     public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class ViewRecipe extends Activity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        view = (View) findViewById(R.id.blankView);
         tv_recipeName = (TextView) findViewById(R.id.tv_recipeName);
         tv_recipeRating = (TextView) findViewById(R.id.tv_rating);
         tv_recipeDifficulty = (TextView) findViewById(R.id.tv_difficulty);
@@ -85,7 +89,9 @@ public class ViewRecipe extends Activity {
         //Toast.makeText(getApplicationContext(), extras + " ", Toast.LENGTH_SHORT).show();
         //recipe = db.getSingleRecipe(extras.getLong("id"));
         if (extras != null) {
+
             if (extras.containsKey("id")) {
+                view.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 //Toast.makeText(getApplicationContext(), extras.toString(), Toast.LENGTH_LONG).show();
                 Long id = extras.getLong("id");
@@ -156,8 +162,6 @@ public class ViewRecipe extends Activity {
 //                        //Toast.makeText(ViewRecipe.this, recipe.toString(), Toast.LENGTH_LONG).show();
 //                    }
 //                });
-            } else {
-                Toast.makeText(getApplicationContext(), "Key not found", Toast.LENGTH_LONG).show();
             }
 
             //et_recipeName.setText(recipe.getName());
@@ -225,7 +229,7 @@ public class ViewRecipe extends Activity {
             Log.v("result", result);
 
             //Where The display is changed
-            View view = (View) findViewById(R.id.blankView);
+
             view.setVisibility(View.GONE);
             tv_recipeName.setText(f2fRecipe.getTitle());
             tv_recipeDescription.setText(f2fRecipe.getPublisher());
@@ -361,5 +365,19 @@ public class ViewRecipe extends Activity {
         builder.show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mbtn_save:
+                Toast.makeText(ViewRecipe.this, "Save Recipe!", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
