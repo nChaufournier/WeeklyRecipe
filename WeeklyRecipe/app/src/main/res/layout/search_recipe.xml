@@ -11,8 +11,15 @@
         android:iconifiedByDefault="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:elevation="1dp"
+        android:elevation="2dp"
         ><requestFocus/></SearchView>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"

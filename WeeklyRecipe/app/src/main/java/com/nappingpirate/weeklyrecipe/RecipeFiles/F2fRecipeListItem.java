@@ -1,5 +1,6 @@
 package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,6 +16,7 @@ public class F2fRecipeListItem implements Parcelable{
     String image_url;
     double social_rank;
     String publisher_url;
+    Bitmap thumbnail;
 
 
     public F2fRecipeListItem() {
@@ -43,6 +45,14 @@ public class F2fRecipeListItem implements Parcelable{
         this.image_url = image_url;
         this.social_rank = social_rank;
         this.publisher_url = publisher_url;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getPublisher() {

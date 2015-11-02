@@ -4,13 +4,19 @@
     android:layout_height="match_parent">
 
 
-<ProgressBar
-    android:id="@+id/progressBar"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:visibility="visible"
-    android:background="@android:color/white"
-    android:backgroundTint="@android:color/white"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:visibility="visible"
+        android:elevation="2dp"
+        android:layout_centerInParent="true"/>
+    <View
+        android:id="@+id/blankView"
+        android:elevation="1dp"
+        android:background="@android:color/white"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
     <ScrollView
         android:id="@+id/viewScroll"
         android:layout_width="fill_parent"

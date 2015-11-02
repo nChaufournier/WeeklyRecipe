@@ -1,6 +1,7 @@
 package com.nappingpirate.weeklyrecipe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.nappingpirate.weeklyrecipe.RecipeFiles.F2fRecipe;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.F2fRecipeListItem;
+import com.nappingpirate.weeklyrecipe.RecipeFiles.ViewRecipe;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,10 +51,15 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.Recipe
         holder.btn_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("Btn", "View Recipe");
+                Intent intent = new Intent(context, ViewRecipe.class);
+                String id = currentRecipe.getRecipe_id();
+                intent.putExtra("f2f", id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                Log.v("Btn", currentRecipe.getTitle());
             }
         });
-        //holder.thumbnail.setImageBitmap(currentRecipe.getImage_url());
+        holder.thumbnail.setImageBitmap(currentRecipe.getThumbnail());
     }
 
     @Override

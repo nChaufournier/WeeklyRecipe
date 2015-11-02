@@ -1,5 +1,7 @@
 package com.nappingpirate.weeklyrecipe;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.nappingpirate.weeklyrecipe.RecipeFiles.F2fRecipe;
@@ -11,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,12 +84,17 @@ public class JsonRead {
                 recipe.setImage_url(jRecipes.getJSONObject(i).getString("image_url"));
                 recipe.setSocial_rank(jRecipes.getJSONObject(i).getDouble("social_rank"));
                 recipe.setPublisher_url(jRecipes.getJSONObject(i).getString("publisher_url"));
+                InputStream is = (InputStream) new URL(recipe.getImage_url()).getContent();
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                recipe.setThumbnail(bitmap);
                 fRecipe.add(recipe);
                 Log.v("F2f", "Recipe: "+i+" "+recipe.toString());
             }
 
         }catch (JSONException e){
             Log.e("Result", "F2F get Recipe Broke", e);
+        }catch (Exception e){
+            Log.v("getF2fRecipeList", "F2f Broke", e);
         }
 
         return fRecipe;
