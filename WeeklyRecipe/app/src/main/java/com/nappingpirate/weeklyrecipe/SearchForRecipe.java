@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nappingpirate.weeklyrecipe.RecipeFiles.RVAdapter;
@@ -33,6 +34,7 @@ public class SearchForRecipe extends Activity {
     private RVSearchAdapter rvAdapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private int recipeCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,20 +99,16 @@ public class SearchForRecipe extends Activity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            Log.v("result", result);
+            Log.v("result", "Result: " + result);
+            TextView tv_noRecipe = (TextView) findViewById(R.id.tv_noRecipe);
             recyclerView.setAdapter(rvAdapter);
+            if (recipeCount == 0) {
+
+                tv_noRecipe.setVisibility(View.VISIBLE);
+            }else {
+                tv_noRecipe.setVisibility(View.GONE);
+            }
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            /*try {
-                //Where The display is changed
-
-
-                //showF2fArray("F2F", jRead.getF2fRecipeList());
-            }catch (IOException e){
-                Log.e("Result", "Something is Wrong", e);
-            }/catch (Exception e){
-                Log.e("Result Error", "Recycler View:", e);
-            }*/
-
 
 
         }
@@ -139,7 +137,10 @@ public class SearchForRecipe extends Activity {
                 Log.v("Result", "Start JsonRead");
                 jRead = new JsonRead(contentAsString);
                 //Log.v("Result", "Get recipes: " + jRead.getF2fRecipeList().toString());
+                Log.v("Count", "Set Adapter");
                 rvAdapter = new RVSearchAdapter(getApplicationContext(), jRead.getF2fRecipeList());
+                recipeCount = jRead.count;
+                Log.v("Count", "Count: "+jRead.count);
 
 
 

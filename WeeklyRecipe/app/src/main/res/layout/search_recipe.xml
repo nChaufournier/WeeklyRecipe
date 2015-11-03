@@ -18,17 +18,20 @@
         android:id="@+id/progressBar"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
+        android:elevation="2dp"
         android:layout_gravity="center_horizontal|center_vertical"
         />
-
+    <TextView
+        android:gravity="center_horizontal|center_vertical"
+        android:id="@+id/tv_noRecipe"
+        android:visibility="gone"
+        android:text="Sorry No Recipes Found"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
-        <TextView
-            android:visibility="gone"
-            android:text="No Recipes Found"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+
 
 </LinearLayout>

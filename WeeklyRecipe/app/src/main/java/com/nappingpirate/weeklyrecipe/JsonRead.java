@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class JsonRead {
     String jsonString;
+    int count;
 
     public JsonRead(String json) throws IOException{
         this.jsonString = json;
@@ -71,7 +72,7 @@ public class JsonRead {
         ArrayList<F2fRecipeListItem> fRecipe = new ArrayList<>();
         try {
             JSONObject jsonRoot = new JSONObject(jsonString);
-            String count = jsonRoot.getString("count");
+            count = jsonRoot.getInt("count");
             JSONArray jRecipes = jsonRoot.getJSONArray("recipes");
 
             for (int i=0; i<jRecipes.length(); i++){
