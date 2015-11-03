@@ -137,10 +137,10 @@ public class SearchForRecipe extends Activity {
                 Log.v("Result", "Start JsonRead");
                 jRead = new JsonRead(contentAsString);
                 //Log.v("Result", "Get recipes: " + jRead.getF2fRecipeList().toString());
-                Log.v("Count", "Set Adapter");
+                //Log.v("Count", "Set Adapter");
                 rvAdapter = new RVSearchAdapter(getApplicationContext(), jRead.getF2fRecipeList());
                 recipeCount = jRead.count;
-                Log.v("Count", "Count: "+jRead.count);
+                //Log.v("Count", "Count: "+jRead.count);
 
 
 

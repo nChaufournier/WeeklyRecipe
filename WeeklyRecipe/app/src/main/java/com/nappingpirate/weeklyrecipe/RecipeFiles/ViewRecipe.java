@@ -14,6 +14,7 @@ import android.os.StrictMode;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -60,6 +61,8 @@ public class ViewRecipe extends Activity {
     F2fRecipe f2fRecipe;
     JsonRead jRead;
     View view;
+    int saved = 0;
+    private Menu saveMenu;
     public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +86,6 @@ public class ViewRecipe extends Activity {
         rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredients);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         cb_ingredients = (CheckBox) findViewById(R.id.cb_ingredients);
-
 
         extras = getIntent().getExtras();
         //Toast.makeText(getApplicationContext(), extras + " ", Toast.LENGTH_SHORT).show();
@@ -367,12 +369,20 @@ public class ViewRecipe extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        saveMenu = menu;
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (saved == 0) {
+            saveMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_action_action_favorite));
+            saved = 1;
+        }else{
+            saveMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_favorite));
+            saved = 0;
+        }
         switch (item.getItemId()){
             case R.id.mbtn_save:
                 Toast.makeText(ViewRecipe.this, "Save Recipe!", Toast.LENGTH_SHORT).show();
