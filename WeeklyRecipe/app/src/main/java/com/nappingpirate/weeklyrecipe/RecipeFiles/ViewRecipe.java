@@ -370,24 +370,41 @@ public class ViewRecipe extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         saveMenu = menu;
+
+
         getMenuInflater().inflate(R.menu.menu_save, menu);
+        if (recipe.getFavorite() == 0) {
+            menu.findItem(R.id.mbtn_save).setIcon(R.drawable.ic_action_nonfavorite);
+        }else{
+            menu.findItem(R.id.mbtn_save).setIcon(R.drawable.ic_action_action_favorite);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (saved == 0) {
-            saveMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_action_action_favorite));
-            saved = 1;
-        }else{
-            saveMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_favorite));
-            saved = 0;
-        }
         switch (item.getItemId()){
             case R.id.mbtn_save:
                 Toast.makeText(ViewRecipe.this, "Save Recipe!", Toast.LENGTH_SHORT).show();
+                //Save/Favorite
+                if (recipe.getFavorite() == 0) {
+                    item.setIcon(R.drawable.ic_action_action_favorite);
+                    saved = 1;
+                    recipe.setFavorite(1);
+                    db.editRecipe(recipe);
+                }else{ //Delete/Remove from Favorite
+                    item.setIcon(R.drawable.ic_action_nonfavorite);
+                    saved = 0;
+                    recipe.setFavorite(0);
+                    db.editRecipe(recipe);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 }

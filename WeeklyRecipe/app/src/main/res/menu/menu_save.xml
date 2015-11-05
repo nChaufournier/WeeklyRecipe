@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item  android:title="save"
         android:id="@+id/mbtn_save"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/ic_action_nonfavorite"
         android:showAsAction="ifRoom" />
 </menu>

@@ -157,7 +157,11 @@ public class Recipe {
 
 
     public String getIngredients(){
-        ingredients = toListString(ingredientArrayList);
+        if (ingredientArrayList != null) {
+            ingredients = toListString(ingredientArrayList);
+        }else{
+            return ingredients;
+        }
         return ingredients;
     }
 
