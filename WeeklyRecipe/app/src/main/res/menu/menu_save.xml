@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item  android:title="save"
         android:id="@+id/mbtn_save"
         android:icon="@drawable/ic_action_nonfavorite"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom" />
+    <item android:title="edit"
+        android:id="@+id/mbtn_edit"
+        android:icon="@drawable/ic_action_edit"
+        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"/>
 </menu>

@@ -102,17 +102,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
-        /*fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (background.getVisibility() == View.VISIBLE) {
-                    background.setVisibility(View.GONE);
-                } else {
-                    background.setVisibility(View.VISIBLE);
-                }
-            }
-        });*/
         fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_add);
         fabRandom = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_random);
         fabNetwork = (FloatingActionButton) findViewById(R.id.fab_network);

@@ -407,6 +407,10 @@ public class ViewRecipe extends Activity {
                     db.editRecipe(recipe);
                 }
                 return true;
+            case R.id.mbtn_edit:
+                Intent editInt = new Intent(this, AddRecipe.class);
+                editInt.putExtra("edit", recipe.get_id());
+                startActivity(editInt);
         }
         return super.onOptionsItemSelected(item);
     }
