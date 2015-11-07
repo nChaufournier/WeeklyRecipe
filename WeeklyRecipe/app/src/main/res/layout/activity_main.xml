@@ -16,12 +16,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:paddingBottom="10dp"/>
-    <View
-        android:visibility="gone"
-        android:id="@+id/greyBackground"
-        android:background="#80cccccc"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
 
     <com.github.clans.fab.FloatingActionMenu
         fab:menu_colorNormal="@color/colorAccent"

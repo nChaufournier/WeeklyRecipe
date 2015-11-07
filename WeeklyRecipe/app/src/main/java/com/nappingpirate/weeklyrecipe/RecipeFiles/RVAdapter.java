@@ -78,9 +78,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
                 }
             }
         });
-        if (currentRecipe.getThumbnail() != null) {
+
+        /**Used to Display Thumbnails on each Card**/
+        /*if (currentRecipe.getThumbnail() != null) {
             holder.iv_thumbnail.setImageBitmap(currentRecipe.getThumbnail());
-        }
+        }*/
 
     }
 

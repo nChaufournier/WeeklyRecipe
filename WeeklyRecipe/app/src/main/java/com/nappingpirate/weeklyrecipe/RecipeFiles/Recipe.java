@@ -245,7 +245,11 @@ public class Recipe {
     }
 
     public void setImage(String image) {
-        Bitmap original = null;
+        /**
+         * Used to create Thumbnail images from main image.
+         * Very Slow at the moment and not needed.
+         * **/
+        /*Bitmap original = null;
         int scale, sWidth, sHeight = 0;
         if (thumbnail == null) {
             try {
@@ -271,7 +275,7 @@ public class Recipe {
             }
        }else{
             Log.v("Thumbnail", "Should be Loading this because thumbnail is already set " + thumbnail);
-        }
+        }*/
         this.image = image;
     }
 

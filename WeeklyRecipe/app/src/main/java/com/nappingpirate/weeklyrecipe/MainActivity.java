@@ -47,7 +47,6 @@ public class MainActivity extends Activity {
     private com.github.clans.fab.FloatingActionButton fabNetwork;
     private com.github.clans.fab.FloatingActionButton fabSearch;
     FloatingActionMenu fabMenu;
-    View background;
     RecipesDataSource db;
     TextView noRecipes;
 
@@ -78,7 +77,6 @@ public class MainActivity extends Activity {
         rvAdapter = new RVAdapter(this, db.getAllRecipes());
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        background = (View) findViewById(R.id.greyBackground);
         fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
         fabMenu.showMenu(true);
 
@@ -104,7 +102,8 @@ public class MainActivity extends Activity {
                 }
             }
         });
-        fabMenu.setOnClickListener(new View.OnClickListener() {
+
+        /*fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (background.getVisibility() == View.VISIBLE) {
@@ -113,7 +112,7 @@ public class MainActivity extends Activity {
                     background.setVisibility(View.VISIBLE);
                 }
             }
-        });
+        });*/
         fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_add);
         fabRandom = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_random);
         fabNetwork = (FloatingActionButton) findViewById(R.id.fab_network);
