@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nappingpirate.weeklyrecipe.R;
@@ -70,13 +71,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.recipeDescription.getVisibility() == View.VISIBLE){
+                if (holder.recipeDescription.getVisibility() == View.VISIBLE) {
                     holder.recipeDescription.setVisibility(View.GONE);
-                }else{
+                } else {
                     holder.recipeDescription.setVisibility(View.VISIBLE);
                 }
             }
         });
+        if (currentRecipe.getThumbnail() != null) {
+            holder.iv_thumbnail.setImageBitmap(currentRecipe.getThumbnail());
+        }
 
     }
 
@@ -97,6 +101,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
         Button btn_view;
         Button btn_edit;
         ImageButton btn_more;
+        ImageView iv_thumbnail;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
@@ -108,6 +113,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RecipeViewHolder> 
             btn_view = (Button) itemView.findViewById(R.id.btn_view);
             btn_edit = (Button) itemView.findViewById(R.id.btn_edit);
             btn_more = (ImageButton) itemView.findViewById(R.id.btn_more);
+            iv_thumbnail = (ImageView) itemView.findViewById(R.id.iv_mainImage);
         }
 
         @Override

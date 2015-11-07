@@ -1,5 +1,8 @@
 package com.nappingpirate.weeklyrecipe.RecipeFiles;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.util.Log;
 
 import com.nappingpirate.weeklyrecipe.RecipeFiles.Ingredient;
@@ -24,7 +27,7 @@ public class Recipe {
     private String image;
     private String comment;
     private Integer favorite;
-
+    private Bitmap thumbnail;
     public Recipe() {
     }
 
@@ -242,7 +245,42 @@ public class Recipe {
     }
 
     public void setImage(String image) {
+        Bitmap original = null;
+        int scale, sWidth, sHeight = 0;
+        if (thumbnail == null) {
+            try {
+                original = BitmapFactory.decodeFile(image);
+                if (original.getWidth() >= original.getHeight()){
+                    scale = original.getWidth()/100;
+                    sWidth = 100;
+                    sHeight = original.getHeight()/scale;
+                }else{
+                    scale = original.getHeight()/100;
+                    sHeight = 100;
+                    sWidth = original.getWidth()/scale;
+                }
+                //scale = original.getWidth() / original.getHeight();
+                Log.v("Thumbnail", "Height: " + original.getHeight() + " Width: " + original.getWidth() + " Scale: " + scale);
+                //thumbnail = Bitmap.createScaledBitmap(original, sWidth, sHeight, false);
+                thumbnail = ThumbnailUtils.extractThumbnail(original, sWidth, sHeight);
+
+                Log.v("Thumbnail", "Original: " + original + " Image: " + image);
+                setThumbnail(thumbnail);
+            } catch (Exception e) {
+                Log.e("Thumbnail", "Thumbnail Broke " + thumbnail + " Image: " + this.image, e);
+            }
+       }else{
+            Log.v("Thumbnail", "Should be Loading this because thumbnail is already set " + thumbnail);
+        }
         this.image = image;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getComment() {

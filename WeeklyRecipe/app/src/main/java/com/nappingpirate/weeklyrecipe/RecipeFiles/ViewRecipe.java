@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.Menu;
@@ -109,7 +111,13 @@ public class ViewRecipe extends Activity {
                     }
                 }
                 tv_recipeDescription.setText(recipe.getDescription());
+                try {
 
+                    iv_recipeImage.setImageBitmap(BitmapFactory.decodeFile(recipe.getImage()));
+                    iv_recipeImage.setBackgroundColor(setPallete(BitmapFactory.decodeFile(recipe.getImage())));
+                }catch(Exception e){
+                    Log.v("Image", "Image: ", e);
+                }
                 iv_recipeImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -406,5 +414,17 @@ public class ViewRecipe extends Activity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public int setPallete(Bitmap bitmap){
+        Palette palette = Palette.generate(bitmap);
+        int vibrant = palette.getVibrantColor(0x000000);
+        int vibrantDark = palette.getDarkVibrantColor(0x000000);
+        int vibrantLight = palette.getLightVibrantColor(0x000000);
+        int muted = palette.getMutedColor(0x000000);
+        int mutedDark = palette.getDarkMutedColor(0x000000);
+        int mutedLight = palette.getLightMutedColor(0x000000);
+        return vibrantLight;
+        //iv_recipeImage.setBackgroundColor(vibrantLight);
     }
 }

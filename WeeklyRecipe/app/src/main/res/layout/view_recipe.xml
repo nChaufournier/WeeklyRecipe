@@ -30,7 +30,7 @@
                 android:id="@+id/iv_recipeImage"
                 android:layout_width="fill_parent"
                 android:layout_height="200dp"
-                android:background="#cccccc"
+                android:background="#ffffff"
                 android:contentDescription="Image of Recipe" />
 
             <RelativeLayout

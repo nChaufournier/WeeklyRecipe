@@ -347,7 +347,8 @@
                 android:layout_below="@+id/et_mainIngredient"
                 android:hint="Recipe Image"
                 android:inputType="textCapSentences"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:focusable="false"/>
 
             <EditText
                 android:id="@+id/et_comment"
@@ -356,7 +357,7 @@
                 android:layout_below="@+id/et_image"
                 android:hint="Recipe Comment"
                 android:inputType="textCapSentences|textMultiLine"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
 
 
@@ -372,6 +373,7 @@
         android:background="@color/colorAccent"
         android:text="View"
         android:textColor="#ffffff" />
+
 
 
 </RelativeLayout>

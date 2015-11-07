@@ -6,9 +6,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,7 +74,9 @@ public class AddRecipe extends Activity {
     };
     ArrayList<Ingredient> ingredientsArray = new ArrayList<>();
 
-
+    //For Camera
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 200;
     //For Dialog
     EditText et_ing_name;
     TextView tv_foodGroup;
@@ -156,6 +161,7 @@ public class AddRecipe extends Activity {
 
         //Other Fields
         lv_ingredient = (ListView) findViewById(R.id.lv_ingredients);
+
         //Time Picker
         numberPickerHour = (NumberPicker)findViewById(R.id.np_hour);
         numberPickerHour.setMinValue(0);
@@ -165,7 +171,7 @@ public class AddRecipe extends Activity {
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 hour = i1;
                 //timeTaken = timeTaken + hour + "hr";
-                timeTaken = hour+"hr"+min+"min"+sec+"sec";
+                timeTaken = hour + "hr" + min + "min" + sec + "sec";
             }
         });
         numberPickerMin = (NumberPicker)findViewById(R.id.np_minutes);
@@ -176,7 +182,7 @@ public class AddRecipe extends Activity {
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 min = i1;
                 //timeTaken = timeTaken + hour+"hr";
-                timeTaken = hour+"hr"+min+"min"+sec+"sec";
+                timeTaken = hour + "hr" + min + "min" + sec + "sec";
             }
         });
         numberPickerSec = (NumberPicker)findViewById(R.id.np_seconds);
@@ -193,6 +199,32 @@ public class AddRecipe extends Activity {
 
 
         timeTaken = hour+"hr"+min+"min"+sec+"sec";
+
+        et_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder camera = new AlertDialog.Builder(AddRecipe.this);
+                camera.setTitle("Select Image");
+                camera.setItems(new CharSequence[]{"Camera", "File"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (i == 0) {
+                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                            Toast.makeText(AddRecipe.this, "Camera", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(cameraIntent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
+                            Toast.makeText(AddRecipe.this, "File", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                camera.show();
+                /**/
+            }
+        });
+
+
 
 
 
@@ -257,11 +289,11 @@ public class AddRecipe extends Activity {
         btn_easy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
+                if (b) {
                     btn_medium.setChecked(false);
                     btn_hard.setChecked(false);
                     et_difficulty.setText("0");
-                }else{
+                } else {
                     btn_easy.setChecked(false);
                 }
             }
@@ -269,11 +301,11 @@ public class AddRecipe extends Activity {
         btn_medium.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
+                if (b) {
                     btn_easy.setChecked(false);
                     btn_hard.setChecked(false);
                     et_difficulty.setText("1");
-                }else{
+                } else {
                     btn_medium.setChecked(false);
                 }
             }
@@ -317,7 +349,7 @@ public class AddRecipe extends Activity {
                     newRecipe.setIngredientArrayList(ingredientsArray);
                     newRecipe.setDateAdded(date);
                     newRecipe.setMainIngredient(et_mainIngredient.getText().toString());
-                    newRecipe.setImage(null);
+                    newRecipe.setImage(et_image.getText().toString());
                     newRecipe.setComment(et_comment.getText().toString());
 
                     //showMessage("Recipe", newRecipe.toString());
@@ -567,7 +599,7 @@ public class AddRecipe extends Activity {
             @Override
             public void onClick(View view) {
                 showAlert(ingredient.getName(), "Food Group: " + ingredient.getFoodGroup() + "\n" +
-                        "Description: " + ingredient.getDescription(), view);
+                        "Description: " + ingredient.getDescription());
             }
         });
         et_ingredient.setId(et_ingredient.generateViewId());
@@ -583,7 +615,7 @@ public class AddRecipe extends Activity {
         ingredientsArray.add(ingredient);
     }
 
-    public void showAlert(String title,String message, View v)
+    public void showAlert(String title,String message)
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -612,8 +644,30 @@ public class AddRecipe extends Activity {
         builder.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE || requestCode == LOAD_IMAGE_ACTIVITY_REQUEST_CODE){
+            if (resultCode == RESULT_OK){
+                Toast.makeText(this, "Image Saves to " + data.getData(), Toast.LENGTH_LONG).show();
+                //String image = data.getDataString().replace("content://", "");
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null,null,null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                et_image.setText(picturePath);
+            }else if (resultCode == RESULT_CANCELED){
+                Toast.makeText(this, "Camera Canceled", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Image Capture Failed", Toast.LENGTH_SHORT).show();
+            }
+        }else{
 
-
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
 
 
