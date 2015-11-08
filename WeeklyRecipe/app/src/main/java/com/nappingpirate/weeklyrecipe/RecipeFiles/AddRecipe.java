@@ -227,6 +227,13 @@ public class AddRecipe extends Activity {
                         tv_time.setText(timeTaken);
                     }
                 });
+
+                timeDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
                 timeDialog.show();
             }
         });
@@ -285,12 +292,16 @@ public class AddRecipe extends Activity {
                 }
                 rb_rating.setRating(editRecipe.getRatingInt());
                 et_description.setText(editRecipe.getDescription());
-                //numberPickerHour.setValue(editRecipe.getHour());
-                hour = editRecipe.getHour();
-                //numberPickerMin.setValue(editRecipe.getMinutes());
-                min = editRecipe.getMinutes();
-                //numberPickerSec.setValue(editRecipe.getSeconds());
-                sec = editRecipe.getSeconds();
+                try {
+                    //numberPickerHour.setValue(editRecipe.getHour());
+                    hour = editRecipe.getHour();
+                    //numberPickerMin.setValue(editRecipe.getMinutes());
+                    min = editRecipe.getMinutes();
+                    //numberPickerSec.setValue(editRecipe.getSeconds());
+                    sec = editRecipe.getSeconds();
+                }catch (Exception e){
+                    Log.e("Time", "Time is Broken", e);
+                }
                 tv_time.setText(editRecipe.getTime());
                 timeTaken = hour + "hr" + min + "min" + sec + "sec";
                 try {
@@ -364,8 +375,8 @@ public class AddRecipe extends Activity {
         btn_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AddRecipe.this, "Debug Button", Toast.LENGTH_SHORT).show();
-                Toast.makeText(AddRecipe.this, timeTaken, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddRecipe.this, "Debug Button", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddRecipe.this, ingredientsArray.toString(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -554,8 +565,7 @@ public class AddRecipe extends Activity {
         et_ingredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAlert(ingredient.getName(), "Food Group: " + ingredient.getFoodGroup() + "\n" +
-                        "Description: " + ingredient.getDescription());
+                showAlert(ingredient.getName(), ingredient, view);
             }
         });
         et_ingredient.setId(et_ingredient.generateViewId());
@@ -571,24 +581,34 @@ public class AddRecipe extends Activity {
         ingredientsArray.add(ingredient);
     }
 
-    public void showAlert(String title,String message)
+    public void showAlert(String title, final Ingredient ingredient, final View v)
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
+        builder.setMessage("Food Group: " + ingredient.getFoodGroup());
         builder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                     addIngredientMenu();
+                CheckBox chxBox = (CheckBox) findViewById(v.getId());
+                chxBox.setVisibility(View.GONE);
+                ingredientsArray.remove(ingredient);
+                addIngredientMenu();
+
             }
         });
         builder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(AddRecipe.this, "Item Removed", Toast.LENGTH_SHORT).show();
+                if (ingredientsArray.contains(ingredient)) {
+                    CheckBox chxBox = (CheckBox) findViewById(v.getId());
+                    chxBox.setVisibility(View.GONE);
+                    ingredientsArray.remove(ingredient);
+                    Toast.makeText(AddRecipe.this, "Delete", Toast.LENGTH_SHORT).show();
+                }
+                //Toast.makeText(AddRecipe.this, "Item Removed: " + ingredientsArray.get(i).getName(), Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setMessage(message);
         builder.show();
     }
     public void showMessage(String title,String message)
@@ -608,12 +628,19 @@ public class AddRecipe extends Activity {
                 //String image = data.getDataString().replace("content://", "");
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                try {
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null,null,null);
-                cursor.moveToFirst();
+
+                    cursor.moveToFirst();
+
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
+
                 et_image.setText(picturePath);
+                }catch (NullPointerException e){
+                    Log.e("Error", "Null Pointer: ", e);
+                }
             }else if (resultCode == RESULT_CANCELED){
                 Toast.makeText(this, "Camera Canceled", Toast.LENGTH_SHORT).show();
             }else{

@@ -127,13 +127,13 @@ public class Ingredient {
     @Override
     public String toString() {
         return  "Name='" + name + '\'' + "\n" +
-                "_id=" + _id +  "\n" +
-                "FoodGroup='" + foodGroup + '\'' + "\n" +
+                "_id=" + _id +  "\n"
+                ;/*"FoodGroup='" + foodGroup + '\'' + "\n" +
                 "LiquidSolid=" + liquidSolid + "\n" +
                 "ShoppingList=" + shoppingList + "\n" +
                 "Pantry=" + pantry + "\n" +
                 "Measurement=" + measurement + "\n" +
                 "Quantity=" + quantity + "\n" +
-                "Description='" + description + '\'' + "\n";
+                "Description='" + description + '\'' + "\n";*/
     }
 }
