@@ -92,7 +92,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tv_time"
-                    android:alpha="0.12"
+                    android:alpha="0.6"
                     android:background="#000000"
                     android:paddingBottom="16dp"/>
             </RelativeLayout>
@@ -155,7 +155,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/btn_addIngredient"
-                android:alpha="0.12"
+                android:alpha="0.7"
                 android:background="#000000"
                 android:paddingBottom="16dp"
                 android:layout_toRightOf="@+id/ic_fridge"
@@ -219,20 +219,32 @@
                     android:focusable="false"
                     />
             </RelativeLayout>
-
-            <EditText
-                android:id="@+id/et_comment"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="72dp"
+            <RelativeLayout
                 android:layout_below="@+id/rl_image"
-                android:hint="Recipe Comment"
-                android:inputType="textCapSentences|textMultiLine"
-                android:textSize="18sp"/>
-
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:tint="@color/colorAccent"
+                    android:id="@+id/ic_comment"
+                    android:src="@drawable/ic_comment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minHeight="72dp"/>
+                <EditText
+                    android:layout_toRightOf="@+id/ic_comment"
+                    android:layout_toEndOf="@+id/ic_comment"
+                    android:id="@+id/et_comment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="72dp"
+                    android:hint="Recipe Comment"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textSize="18sp"/>
+            </RelativeLayout>
 
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@+id/et_comment"
                 android:id="@+id/tv_label_difficulty"
                 android:hint="Recipe Difficulty"
@@ -287,6 +299,7 @@
             </RelativeLayout>
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/rl_difficulty"
@@ -305,6 +318,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/et_rating"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -314,6 +328,7 @@
                 android:paddingTop="16dp"/>
 
             <RatingBar
+                android:visibility="gone"
                 android:id="@+id/rb_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="72dp"
@@ -323,6 +338,7 @@
                 android:stepSize="1" />
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/rb_rating"
