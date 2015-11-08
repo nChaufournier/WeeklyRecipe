@@ -25,4 +25,18 @@
 
     <string name="f2f_api_key">4ab22a0b23d28f4634e677a7856a9763</string>
     <string name="f2f_api_url">http://food2fork.com/api/search?</string>
+
+    <string-array name="liquid_measurements">
+        <item>Teaspoon</item>
+        <item>Tablespoon</item>
+        <item>Fluid Ounce</item>
+        <item>Cup</item>
+        <item>Quart</item>
+        <item>Gallon</item>
+
+    </string-array>
+    <string-array name="solid_measurements">
+        <item>Ounce</item>
+        <item>Pound</item>
+    </string-array>
 </resources>
