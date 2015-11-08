@@ -31,6 +31,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.Toolbar;
 
 import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
@@ -92,7 +93,22 @@ public class AddRecipe extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe);
-        getActionBar().hide();
+        //getActionBar().hide();
+
+        //Get and set extras from last event
+        extras = getIntent().getExtras();
+        try {
+            getActionBar().setIcon(R.drawable.ic_action_cancel);
+            if (extras != null) {
+                getActionBar().setTitle("Edit Recipe");
+
+            }else {
+                getActionBar().setTitle("Create Recipe");
+            }
+            getActionBar().show();
+        }catch (Exception e){
+            Log.e("AddRecipe", "Action bar failed", e);
+        }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         db = new RecipesDataSource(this);
@@ -113,8 +129,7 @@ public class AddRecipe extends Activity {
 
 
 
-        //Get and set extras from last event
-        extras = getIntent().getExtras();
+
 
         //Current date
         date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
@@ -122,16 +137,7 @@ public class AddRecipe extends Activity {
         rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredientsLayout);
 
         //Buttons
-        ImageButton btn_close = (ImageButton) findViewById(R.id.btn_close);
-        Button btn_save = (Button) findViewById(R.id.btn_save);
         Button btn_view = (Button) findViewById(R.id.btn_view);
-        ImageButton btn_delete = (ImageButton) findViewById(R.id.btn_delete);
-        if (extras!= null){
-            //Do Nothing
-            btn_delete.setVisibility(View.VISIBLE);
-        }else{
-            btn_delete.setVisibility(View.GONE);
-        }
         Button btn_addIngredients = (Button) findViewById(R.id.btn_addIngredient);
         btn_easy = (ToggleButton)findViewById(R.id.tb_easy);
         btn_medium = (ToggleButton)findViewById(R.id.tb_medium);
@@ -325,60 +331,6 @@ public class AddRecipe extends Activity {
 
 
 
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(AddRecipe.this, et_name.getText(), Toast.LENGTH_SHORT).show();
-
-                //Toast.makeText(AddRecipe.this, rb_rating.getRating() + "", Toast.LENGTH_SHORT).show();
-
-                if (!et_name.getText().toString().equals("")) {
-                    Recipe newRecipe = new Recipe();
-                    if (extras != null) {
-                        Long value = extras.getLong("edit");
-                        newRecipe.set_id(value);
-                    }
-                    newRecipe.setName(et_name.getText().toString());
-                    if (btn_easy.isChecked() || btn_medium.isChecked() || btn_hard.isChecked()) {
-                        newRecipe.setDifficulty(Integer.parseInt(et_difficulty.getText().toString()));
-                    }
-                    newRecipe.setRating((int) rb_rating.getRating());
-                    newRecipe.setDescription(et_description.getText().toString());
-                    newRecipe.setTime(timeTaken);
-                    newRecipe.setLastDateMade(null);
-                    newRecipe.setIngredientArrayList(ingredientsArray);
-                    newRecipe.setDateAdded(date);
-                    newRecipe.setMainIngredient(et_mainIngredient.getText().toString());
-                    newRecipe.setImage(et_image.getText().toString());
-                    newRecipe.setComment(et_comment.getText().toString());
-
-                    //showMessage("Recipe", newRecipe.toString());
-                    if (extras != null) {//Check if editing or adding
-                        db.editRecipe(newRecipe);
-                    } else {
-                        db.createRecipe(newRecipe);
-                    }
-
-
-                    Toast.makeText(getApplicationContext(), "Recipe Added!", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(v.getContext(), MainActivity.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(AddRecipe.this, "Please add Content", Toast.LENGTH_SHORT).show();
-                }/**/
-
-            }
-        });
-
-
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), MainActivity.class);
-                startActivity(i);
-            }
-        });
-
         btn_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -402,16 +354,6 @@ public class AddRecipe extends Activity {
             }
         });
 
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteMessage(editRecipe.getName());
-                /*db.deleteRecipe(extras.getLong("edit"));
-                Intent i = new Intent(view.getContext(), MainActivity.class);
-                startActivity(i);
-                Toast.makeText(AddRecipe.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();*/
-            }
-        });
     }
 
     public Dialog addIngredient() {
@@ -451,7 +393,7 @@ public class AddRecipe extends Activity {
                 ingredient.setDescription(et_ing_description.getText().toString());
                 ingDb.createIngredient(ingredient);
                 listIngredient(ingredient);
-                ingredientsArray.add(ingredient);
+                //ingredientsArray.add(ingredient);
                 Toast.makeText(AddRecipe.this, ingredient.getName()+" Added!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -667,6 +609,70 @@ public class AddRecipe extends Activity {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_recipe_add_edit, menu);
+        if (extras != null){
+            menu.findItem(R.id.mbtn_delete).setVisible(true);
+        }else{
+            menu.findItem(R.id.mbtn_delete).setVisible(false);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mbtn_save:
+                Toast.makeText(AddRecipe.this, "Save Recipe", Toast.LENGTH_SHORT).show();
+                /**Create a recipe from filled out fields and then adds it to the Database**/
+                if (!et_name.getText().toString().equals("")) {
+                    Recipe newRecipe = new Recipe();
+                    if (extras != null) {
+                        Long value = extras.getLong("edit");
+                        newRecipe.set_id(value);
+                    }
+                    newRecipe.setName(et_name.getText().toString());
+                    if (btn_easy.isChecked() || btn_medium.isChecked() || btn_hard.isChecked()) {
+                        newRecipe.setDifficulty(Integer.parseInt(et_difficulty.getText().toString()));
+                    }
+                    newRecipe.setRating((int) rb_rating.getRating());
+                    newRecipe.setDescription(et_description.getText().toString());
+                    newRecipe.setTime(timeTaken);
+                    newRecipe.setLastDateMade(null);
+                    newRecipe.setIngredientArrayList(ingredientsArray);
+                    newRecipe.setDateAdded(date);
+                    newRecipe.setMainIngredient(et_mainIngredient.getText().toString());
+                    newRecipe.setImage(et_image.getText().toString());
+                    newRecipe.setComment(et_comment.getText().toString());
+
+                    //showMessage("Recipe", newRecipe.toString());
+                    if (extras != null) {//Check if editing or adding
+                        db.editRecipe(newRecipe);
+                    } else {
+                        db.createRecipe(newRecipe);
+                    }
+
+
+                    Toast.makeText(getApplicationContext(), "Recipe Added!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(AddRecipe.this, "Please add Content", Toast.LENGTH_SHORT).show();
+                }
+
+
+                return true;
+            case R.id.mbtn_delete:
+                deleteMessage(editRecipe.getName());
+                Toast.makeText(AddRecipe.this, "Delete Recipe", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }
 

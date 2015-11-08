@@ -3,69 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/ll_top"
-        android:layout_width="fill_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary"
-        android:elevation="2dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
-        <ImageButton
-            android:id="@+id/btn_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
-            android:src="@drawable/ic_action_cancel"
-            android:textColor="@color/colorPrimaryText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/btn_close"
-            android:layout_toRightOf="@+id/btn_close"
-            android:background="@android:color/transparent"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="12dp"
-            android:text="Add Recipe"
-            android:textColor="#ffffff"
-            android:textSize="24sp" />
-        <ImageButton
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_discard"
-            android:background="@android:color/transparent"
-            android:layout_toLeftOf="@+id/btn_save"
-            android:layout_toStartOf="@+id/btn_save"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"/>
-
-        <Button
-            android:id="@+id/btn_save"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:paddingTop="16dp"
-            android:gravity="center"
-            android:text="Save"
-            android:textColor="@android:color/white" />
-    </RelativeLayout>
-
     <ScrollView
         android:id="@+id/scrolView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/ll_top">
+        android:layout_height="fill_parent">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -191,7 +132,8 @@
             <EditText
                 android:id="@+id/et_description"
                 android:layout_width="fill_parent"
-                android:layout_height="72dp"
+                android:minHeight="72dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/rb_rating"
                 android:hint="Recipe Description"
                 android:inputType="textCapSentences|textMultiLine"
