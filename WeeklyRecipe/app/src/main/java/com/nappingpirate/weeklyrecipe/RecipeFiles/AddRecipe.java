@@ -24,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
@@ -71,9 +72,13 @@ public class AddRecipe extends Activity {
     private IngredientsDataSource ingDb;
     private Bundle extras;
     Recipe editRecipe;
+
     String[] sampleArray = {
             "Meat", "Onions", "Peppers"
     };
+    AlertDialog alert;
+
+
     ArrayList<Ingredient> ingredientsArray = new ArrayList<>();
 
     //For Camera
@@ -245,9 +250,32 @@ public class AddRecipe extends Activity {
         et_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder camera = new AlertDialog.Builder(AddRecipe.this);
+                final AlertDialog.Builder camera = new AlertDialog.Builder(AddRecipe.this);
+                LayoutInflater inflater = AddRecipe.this.getLayoutInflater();
+                final View cameraView = inflater.inflate(R.layout.camera_dialog, null);
+                camera.setView(cameraView);
                 camera.setTitle("Select Image");
-                camera.setItems(new CharSequence[]{"Camera", "File"}, new DialogInterface.OnClickListener() {
+                ImageView fileSelect = (ImageView) cameraView.findViewById(R.id.iv_select_file);
+                fileSelect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(cameraIntent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
+                        Toast.makeText(AddRecipe.this, "File", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                ImageView takePicture = (ImageView) cameraView.findViewById(R.id.iv_take_picture);
+                takePicture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                        Toast.makeText(AddRecipe.this, "Camera", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                /*camera.setItems(new CharSequence[]{"Camera", "File"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (i == 0) {
@@ -260,7 +288,8 @@ public class AddRecipe extends Activity {
                             Toast.makeText(AddRecipe.this, "File", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });*/
+                alert = camera.create();
                 camera.show();
                 /**/
             }
@@ -622,6 +651,7 @@ public class AddRecipe extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        alert.cancel();
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE || requestCode == LOAD_IMAGE_ACTIVITY_REQUEST_CODE){
             if (resultCode == RESULT_OK){
                 Toast.makeText(this, "Image Saves to " + data.getData(), Toast.LENGTH_LONG).show();
