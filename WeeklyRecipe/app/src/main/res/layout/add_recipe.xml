@@ -3,41 +3,240 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/et_recipeName"
+        android:layout_width="fill_parent"
+        android:layout_height="72dp"
+        android:hint="Recipe Name"
+        android:inputType="textCapWords"
+        android:textSize="18sp" />
     <ScrollView
         android:id="@+id/scrolView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/et_recipeName">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="48dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingLeft="16dp">
 
-            <TextView
-                android:id="@+id/tv_addTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="Add Recipe"
-                android:textSize="24sp"
-                android:visibility="gone" />
 
-            <EditText
-                android:id="@+id/et_recipeName"
+            <RelativeLayout
+                android:paddingTop="16dp"
+                android:id="@+id/rl_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/ic_clipboard"
+                    android:tint="@color/colorAccent"
+                    android:src="@drawable/ic_clipboard_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:paddingTop="6dp"
+                    android:layout_toRightOf="@+id/ic_clipboard"
+                    android:layout_toEndOf="@+id/ic_clipboard"
+                    android:id="@+id/tv_label_description"
+                    android:text="Recipe Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:paddingTop="36dp"
+                    android:paddingBottom="26dp"
+                    android:layout_toRightOf="@+id/ic_clipboard"
+                    android:layout_toEndOf="@+id/ic_clipboard"
+                    android:id="@+id/et_description"
+                    android:layout_width="fill_parent"
+                    android:minHeight="72dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Recipe Description"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_time"
+                android:layout_below="@+id/rl_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:tint="@color/colorAccent"
+                    android:id="@+id/ic_time"
+                    android:src="@drawable/ic_action_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+                <TextView
+                    android:layout_toRightOf="@+id/ic_time"
+                    android:paddingTop="6dp"
+                    android:id="@+id/tv_label_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time taken to make:"
+                    android:textSize="14sp"/>
+                <TextView
+                    android:paddingLeft="2dp"
+                    android:text="Set Time"
+                    android:id="@+id/tv_time"
+                    android:layout_below="@id/tv_label_time"
+                    android:gravity="left|center_vertical"
+                    android:layout_toRightOf="@+id/ic_time"
+                    android:layout_toEndOf="@+id/ic_time"
+                    android:layout_width="fill_parent"
+                    android:minHeight="52dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"/>
+
+                <ImageView
+                    android:layout_toRightOf="@+id/ic_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_time"
+                    android:alpha="0.12"
+                    android:background="#000000"
+                    android:paddingBottom="16dp"/>
+            </RelativeLayout>
+            <!--EditText
+                android:id="@+id/et_time"
                 android:layout_width="fill_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/tv_addTitle"
-                android:hint="Recipe Name"
-                android:inputType="textCapWords"
-                android:textSize="18sp" />
+                android:layout_below="@+id/timePicker"
+                android:hint="Time Taken to Make"
+                android:inputType="number"
+                android:textSize="18sp" /-->
+            <RelativeLayout
+                android:id="@+id/ingredientsViewGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_time"
+                android:paddingTop="16dp"
+                >
+            <ImageView
+                android:tint="@color/colorAccent"
+                android:id="@+id/ic_fridge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fridge"
+                />
             <TextView
+                android:text="Recipe Ingredients"
+                android:paddingTop="6dp"
+                android:id="@+id/tv_label_ingredients"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ic_fridge"
+                android:textSize="14sp"
+                android:paddingBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_below="@+id/tv_label_ingredients"
+                android:orientation="vertical"
+                android:id="@+id/rl_ingredientsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ic_fridge"
+                android:layout_toEndOf="@+id/ic_fridge">
+
+            </LinearLayout>
+            <Button
+                android:layout_centerHorizontal="true"
+                android:id="@+id/btn_addIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_below="@id/rl_ingredientsLayout"
+                android:layout_marginBottom="16dp"
+                android:background="@color/colorAccent"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="Add +"
+                android:textColor="#ffffff" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/btn_addIngredient"
+                android:alpha="0.12"
+                android:background="#000000"
+                android:paddingBottom="16dp"
+                android:layout_toRightOf="@+id/ic_fridge"
+                android:layout_toEndOf="@+id/ic_fridge"
+                android:paddingLeft="0dp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_mainIngredient"
+                android:layout_below="@id/ingredientsViewGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="72dp"
+                android:paddingTop="16dp">
+                <ImageView
+                    android:tint="@color/colorAccent"
+                    android:id="@+id/ic_scale"
+                    android:src="@drawable/ic_scale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+                <!--TextView
+                    android:paddingTop="10dp"
+                    android:text="Main Ingredient"
+                    android:layout_toRightOf="@+id/ic_scale"
+                    android:layout_toEndOf="@+id/ic_scale"
+                    android:id="@+id/tv_label_mainIngredient"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    /-->
+                <EditText
+                    android:layout_toRightOf="@+id/ic_scale"
+                    android:layout_toEndOf="@+id/ic_scale"
+                    android:id="@+id/et_mainIngredient"
+                    android:layout_width="fill_parent"
+                    android:layout_height="72dp"
+                    android:hint="Main Ingredient"
+                    android:inputType="textCapSentences"
+                    android:textSize="18sp"
+                    android:focusable="false"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_image"
+                android:layout_below="@+id/rl_mainIngredient"
+                android:layout_width="fill_parent"
+                android:layout_height="72dp">
+
+                <ImageView
+                    android:tint="@color/colorAccent"
+                    android:id="@+id/ic_image"
+                    android:src="@drawable/ic_action_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+                <EditText
+                    android:id="@+id/et_image"
+                    android:layout_width="fill_parent"
+                    android:layout_height="72dp"
+                    android:layout_toRightOf="@+id/ic_image"
+                    android:layout_toEndOf="@+id/ic_image"
+                    android:hint="Recipe Image"
+                    android:inputType="textCapSentences"
+                    android:textSize="18sp"
+                    android:focusable="false"
+                    />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="72dp"
+                android:layout_below="@+id/rl_image"
+                android:hint="Recipe Comment"
+                android:inputType="textCapSentences|textMultiLine"
+                android:textSize="18sp"/>
+
+
+
+            <TextView
+                android:layout_below="@+id/et_comment"
                 android:id="@+id/tv_label_difficulty"
                 android:hint="Recipe Difficulty"
                 android:textSize="14sp"
-                android:layout_below="@+id/et_recipeName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
@@ -45,6 +244,7 @@
 
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_difficulty"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
@@ -54,6 +254,7 @@
 
 
                 <ToggleButton
+                    android:backgroundTint="@android:color/white"
                     android:id="@+id/tb_easy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,6 +285,7 @@
                     android:textOn="Hard"/>
 
             </RelativeLayout>
+
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
@@ -129,179 +331,6 @@
                 android:paddingBottom="16dp"
                 android:paddingLeft="-50dp" />
 
-            <EditText
-                android:id="@+id/et_description"
-                android:layout_width="fill_parent"
-                android:minHeight="72dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rb_rating"
-                android:hint="Recipe Description"
-                android:inputType="textCapSentences|textMultiLine"
-                android:textSize="18sp" />
-            <TextView
-                android:id="@+id/tv_label_time"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_description"
-                android:hint="Time taken to make:"
-                android:textSize="14sp"
-                android:paddingBottom="16dp"/>
-
-            <RelativeLayout
-                android:paddingTop="8dp"
-                android:paddingBottom="16dp"
-                android:gravity="center"
-                android:id="@+id/timePicker"
-                android:layout_below="@id/et_description"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <!--TimePicker
-                    android:timePickerMode="spinner"
-                    android:id="@+id/tp_timePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" /-->
-                <!--Hour Number Picker-->
-                <NumberPicker
-                    android:id="@+id/np_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false" />
-                <TextView
-                    android:layout_centerInParent="true"
-                    android:id="@+id/tv_label_hour"
-                    android:layout_toRightOf="@+id/np_hour"
-                    android:layout_toEndOf="@+id/np_hour"
-                    android:text="HR"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent" />
-
-                <!--Minutes Number Picker-->
-                <NumberPicker
-                    android:id="@+id/np_minutes"
-                    android:layout_toRightOf="@+id/tv_label_hour"
-                    android:layout_toEndOf="@+id/tv_label_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_centerInParent="true"
-                    android:layout_toRightOf="@+id/np_minutes"
-                    android:layout_toEndOf="@+id/np_minutes"
-                    android:id="@+id/tv_label_minutes"
-                    android:text="MIN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <!--Seconds Number Picker-->
-                <NumberPicker
-                    android:id="@+id/np_seconds"
-                    android:layout_toRightOf="@+id/tv_label_minutes"
-                    android:layout_toEndOf="@+id/tv_label_minutes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_centerInParent="true"
-                    android:layout_toRightOf="@+id/np_seconds"
-                    android:layout_toEndOf="@+id/np_seconds"
-                    android:id="@+id/tv_label_seconds"
-                    android:text="SEC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/timePicker"
-                android:alpha="0.12"
-                android:background="#000000"
-                android:paddingBottom="16dp"
-                android:paddingLeft="0dp" />
-            <!--EditText
-                android:id="@+id/et_time"
-                android:layout_width="fill_parent"
-                android:layout_height="72dp"
-                android:layout_below="@+id/timePicker"
-                android:hint="Time Taken to Make"
-                android:inputType="number"
-                android:textSize="18sp" /-->
-
-            <TextView
-                android:text="Recipe Ingredients"
-                android:paddingTop="16dp"
-                android:id="@+id/tv_label_ingredients"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/timePicker"
-                android:textSize="14sp"
-                android:paddingBottom="16dp"/>
-
-
-            <LinearLayout
-                android:layout_below="@+id/tv_label_ingredients"
-                android:orientation="vertical"
-                android:id="@+id/rl_ingredientsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </LinearLayout>
-            <Button
-                android:layout_centerHorizontal="true"
-                android:id="@+id/btn_addIngredient"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_below="@id/rl_ingredientsLayout"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorAccent"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="Add +"
-                android:textColor="#ffffff" />
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/btn_addIngredient"
-                android:alpha="0.12"
-                android:background="#000000"
-                android:paddingBottom="16dp"
-                android:paddingLeft="0dp" />
-
-            <TextView
-                android:text="Main Ingredient"
-                android:layout_below="@id/btn_addIngredient"
-                android:id="@+id/tv_label_mainIngredient"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:paddingTop="16dp"/>
-            <EditText
-                android:id="@+id/et_mainIngredient"
-                android:layout_width="fill_parent"
-                android:layout_height="62dp"
-                android:layout_below="@+id/tv_label_mainIngredient"
-                android:hint="Main Ingredient"
-                android:inputType="textCapSentences"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/et_image"
-                android:layout_width="fill_parent"
-                android:layout_height="72dp"
-                android:layout_below="@+id/et_mainIngredient"
-                android:hint="Recipe Image"
-                android:inputType="textCapSentences"
-                android:textSize="18sp"
-                android:focusable="false"/>
-
-            <EditText
-                android:id="@+id/et_comment"
-                android:layout_width="fill_parent"
-                android:layout_height="72dp"
-                android:layout_below="@+id/et_image"
-                android:hint="Recipe Comment"
-                android:inputType="textCapSentences|textMultiLine"
-                android:textSize="18sp"/>
-
-
 
         </RelativeLayout>
     </ScrollView>
@@ -313,8 +342,9 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorAccent"
-        android:text="View"
-        android:textColor="#ffffff" />
+        android:text="Debug Button"
+        android:textColor="#ffffff"
+        android:visibility="invisible"/>
 
 
 

@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -57,7 +58,7 @@ public class AddRecipe extends Activity {
     private EditText et_difficulty;
     private RatingBar rb_rating;
     private EditText et_description;
-    //private EditText et_time;
+    private TextView tv_time;
     private EditText et_lastDateMade;
     private EditText et_dateAdded;
     private EditText et_mainIngredient;
@@ -168,43 +169,71 @@ public class AddRecipe extends Activity {
         //Other Fields
         lv_ingredient = (ListView) findViewById(R.id.lv_ingredients);
 
-        //Time Picker
-        numberPickerHour = (NumberPicker)findViewById(R.id.np_hour);
-        numberPickerHour.setMinValue(0);
-        numberPickerHour.setMaxValue(60);
-        numberPickerHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        /**
+         * Time Picker
+         * **/
+        tv_time = (TextView) findViewById(R.id.tv_time);
+        tv_time.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                hour = i1;
-                //timeTaken = timeTaken + hour + "hr";
-                timeTaken = hour + "hr" + min + "min" + sec + "sec";
-            }
-        });
-        numberPickerMin = (NumberPicker)findViewById(R.id.np_minutes);
-        numberPickerMin.setMinValue(0);
-        numberPickerMin.setMaxValue(60);
-        numberPickerMin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                min = i1;
-                //timeTaken = timeTaken + hour+"hr";
-                timeTaken = hour + "hr" + min + "min" + sec + "sec";
-            }
-        });
-        numberPickerSec = (NumberPicker)findViewById(R.id.np_seconds);
-        numberPickerSec.setMinValue(0);
-        numberPickerSec.setMaxValue(60);
-        numberPickerSec.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                sec = i1;
-                //timeTaken = timeTaken+hour+"hr";
-                timeTaken = hour + "hr" + min + "min" + sec + "sec";
-            }
-        });
+            public void onClick(View view) {
+                AlertDialog.Builder timeDialog = new AlertDialog.Builder(AddRecipe.this);
+
+                LayoutInflater inflater = AddRecipe.this.getLayoutInflater();
+                final View timeView = inflater.inflate(R.layout.time_dialog, null);
+                timeDialog.setTitle("Average Recipe Time");
+                timeDialog.setView(timeView);
 
 
+
+                numberPickerHour = (NumberPicker) timeView.findViewById(R.id.np_hour);
+                numberPickerHour.setMinValue(0);
+                numberPickerHour.setMaxValue(60);
+                numberPickerHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                        hour = i1;
+                        //timeTaken = timeTaken + hour + "hr";
+                        timeTaken = hour + "hr " + min + "min " + sec + "sec";
+                    }
+                });
+
+                numberPickerMin = (NumberPicker) timeView.findViewById(R.id.np_minutes);
+                numberPickerMin.setMinValue(0);
+                numberPickerMin.setMaxValue(60);
+                numberPickerMin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                        min = i1;
+                        //timeTaken = timeTaken + hour+"hr";
+                        timeTaken = hour + "hr " + min + "min " + sec + "sec";
+                    }
+                });
+
+                numberPickerSec = (NumberPicker) timeView.findViewById(R.id.np_seconds);
+                numberPickerSec.setMinValue(0);
+                numberPickerSec.setMaxValue(60);
+                numberPickerSec.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                        sec = i1;
+                        //timeTaken = timeTaken+hour+"hr";
+                        timeTaken = hour + "hr " + min + "min " + sec + "sec";
+                    }
+                });
+
+                timeDialog.setPositiveButton("Set Time", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        tv_time.setText(timeTaken);
+                    }
+                });
+                timeDialog.show();
+            }
+        });
+        /*
         timeTaken = hour+"hr"+min+"min"+sec+"sec";
+        */
+        /**End Time Picker**/
 
         et_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,7 +285,7 @@ public class AddRecipe extends Activity {
                 }
                 rb_rating.setRating(editRecipe.getRatingInt());
                 et_description.setText(editRecipe.getDescription());
-                numberPickerHour.setValue(editRecipe.getHour());
+                //numberPickerHour.setValue(editRecipe.getHour());
                 hour = editRecipe.getHour();
                 numberPickerMin.setValue(editRecipe.getMinutes());
                 min = editRecipe.getMinutes();
@@ -319,11 +348,11 @@ public class AddRecipe extends Activity {
         btn_hard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
+                if (b) {
                     btn_medium.setChecked(false);
                     btn_easy.setChecked(false);
                     et_difficulty.setText("2");
-                }else{
+                } else {
                     btn_hard.setChecked(false);
                 }
             }
@@ -334,23 +363,8 @@ public class AddRecipe extends Activity {
         btn_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), db.getAllEvents().toString(), Toast.LENGTH_LONG).show();
-                /*ingDaBa = new IngredientsDB(getApplicationContext());
-                try {
-                    ingDaBa.copyDataBaseFromAsset();
-                    Toast.makeText(AddRecipe.this, "Success!", Toast.LENGTH_SHORT).show();
-                }catch (IOException e){
-                    e.printStackTrace();
-                    Toast.makeText(AddRecipe.this, "Failure!", Toast.LENGTH_SHORT).show();
-                }*/
-                if (!ingredientsArray.isEmpty()) {
-                    Toast.makeText(AddRecipe.this, "Ingredients:" + ingredientsArray + "\n", Toast.LENGTH_SHORT).show();
-                }
-                Toast.makeText(AddRecipe.this, "Hour: "+ hour +"\n" +
-                                                "Minutes: " + min +"\n" +
-                                                "Seconds: " + sec +"\n" +
-                                                "Total: " + timeTaken +"\n", Toast.LENGTH_SHORT).show();
-                //showMessage("All Items", ingDb.().toString());
+                Toast.makeText(AddRecipe.this, "Debug Button", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddRecipe.this, timeTaken, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -535,7 +549,7 @@ public class AddRecipe extends Activity {
 
     public void listIngredient(final Ingredient ingredient){
 
-        EditText et_ingredient = new EditText(getApplicationContext());
+        CheckBox et_ingredient = new CheckBox(getApplicationContext());
         rl_ingredients.addView(et_ingredient);
         et_ingredient.setOnClickListener(new View.OnClickListener() {
             @Override

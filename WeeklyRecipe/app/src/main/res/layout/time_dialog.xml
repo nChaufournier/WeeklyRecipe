@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:gravity="center"
+        android:id="@+id/timePicker"
+        android:layout_below="@id/et_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <!--TimePicker
+            android:timePickerMode="spinner"
+            android:id="@+id/tp_timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" /-->
+        <!--Hour Number Picker-->
+        <NumberPicker
+            android:id="@+id/np_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false" />
+        <TextView
+            android:layout_centerInParent="true"
+            android:id="@+id/tv_label_hour"
+            android:layout_toRightOf="@+id/np_hour"
+            android:layout_toEndOf="@+id/np_hour"
+            android:text="HR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--Minutes Number Picker-->
+        <NumberPicker
+            android:id="@+id/np_minutes"
+            android:layout_toRightOf="@+id/tv_label_hour"
+            android:layout_toEndOf="@+id/tv_label_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/np_minutes"
+            android:layout_toEndOf="@+id/np_minutes"
+            android:id="@+id/tv_label_minutes"
+            android:text="MIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--Seconds Number Picker-->
+        <NumberPicker
+            android:id="@+id/np_seconds"
+            android:layout_toRightOf="@+id/tv_label_minutes"
+            android:layout_toEndOf="@+id/tv_label_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/np_seconds"
+            android:layout_toEndOf="@+id/np_seconds"
+            android:id="@+id/tv_label_seconds"
+            android:text="SEC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>
