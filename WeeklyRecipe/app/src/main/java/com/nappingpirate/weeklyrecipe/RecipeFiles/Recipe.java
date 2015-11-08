@@ -111,6 +111,7 @@ public class Recipe {
             }
             //Log.v("Loop", tmp+" "+j);
         }
+        tmp = tmp.replace(" ", "");
         return Integer.parseInt(tmp);
     }
 
@@ -131,6 +132,7 @@ public class Recipe {
             }
             //Log.v("Loop", tmp+" "+j);
         }
+        tmp = tmp.replace(" ", "");
         return Integer.parseInt(tmp);
     }
 
@@ -151,6 +153,7 @@ public class Recipe {
             }
             //Log.v("Loop", tmp+" "+j);
         }
+        tmp = tmp.replace(" ", "");
         return Integer.parseInt(tmp);
     }
 

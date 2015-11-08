@@ -287,10 +287,11 @@ public class AddRecipe extends Activity {
                 et_description.setText(editRecipe.getDescription());
                 //numberPickerHour.setValue(editRecipe.getHour());
                 hour = editRecipe.getHour();
-                numberPickerMin.setValue(editRecipe.getMinutes());
+                //numberPickerMin.setValue(editRecipe.getMinutes());
                 min = editRecipe.getMinutes();
-                numberPickerSec.setValue(editRecipe.getSeconds());
+                //numberPickerSec.setValue(editRecipe.getSeconds());
                 sec = editRecipe.getSeconds();
+                tv_time.setText(editRecipe.getTime());
                 timeTaken = hour + "hr" + min + "min" + sec + "sec";
                 try {
                     Log.v("Loop1", editRecipe.getIngredientArrayString().toString());
@@ -548,7 +549,6 @@ public class AddRecipe extends Activity {
     }
 
     public void listIngredient(final Ingredient ingredient){
-
         CheckBox et_ingredient = new CheckBox(getApplicationContext());
         rl_ingredients.addView(et_ingredient);
         et_ingredient.setOnClickListener(new View.OnClickListener() {
@@ -684,7 +684,6 @@ public class AddRecipe extends Activity {
                 Toast.makeText(AddRecipe.this, "Delete Recipe", Toast.LENGTH_SHORT).show();
                 return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
