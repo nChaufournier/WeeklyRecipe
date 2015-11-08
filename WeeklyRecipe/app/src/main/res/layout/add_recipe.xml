@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:paddingLeft="24dp"
         android:id="@+id/et_recipeName"
         android:layout_width="fill_parent"
         android:layout_height="72dp"
@@ -29,6 +30,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:paddingRight="15dp"
+                    android:paddingEnd="15dp"
                     android:id="@+id/ic_clipboard"
                     android:tint="@color/colorAccent"
                     android:src="@drawable/ic_clipboard_text"
@@ -61,6 +64,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:paddingRight="15dp"
+                    android:paddingEnd="15dp"
                     android:tint="@color/colorAccent"
                     android:id="@+id/ic_time"
                     android:src="@drawable/ic_action_time"
@@ -94,7 +99,8 @@
                     android:layout_below="@+id/tv_time"
                     android:alpha="0.6"
                     android:background="#000000"
-                    android:paddingBottom="16dp"/>
+                    android:paddingBottom="16dp"
+                    android:layout_marginRight="5dp"/>
             </RelativeLayout>
             <!--EditText
                 android:id="@+id/et_time"
@@ -112,6 +118,8 @@
                 android:paddingTop="16dp"
                 >
             <ImageView
+                android:paddingRight="15dp"
+                android:paddingEnd="15dp"
                 android:tint="@color/colorAccent"
                 android:id="@+id/ic_fridge"
                 android:layout_width="wrap_content"
@@ -160,7 +168,7 @@
                 android:paddingBottom="16dp"
                 android:layout_toRightOf="@+id/ic_fridge"
                 android:layout_toEndOf="@+id/ic_fridge"
-                android:paddingLeft="0dp" />
+                android:layout_marginRight="5dp" />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_mainIngredient"
@@ -169,6 +177,8 @@
                 android:layout_height="72dp"
                 android:paddingTop="16dp">
                 <ImageView
+                    android:paddingRight="15dp"
+                    android:paddingEnd="15dp"
                     android:tint="@color/colorAccent"
                     android:id="@+id/ic_scale"
                     android:src="@drawable/ic_scale"
@@ -202,6 +212,8 @@
                 android:layout_height="72dp">
 
                 <ImageView
+                    android:paddingRight="15dp"
+                    android:paddingEnd="15dp"
                     android:tint="@color/colorAccent"
                     android:id="@+id/ic_image"
                     android:src="@drawable/ic_action_picture"
@@ -224,6 +236,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:paddingRight="15dp"
+                    android:paddingEnd="15dp"
                     android:tint="@color/colorAccent"
                     android:id="@+id/ic_comment"
                     android:src="@drawable/ic_comment_text"
