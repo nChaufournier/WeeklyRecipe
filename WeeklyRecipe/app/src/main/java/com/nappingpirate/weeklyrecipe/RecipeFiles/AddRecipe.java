@@ -8,11 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.media.MediaBrowserCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,17 +24,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.Toolbar;
 
 import com.nappingpirate.weeklyrecipe.Databases.IngredientsDataSource;
 import com.nappingpirate.weeklyrecipe.Databases.RecipesDataSource;
@@ -55,23 +53,25 @@ public class AddRecipe extends Activity {
     private ToggleButton btn_easy;
     private ToggleButton btn_medium;
     private ToggleButton btn_hard;
+    private TextView btn_addStep;
     private EditText et_name;
     private EditText et_difficulty;
     private RatingBar rb_rating;
     private EditText et_description;
     private TextView tv_time;
-    private EditText et_lastDateMade;
-    private EditText et_dateAdded;
     private EditText et_mainIngredient;
     private EditText et_image;
     private EditText et_comment;
     private String date;
-    LinearLayout rl_ingredients;
-    ListView lv_ingredient;
+    LinearLayout ll_ingredients;
+    LinearLayout ll_steps;
     private RecipesDataSource db;
     private IngredientsDataSource ingDb;
     private Bundle extras;
     Recipe editRecipe;
+    int stepsCount = 0;
+
+    String stripped;
 
     String[] sampleArray = {
             "Meat", "Onions", "Peppers"
@@ -80,6 +80,7 @@ public class AddRecipe extends Activity {
 
 
     ArrayList<Ingredient> ingredientsArray = new ArrayList<>();
+    ArrayList<String> stepsArray = new ArrayList<>();
 
     //For Camera
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -140,16 +141,19 @@ public class AddRecipe extends Activity {
         //Current date
         date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
 
-        rl_ingredients = (LinearLayout) findViewById(R.id.rl_ingredientsLayout);
+        /**Connecting dynamic LinearLayouts to xml**/
+        ll_ingredients = (LinearLayout) findViewById(R.id.ll_ingredientsLayout);
+        ll_steps = (LinearLayout) findViewById(R.id.ll_steps);
 
-        //Buttons
+        /**Buttons**/
         Button btn_view = (Button) findViewById(R.id.btn_view);
-        Button btn_addIngredients = (Button) findViewById(R.id.btn_addIngredient);
+        TextView btn_addIngredients = (TextView) findViewById(R.id.btn_addIngredient);
         btn_easy = (ToggleButton)findViewById(R.id.tb_easy);
         btn_medium = (ToggleButton)findViewById(R.id.tb_medium);
         btn_hard = (ToggleButton)findViewById(R.id.tb_hard);
+        btn_addStep = (TextView) findViewById(R.id.btn_addStep);
 
-        //Input Fields
+        /**Input Fields**/
         et_name = (EditText) findViewById(R.id.et_recipeName);
         et_difficulty = (EditText) findViewById(R.id.et_difficulty);
         rb_rating = (RatingBar) findViewById(R.id.rb_rating);
@@ -159,6 +163,24 @@ public class AddRecipe extends Activity {
         DrawableCompat.setTint(progress, R..colorPrimaryLight);*/
 
         et_description = (EditText) findViewById(R.id.et_description);
+        et_description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn_addStep.setVisibility(View.VISIBLE);
+                et_description.setText("1. ");
+            }
+        });
+
+        btn_addStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listStep();
+            }
+        });
+
+
+
+
         //et_time = (EditText) findViewById(R.id.et_time);
         et_mainIngredient = (EditText) findViewById(R.id.et_mainIngredient);
         et_mainIngredient.setOnClickListener(new View.OnClickListener() {
@@ -171,8 +193,6 @@ public class AddRecipe extends Activity {
         et_image = (EditText) findViewById(R.id.et_image);
         et_comment = (EditText) findViewById(R.id.et_comment);
 
-        //Other Fields
-        lv_ingredient = (ListView) findViewById(R.id.lv_ingredients);
 
         /**
          * Time Picker
@@ -192,7 +212,7 @@ public class AddRecipe extends Activity {
 
                 numberPickerHour = (NumberPicker) timeView.findViewById(R.id.np_hour);
                 numberPickerHour.setMinValue(0);
-                numberPickerHour.setMaxValue(60);
+                numberPickerHour.setMaxValue(24);
                 numberPickerHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                     @Override
                     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
@@ -275,20 +295,6 @@ public class AddRecipe extends Activity {
                         Toast.makeText(AddRecipe.this, "Camera", Toast.LENGTH_SHORT).show();
                     }
                 });
-                /*camera.setItems(new CharSequence[]{"Camera", "File"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0) {
-                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                            Toast.makeText(AddRecipe.this, "Camera", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(cameraIntent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
-                            Toast.makeText(AddRecipe.this, "File", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
                 alert = camera.create();
                 camera.show();
                 /**/
@@ -405,7 +411,7 @@ public class AddRecipe extends Activity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(AddRecipe.this, "Debug Button", Toast.LENGTH_SHORT).show();
-                Toast.makeText(AddRecipe.this, ingredientsArray.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddRecipe.this, stepsArray.toString(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -587,14 +593,25 @@ public class AddRecipe extends Activity {
         popupMenu.show();
 
     }
-
+    /**
+     * Will Create a new EditText for Newly added ingredients
+     * Also adds the ingredients to an ingredient Array.
+     * **/
     public void listIngredient(final Ingredient ingredient){
-        CheckBox et_ingredient = new CheckBox(getApplicationContext());
-        rl_ingredients.addView(et_ingredient);
+        final CheckBox et_ingredient = new CheckBox(getApplicationContext());
+        ll_ingredients.addView(et_ingredient);
         et_ingredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAlert(ingredient.getName(), ingredient, view);
+                //Adds a strike through on click and removes it on click again.
+                /*
+                if (et_ingredient.getPaintFlags() == (et_ingredient.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)) {
+                    et_ingredient.setPaintFlags(et_ingredient.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                }else{
+                    et_ingredient.setPaintFlags(et_ingredient.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }*/
+
             }
         });
         et_ingredient.setId(et_ingredient.generateViewId());
@@ -608,6 +625,63 @@ public class AddRecipe extends Activity {
         et_ingredient.setLayoutParams(layoutParams);
         et_ingredient.setTag("Edit Text");
         ingredientsArray.add(ingredient);
+    }
+    /**
+     * Will Create a new EditText for Newly added Steps
+     * **/
+    public void listStep(){
+
+        stepsCount++;
+        final EditText et_step = new EditText(getApplicationContext());
+        ll_steps.addView(et_step);
+        et_step.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                Log.v("Strip", "Before the conditional");
+                if (stripped.matches(".*")) {
+                    if (stripped.isEmpty()){
+                        Log.v("Strip", "Empty do not add");
+                    }else {
+                        stepsArray.add(stripped);
+                    }
+                }
+            }
+        });
+        et_step.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String regex = "[0-9]\\.";
+                stripped = et_step.getText().toString().replaceAll(regex, "");
+                Log.v("Strip", "Stripped: " + stripped);
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        et_step.setId(et_step.generateViewId());
+        et_step.setText(stepsCount + ". ");
+        et_step.setHint("Add Another Step");
+        et_step.setTextColor(Color.BLACK);
+        et_step.setMinHeight(52);
+        et_step.setTextSize(18);
+        et_step.setInputType(16384);//TYPE_TEXT_FLAG_CAP_SENTENCES
+        et_step.isFocusable();
+        et_step.isFocusableInTouchMode();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_step.getLayoutParams();
+        layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.setMargins(3, 0, 0, 0);
+        et_step.setLayoutParams(layoutParams);
+        et_step.setTag("Steps");
     }
 
     public void showAlert(String title, final Ingredient ingredient, final View v)

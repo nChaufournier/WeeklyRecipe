@@ -46,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:visibility="gone"
                     android:layout_below="@+id/tv_label_description"
                     android:layout_toRightOf="@+id/ic_clipboard"
                     android:layout_toEndOf="@+id/ic_clipboard"
@@ -55,7 +56,34 @@
                     android:layout_height="wrap_content"
                     android:hint="Recipe Instructions"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:focusableInTouchMode="true"/>
+                <LinearLayout
+                    android:paddingTop="10dp"
+                    android:id="@+id/ll_steps"
+                    android:layout_below="@+id/et_description"
+                    android:paddingLeft="4dp"
+                    android:layout_toEndOf="@+id/ic_clipboard"
+                    android:layout_toRightOf="@+id/ic_clipboard"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </LinearLayout>
+                <TextView
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
+                    android:layout_toEndOf="@+id/ic_clipboard"
+                    android:layout_toRightOf="@+id/ic_clipboard"
+                    android:paddingTop="8dp"
+                    android:id="@+id/btn_addStep"
+                    android:layout_centerHorizontal="true"
+                    style="@style/Widget.AppCompat.EditText"
+                    android:layout_below="@+id/ll_steps"
+                    android:hint="+ Add a New Step"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_time"
@@ -89,7 +117,7 @@
                     android:layout_width="fill_parent"
                     android:minHeight="52dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:paddingLeft="2dp"
                     android:paddingStart="2dp"/>
 
@@ -134,30 +162,32 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ic_fridge"
                 android:textSize="14sp"
-                android:paddingBottom="16dp"/>
+                android:paddingBottom="10dp"/>
 
             <LinearLayout
                 android:layout_below="@+id/tv_label_ingredients"
                 android:orientation="vertical"
-                android:id="@+id/rl_ingredientsLayout"
+                android:id="@+id/ll_ingredientsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ic_fridge"
                 android:layout_toEndOf="@+id/ic_fridge">
 
             </LinearLayout>
-            <Button
-                android:layout_centerHorizontal="true"
+            <TextView
+                android:layout_toRightOf="@+id/ic_fridge"
+                android:layout_toEndOf="@+id/ic_fridge"
                 android:id="@+id/btn_addIngredient"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_below="@id/rl_ingredientsLayout"
+                android:layout_below="@id/ll_ingredientsLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@color/colorAccent"
+                android:textSize="18sp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:text="Add +"
-                android:textColor="#ffffff" />
+                android:paddingTop="6dp"
+                android:text="+ Add Ingredient" />
 
             <ImageView
                 android:layout_width="fill_parent"
