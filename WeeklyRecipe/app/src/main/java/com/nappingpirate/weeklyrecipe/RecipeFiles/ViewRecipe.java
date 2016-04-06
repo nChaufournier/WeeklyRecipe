@@ -377,15 +377,14 @@ public class ViewRecipe extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        saveMenu = menu;
-
-
-        getMenuInflater().inflate(R.menu.menu_save, menu);
-        if (recipe.getFavorite() == 0) {
-            menu.findItem(R.id.mbtn_save).setIcon(R.drawable.ic_action_nonfavorite);
-        }else{
-            menu.findItem(R.id.mbtn_save).setIcon(R.drawable.ic_action_action_favorite);
-        }
+    //TODO: Fix favorite Failing for some reason
+//        saveMenu = menu;
+//        getMenuInflater().inflate(R.menu.menu_save, menu);
+//        if (recipe.getFavorite() == 0) {
+//            menu.findItem(R.id.mbtn_save).setIcon(R.drawable.ic_action_nonfavorite);
+//        }else{
+//            menu.findItem(R.id.mbtn_save).setIcon(R.drawable.ic_action_action_favorite);
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -76,7 +76,8 @@ public class SearchForRecipe extends Activity {
         @Override
         protected String doInBackground(String... urls) {
             try{
-                Log.e("result", urls[0].toString());
+//                Log.v("doInBackground", "Pritns out the result urls[0] in DoinBackground");
+//                Log.e("result", urls[0]);
                 return downloadUrl(urls[0]);
             }catch (IOException e){
                 return "Unable to retrieve web page. URL may be invalid";
@@ -96,10 +97,11 @@ public class SearchForRecipe extends Activity {
         }
 
         //onPostExecute displays the results of the AsynchTask
+        //Figure out how to update recycler as it loads
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            Log.v("result", "Result: " + result);
+            //Log.v("result", "Result: " + result);
             TextView tv_noRecipe = (TextView) findViewById(R.id.tv_noRecipe);
             recyclerView.setAdapter(rvAdapter);
             if (recipeCount == 0) {
@@ -157,9 +159,20 @@ public class SearchForRecipe extends Activity {
         public String readIt(InputStream stream, int len)throws IOException, UnsupportedEncodingException {
             Reader reader = null;
             reader = new InputStreamReader(stream, "UTF-8");
-            char[] buffer = new char[len];
-            reader.read(buffer);
-            return new String(buffer);
+
+            //Old Way
+//            char[] buffer = new char[len];
+//            reader.read(buffer);
+//            return new String(buffer);
+            int nextCharacter;
+            String responseData = "";
+            while(true){
+                nextCharacter = reader.read();
+                if (nextCharacter == -1)
+                    break;
+                responseData += (char) nextCharacter;
+            }
+            return responseData;
         }
     }
 }

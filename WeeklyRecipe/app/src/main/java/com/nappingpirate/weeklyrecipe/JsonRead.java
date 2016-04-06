@@ -91,6 +91,7 @@ public class JsonRead {
                 fRecipe.add(recipe);
                 Log.v("F2f", "Recipe: "+i+" "+recipe.toString());
             }
+            Log.v("End Load Recipe", "Ending the loading of the Recipes");
 
         }catch (JSONException e){
             Log.e("Result", "F2F get Recipe Broke", e);
