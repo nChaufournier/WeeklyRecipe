@@ -4,12 +4,40 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string-array name="ingredientGroups_Array">
+        <item>American Indian/Alaska Native Foods</item>
+        <item>Baby Foods</item>
+        <item>Baked Products</item>
+        <item>Beef Products</item>
+        <item>Beverages</item>
+        <item>Breakfast Cereals</item>
+        <item>Cereal Grains and Pasta</item>
+        <item>Dairy and Egg Products</item>
+        <item>Fast Foods</item>
+        <item>Fats and Oils</item>
+        <item>Finfish and Shellfish Products</item>
+        <item>Fruits and Fruit Juices</item>
+        <item>Lamb, Veal, and Game Products</item>
+        <item>Legumes and Legume Products</item>
+        <item>Meals, Entrees, and Side Dishes</item>
+        <item>Nut and Seed Products</item>
+        <item>Pork Products</item>
+        <item>Poultry Products</item>
+        <item>Restaurant Foods</item>
+        <item>Sausages and Luncheon Meats</item>
+        <item>Snacks</item>
+        <item>Soups, Sauces, and Gravies</item>
+        <item>Spices and Herbs</item>
+        <item>Sweets</item>
+        <item>Vegetables and Vegetable Products</item>
+    </string-array>
+
+    <!--
+    <item>American Indian/Alaska Native Foods</item>
         <item>Grains</item>
         <item>Fruits &amp; Vegetables</item>
         <item>Dairy</item>
         <item>Oils &amp; Fats</item>
-    </string-array>
-
+    -->
     <string-array name="Grains">
         <item>Rice</item>
         <item>Oatmeal</item>

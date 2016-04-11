@@ -182,7 +182,7 @@ public class ViewRecipe extends Activity {
 
     }
 
-    public void listIngredient(String ingredient) {
+    public void listIngredient(final String ingredient) {
         CheckBox et_ingredient = new CheckBox(getApplicationContext());
         rl_ingredients.addView(et_ingredient);
         et_ingredient.setText(ingredient);
@@ -194,7 +194,7 @@ public class ViewRecipe extends Activity {
         et_ingredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(ViewRecipe.this, ingredient, Toast.LENGTH_SHORT).show();
             }
         });
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) et_ingredient.getLayoutParams();

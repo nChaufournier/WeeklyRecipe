@@ -8,6 +8,7 @@ import android.util.Log;
 import com.nappingpirate.weeklyrecipe.RecipeFiles.Ingredient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Nic on 10/2/2015.
@@ -165,30 +166,16 @@ public class Recipe {
     public String getIngredients(){
         if (ingredientArrayList != null) {
             ingredients = toListString(ingredientArrayList);
+            Log.v("Ingredients", ingredients);
         }else{
+            Log.v("Ingredients else", ingredients);
             return ingredients;
         }
         return ingredients;
     }
 
     public ArrayList<String> getIngredientArrayString() {
-        ArrayList<String> ingArray = new ArrayList<>();
-        //ingArray.add(ingredients);
-        String tmp = "";
-        char c;
-        int j = 0;
-        for (int i = 0; i < ingredients.length(); i++){
-                c = ingredients.charAt(j);
-                if (!Character.toString(c).contentEquals(",")) {
-                    tmp = tmp + c;
-                    j++;
-                }else{
-                    ingArray.add(tmp);
-                    tmp ="";
-                    j++;
-                }
-                Log.v("Loop", tmp+" "+j);
-        }
+        ArrayList<String> ingArray = new ArrayList<>(Arrays.asList(ingredients.split(",")));
         return ingArray;
 
 
