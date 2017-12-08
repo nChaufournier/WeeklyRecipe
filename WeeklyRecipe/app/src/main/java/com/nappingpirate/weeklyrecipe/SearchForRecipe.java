@@ -103,14 +103,17 @@ public class SearchForRecipe extends Activity {
             progressBar.setVisibility(View.GONE);
             //Log.v("result", "Result: " + result);
             TextView tv_noRecipe = (TextView) findViewById(R.id.tv_noRecipe);
-            recyclerView.setAdapter(rvAdapter);
+
             if (recipeCount == 0) {
 
                 tv_noRecipe.setVisibility(View.VISIBLE);
             }else {
                 tv_noRecipe.setVisibility(View.GONE);
+                recyclerView.setAdapter(rvAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
             }
-            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
 
 
         }

@@ -43,11 +43,6 @@ import java.util.Random;
 
 public class MainActivity extends Activity {
     RVAdapter rvAdapter;
-    private RecyclerView rv;
-    private com.github.clans.fab.FloatingActionButton fabAdd;
-    private com.github.clans.fab.FloatingActionButton fabRandom;
-    private com.github.clans.fab.FloatingActionButton fabNetwork;
-    private com.github.clans.fab.FloatingActionButton fabSearch;
     FloatingActionMenu fabMenu;
     RecipesDataSource db;
     TextView noRecipes;
@@ -75,15 +70,15 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        rv = (RecyclerView) findViewById(R.id.rv_recipes);
+        RecyclerView rv = findViewById(R.id.rv_recipes);
         rvAdapter = new RVAdapter(this, db.getAllRecipes());
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
+        fabMenu = findViewById(R.id.fab_menu);
         fabMenu.showMenu(true);
 
         //Shows a message if there are no recipes
-        noRecipes = (TextView) findViewById(R.id.noRecipes);
+        noRecipes =  findViewById(R.id.noRecipes);
         if(db.getAllRecipes() != null){
             noRecipes.setVisibility(View.GONE);
         }
@@ -104,10 +99,10 @@ public class MainActivity extends Activity {
                 }
             }
         });
-        fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_add);
-        fabRandom = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_random);
-        fabNetwork = (FloatingActionButton) findViewById(R.id.fab_network);
-        fabSearch = (FloatingActionButton) findViewById(R.id.fab_search);
+        FloatingActionButton fabAdd = findViewById(R.id.fab_add);
+        FloatingActionButton fabRandom =  findViewById(R.id.fab_random);
+        FloatingActionButton fabNetwork =  findViewById(R.id.fab_network);
+        FloatingActionButton fabSearch =  findViewById(R.id.fab_search);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +113,7 @@ public class MainActivity extends Activity {
         fabRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (db.getAllRecipes().size() >1) {
+                if (db.getAllRecipes().size() > 1) {
 
                     Random r = new Random();
                     //long r1 = r.nextInt((db.getAllRecipes().size()));
@@ -128,7 +123,7 @@ public class MainActivity extends Activity {
                     i.putExtra("id", id);
                     //i.putExtra("random", "random");
                     startActivity(i);
-                }else{
+                } else {
                     showMessage("Random Recipe", "Please add a few more recipes before using the random feature");
                     //Toast.makeText(MainActivity.this, "Please Add a few more recipes before using the random feature", Toast.LENGTH_SHORT).show();
                 }
@@ -140,14 +135,14 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()){
+                if (networkInfo != null && networkInfo.isConnected()) {
                     Toast.makeText(MainActivity.this, "Connected!", Toast.LENGTH_SHORT).show();
                     String apikey = getResources().getString(R.string.nal_api_key);
                     String apiurl = getResources().getString(R.string.nal_api_url);
                     //new DownloadWebpageTask().execute(apiurl+"format=json&lt=f&sort=n&max=10&api_key=" + apikey);
                     new DownloadWebpageTask().execute("http://food2fork.com/api/search?key=4ab22a0b23d28f4634e677a7856a9763&q=shredded%20chicken");
 
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Not Connected!", Toast.LENGTH_SHORT).show();
                 }
             }

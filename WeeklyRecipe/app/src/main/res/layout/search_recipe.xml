@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <SearchView
         android:id="@+id/sv_search"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search for a food"
-        android:iconifiedByDefault="false"
+        android:elevation="2dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:elevation="2dp"
-        ><requestFocus/></SearchView>
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for a food">
+
+        <requestFocus />
+    </SearchView>
+
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/progressBar"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:elevation="2dp"
         android:layout_gravity="center_horizontal|center_vertical"
-        />
+        android:elevation="2dp"
+        android:visibility="gone" />
+
     <TextView
-        android:gravity="center_horizontal|center_vertical"
         android:id="@+id/tv_noRecipe"
-        android:visibility="gone"
-        android:text="Sorry No Recipes Found"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/not_found"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

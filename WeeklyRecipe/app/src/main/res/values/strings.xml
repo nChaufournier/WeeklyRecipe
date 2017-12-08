@@ -53,6 +53,10 @@
 
     <string name="f2f_api_key">4ab22a0b23d28f4634e677a7856a9763</string>
     <string name="f2f_api_url">http://food2fork.com/api/search?</string>
+    <string name="view_recipe">View Recipe</string>
+    <string name="image_of_food">Image of Food</string>
+    <string name="recipe_name_long">Recipe Name That is to long to fit in this box</string>
+    <string name="not_found">Sorry No Recipes Found</string>
 
     <string-array name="liquid_measurements">
         <item>Teaspoon</item>
